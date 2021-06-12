@@ -56,6 +56,7 @@ public class ProfileFragment extends Fragment {
     private ImageView avatarImageView;
     private ImageView changeProfilePhotoImageView;
     private Button editBtn;
+    private Button logoutBtn;
 
     private Animation bubbleAnimation;
 
@@ -102,6 +103,7 @@ public class ProfileFragment extends Fragment {
         avatarImageView = root.findViewById(R.id.profile_photo_image_view);
         changeProfilePhotoImageView = root.findViewById(R.id.change_profile_photo_image_view);
         editBtn = root.findViewById(R.id.edit_btn);
+        logoutBtn = root.findViewById(R.id.logout_btn);
         parentLayout = root.findViewById(R.id.parent_layout);
 
         bubbleAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.bubble);
@@ -123,6 +125,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        logoutBtn.setOnClickListener(v -> { SharedPrefs.getInstance(requireContext()).logout(requireContext()); });
 
         sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override

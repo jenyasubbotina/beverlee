@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import uz.alex.its.beverlee.viewmodel.PinViewModel;
 import uz.alex.its.beverlee.viewmodel_factory.PinViewModelFactory;
 
 public class ChangePinFragment extends Fragment {
+    private ImageView backArrowImageView;
     private EditText newPinEditText;
     private Button requestPinBySmsBtn;
     private Button requestPinByCallBtn;
@@ -60,6 +62,7 @@ public class ChangePinFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_change_pin, container, false);
 
+        backArrowImageView = root.findViewById(R.id.back_arrow_image_view);
         newPinEditText = root.findViewById(R.id.new_pin_edit_text);
         requestPinBySmsBtn = root.findViewById(R.id.request_pin_by_sms_btn);
         requestPinByCallBtn = root.findViewById(R.id.request_pin_by_call_btn);
@@ -73,6 +76,7 @@ public class ChangePinFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        backArrowImageView.setOnClickListener(v -> NavHostFragment.findNavController(this).popBackStack());
         newPinEditText.setOnFocusChangeListener((v, hasFocus) -> UiUtils.setFocusChange(newPinEditText, hasFocus, R.string.password_hint));
         requestPinBySmsBtn.setOnClickListener(v -> pinViewModel.changePinBySms());
         requestPinByCallBtn.setOnClickListener(v -> pinViewModel.changePinByCall());

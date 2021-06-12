@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.concurrent.Callable;
@@ -125,4 +126,17 @@ public class SharedPrefs {
     }
 
     private static final String TAG = SharedPrefs.class.toString();
+
+    public boolean isLogged(final Context context) {
+        return !TextUtils.isEmpty(SharedPrefs.getInstance(context).getString(Constants.BEARER_TOKEN))
+                && !TextUtils.isEmpty(SharedPrefs.getInstance(context).getString(Constants.PHONE))
+                && SharedPrefs.getInstance(context).getBoolean(Constants.PHONE_VERIFIED);
+    }
+
+    public void logout(final Context context) {
+        SharedPrefs.getInstance(context).putString(Constants.BEARER_TOKEN, null);
+        SharedPrefs.getInstance(context).putString(Constants.PHONE, null);
+        SharedPrefs.getInstance(context).putString(Constants.PHONE_VERIFIED, null);
+    }
+
 }

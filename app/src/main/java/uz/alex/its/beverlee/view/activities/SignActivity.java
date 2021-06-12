@@ -48,9 +48,7 @@ public class SignActivity extends AppCompatActivity {
                 SharedPrefs.getInstance(this).putString(Constants.FCM_TOKEN, workInfo.getOutputData().getString(Constants.FCM_TOKEN));
             }
         });
-        if (!TextUtils.isEmpty(SharedPrefs.getInstance(this).getString(Constants.BEARER_TOKEN))
-                && !TextUtils.isEmpty(SharedPrefs.getInstance(this).getString(Constants.PHONE))
-                && SharedPrefs.getInstance(this).getBoolean(Constants.PHONE_VERIFIED)) {
+        if (SharedPrefs.getInstance(this).isLogged()) {
             startActivity(new Intent(this, MainActivity.class).putExtra(Constants.PIN_ASSIGNED, true));
             overridePendingTransition(0, 0);
             finish();
