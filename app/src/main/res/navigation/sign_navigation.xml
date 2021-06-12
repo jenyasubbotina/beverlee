@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_transition"
+    app:startDestination="@+id/init_fragment">
+
+    <fragment
+        android:id="@+id/init_fragment"
+        android:name="uz.alex.its.beverlee.view.fragments.InitializationFragment"
+        android:label="@string/init_fragment"
+        tools:layout="@layout/fragment_initialization">
+
+        <action
+            android:id="@+id/action_initFragment_to_inputPhoneFragment"
+            app:destination="@id/input_phone_fragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@animator/slide_out_right" />
+        <action
+            android:id="@+id/action_init_fragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/input_phone_fragment"
+        android:name="uz.alex.its.beverlee.view.fragments.InputPhoneFragment"
+        android:label="@string/input_phone_fragment"
+        tools:layout="@layout/fragment_input_phone">
+
+        <action
+            android:id="@+id/action_inputPhoneFragment_to_inputSmsFragment"
+            app:destination="@id/inputSmsFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@animator/slide_out_right"
+            app:popUpTo="@id/init_fragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/inputSmsFragment"
+        android:name="uz.alex.its.beverlee.view.fragments.InputSmsFragment"
+        android:label="fragment_input_sms"
+        tools:layout="@layout/fragment_input_sms" >
+        <argument
+            android:name="first_name"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
+        <argument
+            android:name="last_name"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
+        <argument
+            android:name="phone"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
+        <argument
+            android:name="email"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
+        <argument
+            android:name="country_id"
+            app:argType="long"
+            android:defaultValue="0L"/>
+        <argument
+            android:name="city"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="uz.alex.its.beverlee.view.fragments.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_inputSmsFragment"
+            app:destination="@id/inputSmsFragment" />
+    </fragment>
+</navigation>

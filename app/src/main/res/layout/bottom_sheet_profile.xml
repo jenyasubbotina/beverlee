@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/bottom_sheet_profile"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/card_top_radius_dark"
+    android:gravity="center"
+    android:layout_gravity="bottom"
+    android:elevation="8dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    app:behavior_hideable="true"
+    android:layout_weight="1"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/personal_data_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/personal_data"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="17sp"
+        android:layout_marginTop="20dp"
+        android:paddingVertical="12dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/notifications_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/notifications"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="17sp"
+        android:layout_marginVertical="5dp"
+        android:paddingVertical="12dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/change_password_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/password_change"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="17sp"
+        android:paddingVertical="12dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/change_pin_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/change_pin"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="17sp"
+        android:paddingVertical="12dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/delete_avatar_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_avatar"
+        android:textColor="@color/colorRed"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="17sp"
+        android:paddingVertical="12dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"/>
+</LinearLayout>

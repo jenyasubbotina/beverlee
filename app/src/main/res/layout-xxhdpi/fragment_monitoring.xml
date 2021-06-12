@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragments.MonitoringFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#545351"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        tools:context=".view.fragments.MonitoringFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".view.fragments.MonitoringFragment">
+
+            <View
+                android:id="@+id/monitoring_header_layout"
+                android:layout_width="0dp"
+                android:layout_height="240dp"
+                android:background="@drawable/monitoring_header"
+                app:layout_constraintBottom_toTopOf="@id/monitoring_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/monitoring_header_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/geometria_medium"
+                android:gravity="center"
+                android:text="@string/monitoring_header"
+                android:textColor="#FFF"
+                android:textSize="19sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/monitoring_header_layout" />
+
+            <EditText
+                android:id="@+id/monitoring_search_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="28dp"
+                android:layout_marginBottom="29dp"
+                android:autofillHints="@string/monitoring"
+                android:background="@drawable/dark_search_field"
+                android:drawableStart="@drawable/ic_loop_white"
+                android:drawablePadding="11dp"
+                android:fontFamily="@font/geometria_light"
+                android:hint="@string/search"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="21dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="21dp"
+                android:paddingBottom="10dp"
+                android:textColor="#FFF"
+                android:textColorHint="#FFF"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/monitoring_header_text_view" />
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@drawable/radio_group_income"
+                android:checkedButton="@id/income_radio_btn"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/monitoring_header_layout"
+                app:layout_constraintEnd_toEndOf="@id/monitoring_search_edit_text"
+                app:layout_constraintStart_toStartOf="@id/monitoring_search_edit_text"
+                app:layout_constraintTop_toBottomOf="@id/monitoring_search_edit_text">
+
+                <RadioButton
+                    android:id="@+id/income_radio_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:button="@null"
+                    android:enabled="true"
+                    android:fontFamily="@font/geometria_medium"
+                    android:gravity="center"
+                    android:text="@string/income"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="13sp" />
+
+                <RadioButton
+                    android:id="@+id/expenditure_radio_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:button="@null"
+                    android:fontFamily="@font/geometria_medium"
+                    android:gravity="center"
+                    android:text="@string/expenditure"
+                    android:textColor="@color/colorDarkGrey"
+                    android:textSize="13sp" />
+            </RadioGroup>
+
+            <include
+                android:id="@+id/monitoring_card"
+                layout="@layout/monitoring_chart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/monitoring_header_layout" />
+
+
+            <View
+                android:id="@+id/transactions_card"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/card_top_radius_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/monitoring_card" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/transaction_recycler_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/m_margin"
+                app:layout_constrainedHeight="true"
+                android:layout_marginBottom="@dimen/bottom_nav_margin"
+                app:layout_constraintBottom_toBottomOf="@id/transactions_card"
+                app:layout_constraintEnd_toEndOf="@id/transactions_card"
+                app:layout_constraintStart_toStartOf="@id/transactions_card"
+                app:layout_constraintTop_toTopOf="@id/transactions_card" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

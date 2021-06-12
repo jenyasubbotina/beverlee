@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_holder_layout"
+    android:background="@drawable/text_wrap_white"
+    android:layout_marginVertical="12dp"
+    android:layout_marginHorizontal="20dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:elevation="8dp">
+
+    <!--    <View-->
+    <!--        android:id="@id/card_view"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        />-->
+
+    <ImageView
+        android:id="@+id/avatar_image_view"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintTop_toTopOf="@id/name_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/id_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/square_black"
+        android:src="@drawable/ic_crown"
+        android:padding="8dp"
+        android:contentDescription="@string/contact_name"
+        android:elevation="8dp"/>
+
+    <TextView
+        android:id="@+id/name_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/id_text_view"
+        app:layout_constraintStart_toEndOf="@id/avatar_image_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="12dp"
+        android:textColor="#3B3A39"
+        android:textSize="14sp"
+        android:fontFamily="@font/geometria_medium"
+        android:text="@string/contact_name"
+        android:gravity="center_vertical"
+        android:elevation="8dp"/>
+
+    <TextView
+        android:id="@+id/id_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/name_text_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/name_text_view"
+        app:layout_constraintEnd_toEndOf="@id/name_text_view"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp"
+        android:textColor="#3B3A39"
+        android:textSize="12sp"
+        android:fontFamily="@font/geometria_actual"
+        android:text="@string/contact_id"
+        android:elevation="8dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

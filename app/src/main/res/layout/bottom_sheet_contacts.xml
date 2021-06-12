@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/bottom_sheet_contacts"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/card_top_radius_dark"
+    android:gravity="center"
+    android:layout_gravity="bottom"
+    android:elevation="8dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    app:behavior_hideable="true"
+    android:layout_weight="1"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/contacts_transfer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/transfer"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="17sp"
+        android:layout_marginTop="20dp"
+        android:paddingVertical="12dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/add_to_favorites"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_favorites"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="17sp"
+        android:layout_marginVertical="5dp"
+        android:paddingVertical="12dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/delete_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete"
+        android:textColor="@color/colorRed"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="17sp"
+        android:paddingVertical="12dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"/>
+</LinearLayout>

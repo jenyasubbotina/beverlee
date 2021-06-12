@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragments.InitializationFragment"
+    android:background="@drawable/background">
+
+    <ImageView
+        android:id="@+id/logo_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="87dp"
+        android:src="@drawable/beverlee_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/logo_content_desc"
+        android:layout_marginTop="208dp" />
+
+    <ImageView
+        android:id="@+id/text_image_view"
+        android:layout_width="0dp"
+        android:layout_height="15dp"
+        android:src="@drawable/beverlee_text"
+        app:layout_constraintTop_toBottomOf="@id/logo_image_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/text_content_desc"
+        android:layout_marginTop="24dp" />
+
+    <Button
+        android:id="@+id/sign_in_button"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_up_button"
+        app:layout_constraintStart_toStartOf="@id/sign_up_button"
+        app:layout_constraintEnd_toEndOf="@id/sign_up_button"
+        android:background="@drawable/btn_purple"
+        android:text="@string/sign_in"
+        android:textAllCaps="false"
+        android:fontFamily="@font/geometria_medium"
+        android:textColor="#fff"
+        android:textSize="17sp"
+        android:layout_marginBottom="@dimen/xl_margin" />
+
+    <Button
+        android:id="@+id/sign_up_button"
+        android:layout_width="0dp"
+        android:layout_height="68dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/btn_transparent"
+        android:text="@string/sign_up"
+        android:textAllCaps="false"
+        android:fontFamily="@font/geometria_medium"
+        android:textColor="#fff"
+        android:textSize="17sp"
+        android:layout_marginStart="@dimen/xxl_margin"
+        android:layout_marginEnd="@dimen/xxl_margin"
+        android:layout_marginBottom="@dimen/xxl_margin"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

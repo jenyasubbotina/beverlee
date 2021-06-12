@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    tools:context=".view.fragments.NotificationsFragment">
+
+    <TextView
+        android:id="@+id/news_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/geometria_medium"
+        android:gravity="center"
+        android:text="@string/news"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="19sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/back_arrow_image_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/notifications"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_back_vector"
+        app:layout_constraintBottom_toBottomOf="@id/news_text_view"
+        app:layout_constraintDimensionRatio="H, 1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/news_text_view" />
+
+    <EditText
+        android:id="@+id/news_search_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/edittext_search_size"
+        android:layout_marginHorizontal="28dp"
+        android:layout_marginVertical="29dp"
+        android:autofillHints="@string/home"
+        android:background="@drawable/dark_search_field"
+        android:drawableStart="@drawable/ic_loop_white"
+        android:drawablePadding="11dp"
+        android:fontFamily="@font/geometria_light"
+        android:hint="@string/search"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingHorizontal="21dp"
+        android:paddingVertical="10dp"
+        android:textColor="#FFF"
+        android:textColorHint="#FFF"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/news_text_view" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/xl_margin"
+        android:background="@drawable/card_top_radius_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/news_search_edit_text">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/news_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/l_margin"
+            android:layout_marginBottom="@dimen/m_margin"
+            tools:listitem="@layout/view_holder_news_banner" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

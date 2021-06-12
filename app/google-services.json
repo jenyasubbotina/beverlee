@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "912880200929",
+    "project_id": "beverleebank",
+    "storage_bucket": "beverleebank.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912880200929:android:e0cc185149a6c1cd539ba0",
+        "android_client_info": {
+          "package_name": "uz.alex.its.beverlee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912880200929-715ksivi07pu0l7pnehi9vhp0qf7td73.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLXWN_1jj-JwrhMJoKkbaMz_4isQU-HZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912880200929-715ksivi07pu0l7pnehi9vhp0qf7td73.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

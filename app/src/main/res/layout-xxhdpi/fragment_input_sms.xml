@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragments.InputSmsFragment"
+    android:background="@drawable/background">
+
+    <TextView
+        android:id="@+id/sign_in_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"
+        android:text="@string/phone_number"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="19sp"
+        android:gravity="center"/>
+
+    <View
+        android:id="@+id/layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/sign_in_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:background="@drawable/card_top_radius_light"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:id="@+id/open_verification_instruction_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/layout"
+        app:layout_constraintStart_toStartOf="@id/layout"
+        app:layout_constraintEnd_toEndOf="@id/layout"
+        android:layout_marginTop="37dp"
+        android:layout_marginHorizontal="90dp"
+        android:gravity="center"
+        android:text="@string/open_registration_instruction"
+        android:textColor="@color/colorPurple"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/verification_instruction_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/open_verification_instruction_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="27dp"
+        android:layout_marginHorizontal="30dp"
+        android:gravity="center"
+        android:text="@string/registration_instruction"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/geometria_medium"
+        android:visibility="gone"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/phone_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/verification_instruction_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="31dp"
+        android:fontFamily="@font/geometria_actual"
+        android:text="@string/phone_number_unified"
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp"/>
+
+    <EditText
+        android:id="@+id/phone_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toBottomOf="@+id/phone_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/edit_text_locked"
+        android:layout_marginTop="9dp"
+        android:layout_marginHorizontal="28dp"
+        android:paddingHorizontal="22dp"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="19sp"
+        android:textColor="@color/colorBlack"
+        android:autofillHints="@string/phone_hint_uz"
+        android:inputType="phone"
+        android:hint="@string/phone_hint_uz"
+        android:textColorHint="@color/colorLightGrey"/>
+
+    <TextView
+        android:id="@+id/verification_code_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/phone_edit_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="31dp"
+        android:fontFamily="@font/geometria_actual"
+        android:text="@string/verification_code"
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp"/>
+
+    <EditText
+        android:id="@+id/verification_code_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toBottomOf="@+id/verification_code_text_view"
+        app:layout_constraintStart_toStartOf="@id/phone_edit_text"
+        app:layout_constraintEnd_toEndOf="@id/phone_edit_text"
+        android:background="@drawable/edit_text_locked"
+        android:layout_marginTop="9dp"
+        android:paddingHorizontal="22dp"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="19sp"
+        android:textColor="@color/colorBlack"
+        android:autofillHints="@string/enter_code"
+        android:inputType="numberDecimal"
+        android:hint="@string/enter_code"
+        android:textColorHint="@color/colorLightGrey"
+        android:cursorVisible="false"
+        android:maxLength="4"/>
+
+    <TextView
+        android:id="@+id/counter_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/verification_code_edit_text"
+        app:layout_constraintBottom_toBottomOf="@id/verification_code_edit_text"
+        app:layout_constraintEnd_toEndOf="@id/verification_code_edit_text"
+        android:layout_marginEnd="20dp"
+        android:text="@string/counter_text"
+        android:fontFamily="@font/geometria_medium"
+        android:textColor="@color/colorBlack"
+        android:textSize="17sp"
+        android:maxLines="1"/>
+
+    <Button
+        android:id="@+id/send_again_btn"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        app:layout_constraintTop_toBottomOf="@+id/verification_code_edit_text"
+        app:layout_constraintStart_toStartOf="@id/phone_edit_text"
+        app:layout_constraintEnd_toEndOf="@id/phone_edit_text"
+        android:layout_marginTop="29dp"
+        android:background="@drawable/btn_purple"
+        android:elevation="8dp"
+        android:fontFamily="@font/geometria_medium"
+        android:shadowColor="#4E4E4E"
+        android:text="@string/send_again"
+        android:textAllCaps="false"
+        android:textSize="17sp"
+        android:textColor="#DBDCEA" />
+
+    <Button
+        android:id="@+id/call_btn"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        app:layout_constraintTop_toBottomOf="@+id/send_again_btn"
+        app:layout_constraintStart_toStartOf="@id/verification_code_edit_text"
+        app:layout_constraintEnd_toEndOf="@id/verification_code_edit_text"
+        android:layout_marginTop="29dp"
+        android:background="@drawable/btn_purple"
+        android:elevation="8dp"
+        android:fontFamily="@font/geometria_medium"
+        android:shadowColor="#4E4E4E"
+        android:text="@string/code_through_call"
+        android:textAllCaps="false"
+        android:textSize="17sp"
+        android:textColor="#DBDCEA" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

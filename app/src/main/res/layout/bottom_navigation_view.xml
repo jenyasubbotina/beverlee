@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.bottomnavigation.BottomNavigationView
+    android:id="@+id/bottom_nav"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    app:layout_anchorGravity="bottom"
+    android:background="#FFF"
+    app:itemTextColor="@color/text_color_selector"
+    app:menu="@menu/bottom_menu"
+    app:labelVisibilityMode="labeled"
+    app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+    app:itemTextAppearanceInactive="@style/BottomNavigationView"
+    app:elevation="1dp"
+    android:paddingStart="10dp"
+    android:paddingEnd="90dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

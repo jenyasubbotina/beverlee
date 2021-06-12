@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragments.NotificationsFragment"
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/notifications_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:text="@string/notifications"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="19sp"
+        android:gravity="center"/>
+
+    <ImageView
+        android:id="@+id/back_arrow_image_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/card_layout"
+        app:layout_constraintDimensionRatio="H, 1:1"
+        android:src="@drawable/ic_back_vector"
+        android:scaleType="fitCenter"
+        android:padding="16dp"
+        android:layout_marginVertical="16dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/notifications"/>
+
+    <View
+        android:id="@+id/card_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/notifications_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/card_top_radius_light"/>
+
+    <TextView
+        android:id="@+id/date_one_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/card_layout"
+        app:layout_constraintStart_toStartOf="@id/card_layout"
+        app:layout_constraintEnd_toEndOf="@id/card_layout"
+        android:gravity="center"
+        android:layout_marginTop="26dp"
+        android:text="@string/date_example"
+        android:textColor="@color/colorLightGrey"
+        android:fontFamily="@font/geometria_bold"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/time_one_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/date_one_text_view"
+        app:layout_constraintStart_toStartOf="@id/card_layout"
+        android:gravity="center"
+        android:layout_marginTop="27dp"
+        android:layout_marginStart="23dp"
+        android:text="@string/time_example"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/geometria_actual"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/push_one_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/time_one_text_view"
+        app:layout_constraintStart_toStartOf="@id/time_one_text_view"
+        android:layout_marginTop="4dp"
+        android:gravity="start"
+        android:text="@string/push_example"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="19sp"/>
+
+    <TextView
+        android:id="@+id/date_two_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/push_one_text_view"
+        app:layout_constraintStart_toStartOf="@id/date_one_text_view"
+        app:layout_constraintEnd_toEndOf="@id/date_one_text_view"
+        android:gravity="center"
+        android:layout_marginTop="44dp"
+        android:text="@string/date_example"
+        android:textColor="@color/colorLightGrey"
+        android:fontFamily="@font/geometria_bold"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/time_two_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/date_two_text_view"
+        app:layout_constraintStart_toStartOf="@id/time_one_text_view"
+        android:gravity="center"
+        android:layout_marginTop="27dp"
+        android:text="@string/time_example"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/geometria_actual"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/push_two_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/time_two_text_view"
+        app:layout_constraintStart_toStartOf="@id/time_one_text_view"
+        android:layout_marginTop="4dp"
+        android:gravity="start"
+        android:text="@string/push_example"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="19sp"/>
+
+    <TextView
+        android:id="@+id/time_three_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/push_two_text_view"
+        app:layout_constraintStart_toStartOf="@id/time_one_text_view"
+        android:gravity="center"
+        android:layout_marginTop="34dp"
+        android:text="@string/time_example"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/geometria_actual"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/push_three_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/time_three_text_view"
+        app:layout_constraintStart_toStartOf="@id/time_one_text_view"
+        android:layout_marginTop="4dp"
+        android:gravity="start"
+        android:text="@string/push_example"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="19sp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

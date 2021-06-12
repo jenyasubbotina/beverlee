@@ -1,0 +1,19 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="news_margin"> 25dp </dimen>
+    <dimen name="bottom_nav_height"> 76dp </dimen>
+    <dimen name="bottom_nav_margin"> 90dp </dimen>
+    <dimen name="xs_margin"> 5dp </dimen>
+    <dimen name="s_margin"> 10dp </dimen>
+    <dimen name="m_margin"> 15dp </dimen>
+    <dimen name="l_margin"> 20dp </dimen>
+    <dimen name="xl_margin"> 25dp </dimen>
+    <dimen name="xxl_margin"> 45dp </dimen>
+    <dimen name="pin_margin"> 35dp </dimen>
+    <dimen name="erase_button_size"> 25dp </dimen>
+    <dimen name="pin_dot_diameter"> 30dp </dimen>
+    <dimen name="pin_text_size"> 35sp </dimen>
+    <dimen name="edittext_search_size"> 35dp </dimen>
+</resources>

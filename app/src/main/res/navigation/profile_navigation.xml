@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_navigation"
+    app:startDestination="@id/profileFragment">
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="uz.alex.its.beverlee.view.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_notificationSettingsFragment"
+            app:destination="@id/notificationSettingsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_personalDataFragment"
+            app:destination="@id/personalDataFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_changePinFragment"
+            app:destination="@id/changePinFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationSettingsFragment"
+        android:name="uz.alex.its.beverlee.view.fragments.NotificationSettingsFragment"
+        android:label="fragment_notification_settings"
+        tools:layout="@layout/fragment_notification_settings" >
+        <action
+            android:id="@+id/action_notificationSettingsFragment_to_transactionResultFragment"
+            app:destination="@id/transactionResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="uz.alex.its.beverlee.view.fragments.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" >
+        <action
+            android:id="@+id/action_changePasswordFragment_to_transactionResultFragment"
+            app:destination="@id/transactionResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalDataFragment"
+        android:name="uz.alex.its.beverlee.view.fragments.PersonalDataFragment"
+        android:label="fragment_personal_data"
+        tools:layout="@layout/fragment_personal_data" >
+        <action
+            android:id="@+id/action_personalDataFragment_to_transactionResultFragment"
+            app:destination="@id/transactionResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionResultFragment"
+        android:name="uz.alex.its.beverlee.view.fragments.TransactionResultFragment"
+        android:label="TransactionResultFragment" >
+        <action
+            android:id="@+id/action_transactionResultFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"
+            app:popUpTo="@navigation/main_navigation"/>
+        <argument
+            android:name="type"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
+        <argument
+            android:name="result"
+            app:argType="boolean"
+            app:nullable="false"
+            android:defaultValue="false"/>
+        <argument
+            android:name="error_message"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
+    </fragment>
+    <fragment
+        android:id="@+id/changePinFragment"
+        android:name="uz.alex.its.beverlee.view.fragments.ChangePinFragment"
+        android:label="fragment_change_pin"
+        tools:layout="@layout/fragment_change_pin" />
+</navigation>

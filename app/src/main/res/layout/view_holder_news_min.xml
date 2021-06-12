@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:minHeight="142dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="18dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/news_min_card_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="16dp"
+        android:layout_marginHorizontal="8dp"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/news_header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foreground="#80000000"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/home" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/news_title_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/news_min_card_view"
+        app:layout_constraintStart_toStartOf="@id/news_min_card_view"
+        app:layout_constraintEnd_toEndOf="@id/news_min_card_view"
+        android:layout_margin="@dimen/m_margin"
+        android:minLines="2"
+        android:text="@string/advert_content"
+        android:textSize="13sp"
+        android:textColor="#FFF"
+        android:fontFamily="@font/geometria_medium"
+        android:elevation="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

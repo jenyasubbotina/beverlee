@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="planets_array">
+        <item>Uzbekistan</item>
+        <item>Abkhazia</item>
+        <item>Afghanistan</item>
+        <item>Barbados</item>
+        <item>Belarus</item>
+        <item>Brazil</item>
+    </string-array>
+</resources>
