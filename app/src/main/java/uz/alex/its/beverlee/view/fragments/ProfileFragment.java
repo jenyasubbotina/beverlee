@@ -126,7 +126,13 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        logoutBtn.setOnClickListener(v -> { SharedPrefs.getInstance(requireContext()).logout(requireContext()); });
+        logoutBtn.setOnClickListener(v -> {
+            SharedPrefs.getInstance(requireContext()).logout(requireContext());
+            Intent intent = requireContext().getPackageManager().getLaunchIntentForPackage(requireContext().getPackageName());
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
 
         sheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
