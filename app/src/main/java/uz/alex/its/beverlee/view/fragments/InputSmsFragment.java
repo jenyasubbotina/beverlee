@@ -24,7 +24,7 @@ import androidx.work.WorkInfo;
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.storage.SharedPrefs;
 import uz.alex.its.beverlee.utils.Constants;
-import uz.alex.its.beverlee.view.CounterTask;
+import uz.alex.its.beverlee.view.VerifyPhoneCounterTask;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.activities.MainActivity;
 import uz.alex.its.beverlee.viewmodel.AuthViewModel;
@@ -46,7 +46,7 @@ public class InputSmsFragment extends Fragment {
 
     private Animation bubbleAnimation;
 
-    private CounterTask counterTask;
+    private VerifyPhoneCounterTask verifyPhoneCounterTask;
 
     private String phone;
 
@@ -94,19 +94,19 @@ public class InputSmsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (counterTask != null) {
-            if (!counterTask.isCancelled()) {
-                counterTask.cancel(true);
+        if (verifyPhoneCounterTask != null) {
+            if (!verifyPhoneCounterTask.isCancelled()) {
+                verifyPhoneCounterTask.cancel(true);
             }
-            counterTask = null;
+            verifyPhoneCounterTask = null;
         }
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        counterTask = new CounterTask(getResources(), counterTextView, sendAgainBtn, callBtn);
-        counterTask.execute();
+        verifyPhoneCounterTask = new VerifyPhoneCounterTask(getResources(), counterTextView, sendAgainBtn, callBtn);
+        verifyPhoneCounterTask.execute();
 
         phoneEditText.setText(phone);
         phoneEditText.setOnFocusChangeListener((v, hasFocus) -> UiUtils.setFocusChange(phoneEditText, hasFocus, R.string.phone_hint));
@@ -144,14 +144,14 @@ public class InputSmsFragment extends Fragment {
             sendAgainBtn.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.bubble));
 
             authViewModel.verifyPhoneBySms();
-            new CounterTask(getResources(), counterTextView, sendAgainBtn, callBtn).execute();
+            new VerifyPhoneCounterTask(getResources(), counterTextView, sendAgainBtn, callBtn).execute();
         });
 
         callBtn.setOnClickListener(v -> {
             callBtn.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.bubble));
 
             authViewModel.verifyPhoneByCall();
-            new CounterTask(getResources(), counterTextView, sendAgainBtn, callBtn).execute();
+            new VerifyPhoneCounterTask(getResources(), counterTextView, sendAgainBtn, callBtn).execute();
         });
     }
 
@@ -163,20 +163,20 @@ public class InputSmsFragment extends Fragment {
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
                 Toast.makeText(requireContext(), workInfo.getOutputData().getString(Constants.REQUEST_ERROR), Toast.LENGTH_SHORT).show();
 
-                if (counterTask != null) {
-                    if (!counterTask.isCancelled()) {
-                        counterTask.cancel(true);
+                if (verifyPhoneCounterTask != null) {
+                    if (!verifyPhoneCounterTask.isCancelled()) {
+                        verifyPhoneCounterTask.cancel(true);
                     }
-                    counterTask = null;
+                    verifyPhoneCounterTask = null;
                 }
                 return;
             }
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                if (counterTask != null) {
-                    if (!counterTask.isCancelled()) {
-                        counterTask.cancel(true);
+                if (verifyPhoneCounterTask != null) {
+                    if (!verifyPhoneCounterTask.isCancelled()) {
+                        verifyPhoneCounterTask.cancel(true);
                     }
-                    counterTask = null;
+                    verifyPhoneCounterTask = null;
                 }
                 SharedPrefs.getInstance(requireContext()).putString(Constants.PHONE, phone);
                 SharedPrefs.getInstance(requireContext()).putBoolean(Constants.PHONE_VERIFIED, true);

@@ -20,12 +20,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.utils.Constants;
+import uz.alex.its.beverlee.view.PinChangeCounterTask;
+import uz.alex.its.beverlee.view.VerifyPhoneCounterTask;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.viewmodel.PinViewModel;
 import uz.alex.its.beverlee.viewmodel_factory.PinViewModelFactory;
@@ -37,6 +40,7 @@ public class ChangePinFragment extends Fragment {
     private Button requestPinByCallBtn;
     private Button submitBtn;
     private ProgressBar progressBar;
+    private TextView counterTextView;
 
     private PinViewModel pinViewModel;
 
@@ -75,6 +79,8 @@ public class ChangePinFragment extends Fragment {
         requestPinByCallBtn = root.findViewById(R.id.request_pin_by_call_btn);
         submitBtn = root.findViewById(R.id.submit_btn);
         progressBar = root.findViewById(R.id.progress_bar);
+        counterTextView = root.findViewById(R.id.counter_text_view);
+        counterTextView.setVisibility(View.GONE);
 
         return root;
     }
@@ -85,8 +91,14 @@ public class ChangePinFragment extends Fragment {
 
         backArrowImageView.setOnClickListener(v -> NavHostFragment.findNavController(this).popBackStack());
         newPinEditText.setOnFocusChangeListener((v, hasFocus) -> UiUtils.setFocusChange(newPinEditText, hasFocus, R.string.password_hint));
-        requestPinBySmsBtn.setOnClickListener(v -> pinViewModel.changePinBySms());
-        requestPinByCallBtn.setOnClickListener(v -> pinViewModel.changePinByCall());
+        requestPinBySmsBtn.setOnClickListener(v -> {
+            pinViewModel.changePinBySms();
+            new PinChangeCounterTask(getResources(), counterTextView, requestPinBySmsBtn, requestPinByCallBtn).execute();
+        });
+        requestPinByCallBtn.setOnClickListener(v -> {
+            pinViewModel.changePinByCall();
+            new PinChangeCounterTask(getResources(), counterTextView, requestPinBySmsBtn, requestPinByCallBtn).execute();
+        });
 
         submitBtn.setOnClickListener(v -> {
             submitBtn.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.bubble));

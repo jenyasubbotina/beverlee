@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -14,16 +13,16 @@ import java.lang.ref.WeakReference;
 import java.util.Locale;
 import uz.alex.its.beverlee.R;
 
-public class CounterTask extends AsyncTask<Void, Integer, Integer> {
+public class VerifyPhoneCounterTask extends AsyncTask<Void, Integer, Integer> {
     private WeakReference<Resources> resourcesRef;
     private WeakReference<TextView> textViewRef;
     private WeakReference<Button> firstBtnRef;
     private WeakReference<Button> secondBtnRef;
 
-    public CounterTask(@NonNull final Resources res,
-                       @NonNull final TextView textView,
-                       @NonNull final Button firstBtn,
-                       @NonNull final Button secondBtn) {
+    public VerifyPhoneCounterTask(@NonNull final Resources res,
+                                  @NonNull final TextView textView,
+                                  @NonNull final Button firstBtn,
+                                  @NonNull final Button secondBtn) {
         this.resourcesRef = new WeakReference<>(res);
         this.textViewRef = new WeakReference<>(textView);
         this.firstBtnRef = new WeakReference<>(firstBtn);
@@ -121,5 +120,5 @@ public class CounterTask extends AsyncTask<Void, Integer, Integer> {
         }
     }
 
-    private static final String TAG = CounterTask.class.toString();
+    private static final String TAG = VerifyPhoneCounterTask.class.toString();
 }
