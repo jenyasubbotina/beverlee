@@ -3,6 +3,7 @@ package uz.alex.its.beverlee.view.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
@@ -58,6 +59,13 @@ public class TransactionResultFragment extends Fragment {
             this.errorMessage = TransactionResultFragmentArgs.fromBundle(getArguments()).getErrorMessage();
         }
         networkConnectivity = new NetworkConnectivity(requireContext(), AppExecutors.getInstance());
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment.findNavController(TransactionResultFragment.this).popBackStack();
+            }
+        });
     }
 
     @Override

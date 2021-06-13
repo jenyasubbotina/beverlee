@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
@@ -173,6 +174,11 @@ public class MonitoringFragment extends Fragment {
                 ResourcesCompat.getColor(getResources(), R.color.colorPurple, null),
                 ResourcesCompat.getColor(getResources(), R.color.colorGrey, null),
                 ResourcesCompat.getColor(getResources(), R.color.colorDarkGrey, null) };
+
+        monthlyBalanceTextView.setText(getString(R.string.monthly_summary, "+", 0.0));
+        bonusOrPurchaseTextView.setText(getString(R.string.monthly_balance, "Бонусы", 0.0));
+        receiptOrtransferTextView.setText(getString(R.string.monthly_balance, "Получено", 0.0));
+        replenishedOrWithdrawalTextView.setText(getString(R.string.monthly_balance, "Пополнение", 0.0));
 
         return root;
     }

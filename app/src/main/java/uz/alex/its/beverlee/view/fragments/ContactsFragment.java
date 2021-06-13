@@ -3,6 +3,7 @@ package uz.alex.its.beverlee.view.fragments;
 import android.Manifest;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;

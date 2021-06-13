@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.view.fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -91,6 +92,13 @@ public class WithdrawalFragment extends Fragment {
         authViewModel = new ViewModelProvider(getViewModelStore(), authViewModelFactory).get(AuthViewModel.class);
 
         authViewModel.fetchCountryList();
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment.findNavController(WithdrawalFragment.this).popBackStack();
+            }
+        });
     }
 
     @Override

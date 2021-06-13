@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.view.fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import uz.alex.its.beverlee.R;
+import uz.alex.its.beverlee.view.UiUtils;
 
 public class NotificationsFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -29,6 +31,13 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment.findNavController(NotificationsFragment.this).popBackStack();
+            }
+        });
     }
 
     @Override
@@ -37,6 +46,8 @@ public class NotificationsFragment extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_notifications, container, false);
 
         backArrowImageView = root.findViewById(R.id.back_arrow_image_view);
+
+        UiUtils.hideBottomNav(requireActivity());
 
         return root;
     }

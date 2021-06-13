@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.view.fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -43,6 +44,13 @@ public class WithdrawalTypesFragment extends Fragment implements WithdrawalTypeC
         final TransactionViewModelFactory transactionFactory = new TransactionViewModelFactory(requireContext());
         transactionViewModel = new ViewModelProvider(getViewModelStore(), transactionFactory).get(TransactionViewModel.class);
         transactionViewModel.fetchWithdrawalTypes();
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment.findNavController(WithdrawalTypesFragment.this).popBackStack();
+            }
+        });
     }
 
     @Override

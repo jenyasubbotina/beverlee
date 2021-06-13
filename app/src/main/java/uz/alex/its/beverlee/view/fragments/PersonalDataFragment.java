@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.view.fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
@@ -91,6 +92,12 @@ public class PersonalDataFragment extends Fragment {
         final UserViewModelFactory factory = new UserViewModelFactory(requireContext());
         userViewModel = new ViewModelProvider(getViewModelStore(), factory).get(UserViewModel.class);
 
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment.findNavController(PersonalDataFragment.this).popBackStack();
+            }
+        });
     }
 
     @Override

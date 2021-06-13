@@ -2,6 +2,8 @@ package uz.alex.its.beverlee.view.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
@@ -124,6 +126,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         contactsViewModel.fetchContactList(null, null);
 
         newsViewModel.fetchNews(null, null);
+
     }
 
     @Override
@@ -175,24 +178,6 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         contactListRecyclerView.setAdapter(contactsAdapter);
         contactListRecyclerView.setNestedScrollingEnabled(false);
 
-//        contactListRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//
-//                int visibleItemCount = contactsLayoutManager.getChildCount();
-//                int totalItemCount = contactsLayoutManager.getItemCount();
-//                int firstVisibleItemPosition = contactsLayoutManager.findFirstVisibleItemPosition();
-//
-//                if (!isLoading() && !isLastPage()) {
-//                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-//                            && firstVisibleItemPosition >= 0) {
-//                        loadMoreItems();
-//                    }
-//                }
-//            }
-//        });
-
         /* bottom navigation */
         bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav);
         fab = requireActivity().findViewById(R.id.floating_btn);
@@ -207,6 +192,10 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
 
         contactsSheetBehavior = BottomSheetBehavior.from(bottomSheetContacts);
         contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        currentBalanceTextView.setText(getString(R.string.current_balance, String.valueOf(0.0)));
+        monthlyBalanceTextView.setText(getString(R.string.monthly_balance, "+", 0.0));
+        incomeOrExpenditureTextView.setText(getString(R.string.income_or_expenditure, getString(R.string.income)));
 
         return root;
     }

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -220,7 +221,6 @@ public class ProfileFragment extends Fragment {
         });
 
         parentLayout.setOnClickListener(v -> {
-            Log.i(TAG, "parentLayoutClick: " + imageSelected + " bottomSheet: " + bottomSheetHidden);
             if (imageSelected) {
                 imageSelected = false;
                 bottomSheetHidden = true;
@@ -231,7 +231,6 @@ public class ProfileFragment extends Fragment {
         editBtn.setOnClickListener(v -> {
             editBtn.startAnimation(bubbleAnimation);
             editBtn.postOnAnimationDelayed(() -> {
-                Log.i(TAG, "editBtnClick: " + imageSelected + " bottomSheet: " + bottomSheetHidden);
                 if (!imageSelected) {
                     imageSelected = true;
                     bottomSheetHidden = false;

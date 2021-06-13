@@ -158,6 +158,6 @@
         app:layout_constraintBottom_toBottomOf="@id/card_layout"
         app:layout_constraintStart_toStartOf="@id/card_layout"
         app:layout_constraintEnd_toEndOf="@id/card_layout"
-        android:visibility="gone"
-        android:indeterminateTint="@color/colorPurple"/>
+        android:indeterminateTint="@color/colorPurple"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

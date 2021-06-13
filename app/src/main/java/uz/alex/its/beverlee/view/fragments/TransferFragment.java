@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -105,6 +106,13 @@ public class TransferFragment extends Fragment implements ContactCallback {
 
         transactionViewModel.fetchCurrentBalance();
         contactsViewModel.fetchContactList(null, null);
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment.findNavController(TransferFragment.this).popBackStack();
+            }
+        });
     }
 
     @Override

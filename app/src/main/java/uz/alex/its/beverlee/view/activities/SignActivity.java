@@ -48,7 +48,7 @@ public class SignActivity extends AppCompatActivity {
                 SharedPrefs.getInstance(this).putString(Constants.FCM_TOKEN, workInfo.getOutputData().getString(Constants.FCM_TOKEN));
             }
         });
-        if (SharedPrefs.getInstance(this).isLogged()) {
+        if (SharedPrefs.getInstance(this).isLogged(this)) {
             startActivity(new Intent(this, MainActivity.class).putExtra(Constants.PIN_ASSIGNED, true));
             overridePendingTransition(0, 0);
             finish();

@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.view.fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -42,6 +43,13 @@ public class ReplenishFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         networkConnectivity = new NetworkConnectivity(requireContext(), AppExecutors.getInstance());
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment.findNavController(ReplenishFragment.this).popBackStack();
+            }
+        });
     }
 
     @Override

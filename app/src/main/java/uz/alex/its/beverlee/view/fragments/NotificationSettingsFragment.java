@@ -3,6 +3,7 @@ package uz.alex.its.beverlee.view.fragments;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -85,6 +86,13 @@ public class NotificationSettingsFragment extends Fragment {
 
         userViewModel = new ViewModelProvider(getViewModelStore(), userFactory).get(UserViewModel.class);
         userViewModel.fetchNotificationSettings();
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment.findNavController(NotificationSettingsFragment.this).popBackStack();
+            }
+        });
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -88,6 +89,13 @@ public class ChangePasswordFragment extends Fragment {
 
         final UserViewModelFactory userFactory = new UserViewModelFactory(requireContext());
         userViewModel = new ViewModelProvider(getViewModelStore(), userFactory).get(UserViewModel.class);
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment.findNavController(ChangePasswordFragment.this).popBackStack();
+            }
+        });
     }
 
     @Override

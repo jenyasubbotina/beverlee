@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.view.fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,9 +32,9 @@ public class NewsFragment extends Fragment implements NewsCallback {
     private ImageView backImageView;
     private EditText searchEditText;
 
-    private RecyclerView newsRecyclerView;
     private NewsAdapter newsAdapter;
-    private LinearLayoutManager layoutManager;
+
+    private NewsViewModel newsViewModel;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -43,9 +44,17 @@ public class NewsFragment extends Fragment implements NewsCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
+        final NewsViewModelFactory newsFactory = new NewsViewModelFactory(requireContext());
+        newsViewModel = new ViewModelProvider(getViewModelStore(), newsFactory).get(NewsViewModel.class);
 
-        }
+        newsViewModel.fetchNews(0, 50);
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment.findNavController(NewsFragment.this).popBackStack();
+            }
+        });
     }
 
     @Override
@@ -54,9 +63,8 @@ public class NewsFragment extends Fragment implements NewsCallback {
 
         backImageView = root.findViewById(R.id.back_arrow_image_view);
         searchEditText = root.findViewById(R.id.news_search_edit_text);
-        newsRecyclerView = root.findViewById(R.id.news_recycler_view);
-
-        layoutManager = new LinearLayoutManager(requireContext());
+        final RecyclerView newsRecyclerView = root.findViewById(R.id.news_recycler_view);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
 
         newsAdapter = new NewsAdapter(requireContext(), this, NewsAdapter.TYPE_BANNER);
@@ -98,22 +106,10 @@ public class NewsFragment extends Fragment implements NewsCallback {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final NewsViewModelFactory newsFactory = new NewsViewModelFactory(requireContext());
-        final NewsViewModel newsViewModel = new ViewModelProvider(getViewModelStore(), newsFactory).get(NewsViewModel.class);
-
-        newsViewModel.fetchNews(0, 50);
-
         newsViewModel.getNewsList().observe(getViewLifecycleOwner(), newsList -> {
             newsAdapter.setNewsList(newsList);
             newsAdapter.notifyDataSetChanged();
         });
-
-//        newsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//            }
-//        });
     }
 
 

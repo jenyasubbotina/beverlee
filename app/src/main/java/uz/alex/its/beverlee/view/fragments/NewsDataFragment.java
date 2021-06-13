@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.view.fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -54,6 +55,13 @@ public class NewsDataFragment extends Fragment {
                     NewsDataFragmentArgs.fromBundle(getArguments()).getPhotoUrl(),
                     NewsDataFragmentArgs.fromBundle(getArguments()).getCreatedAt());
         }
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                NavHostFragment.findNavController(NewsDataFragment.this).popBackStack();
+            }
+        });
     }
 
     @Override
