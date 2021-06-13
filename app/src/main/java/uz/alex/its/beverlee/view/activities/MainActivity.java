@@ -15,10 +15,9 @@ import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.utils.PermissionManager;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,
-        BottomNavigationView.OnNavigationItemReselectedListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener {
     private BottomNavigationView bottomNavigationView;
-    private static int currentNavItem = R.id.navigation_home;
+    private static int currentNavItem;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (!PermissionManager.getInstance().permissionsGranted(this, permissionArray, Constants.REQUEST_CODE_READ_CONTACTS)) {
             PermissionManager.getInstance().requestPermissions(this, permissionArray, Constants.REQUEST_CODE_READ_CONTACTS);
         }
+        currentNavItem = R.id.navigation_home;
     }
 
     @Override
