@@ -112,4 +112,7 @@ public class Constants {
     public static final String RESULT_TYPE_CONTACTS = "contacts";
     public static final String NO_INTERNET = "no_internet";
     public static final String ID = "id";
+    public static final String OLD_PIN = "old_pin";
+    public static final String NEW_PIN = "new_pin";
+    public static final String NEW_PIN_CONFIRMATION = "new_pin_confirmation";
 }

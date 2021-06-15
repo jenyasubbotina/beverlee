@@ -13,8 +13,8 @@ import retrofit2.Response;
 import uz.alex.its.beverlee.api.RetrofitClient;
 import uz.alex.its.beverlee.utils.Constants;
 
-public class ChangePinByCallWorker extends Worker {
-    public ChangePinByCallWorker(@NonNull @NotNull Context context, @NonNull @NotNull WorkerParameters workerParams) {
+public class RequestPinByCallWorker extends Worker {
+    public RequestPinByCallWorker(@NonNull @NotNull Context context, @NonNull @NotNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
@@ -26,7 +26,7 @@ public class ChangePinByCallWorker extends Worker {
         RetrofitClient.getInstance(getApplicationContext()).setAuthorizationHeader(getApplicationContext());
 
         try {
-            final Response<Void> response = RetrofitClient.getInstance(getApplicationContext()).changePinByCall();
+            final Response<Void> response = RetrofitClient.getInstance(getApplicationContext()).requestPinByCall();
 
             if ((response.code() == 201 || response.code() == 200) && response.isSuccessful()) {
                 return Result.success();
@@ -44,5 +44,5 @@ public class ChangePinByCallWorker extends Worker {
         }
     }
 
-    private static final String TAG = ChangePinByCallWorker.class.toString();
+    private static final String TAG = RequestPinByCallWorker.class.toString();
 }

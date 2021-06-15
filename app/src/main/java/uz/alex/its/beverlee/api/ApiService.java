@@ -13,6 +13,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import uz.alex.its.beverlee.model.requestParams.ChangePasswordParams;
+import uz.alex.its.beverlee.model.requestParams.ChangePinParams;
 import uz.alex.its.beverlee.model.requestParams.NotificationSettingsParams;
 import uz.alex.its.beverlee.model.requestParams.UserDataParams;
 import uz.alex.its.beverlee.model.actor.ContactModel;
@@ -70,10 +71,13 @@ public interface ApiService {
     Call<Void> verifyPin(@Query("pin") final String pinCode);
 
     @POST("/api/user/pin/sms")
-    Call<Void> changePinBySms();
+    Call<Void> requestPinBySms();
 
     @POST("/api/user/pin/call")
-    Call<Void> changePinByPhone();
+    Call<Void> requestPinByPhone();
+
+    @POST("/api/user/pin/change")
+    Call<Void> changePin(@Body final ChangePinParams params);
 
     /* User data */
     @GET("/api/user")

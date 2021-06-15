@@ -21,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.requestParams.AvatarParams;
 import uz.alex.its.beverlee.model.requestParams.ChangePasswordParams;
+import uz.alex.its.beverlee.model.requestParams.ChangePinParams;
 import uz.alex.its.beverlee.model.requestParams.NotificationSettingsParams;
 import uz.alex.its.beverlee.model.requestParams.UserDataParams;
 import uz.alex.its.beverlee.model.actor.ContactModel;
@@ -129,12 +130,16 @@ public class RetrofitClient {
         return apiService.verifyPin(pinCode).execute();
     }
 
-    public Response<Void> changePinBySms() throws IOException {
-        return apiService.changePinBySms().execute();
+    public Response<Void> requestPinBySms() throws IOException {
+        return apiService.requestPinBySms().execute();
     }
 
-    public Response<Void> changePinByCall() throws IOException {
-        return apiService.changePinByPhone().execute();
+    public Response<Void> requestPinByCall() throws IOException {
+        return apiService.requestPinByPhone().execute();
+    }
+
+    public Response<Void> changePin(final ChangePinParams params) throws IOException {
+        return apiService.changePin(params).execute();
     }
 
     /* User */

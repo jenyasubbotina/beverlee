@@ -12,8 +12,9 @@ import java.util.UUID;
 
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.worker.AssignPinWorker;
-import uz.alex.its.beverlee.worker.ChangePinByCallWorker;
-import uz.alex.its.beverlee.worker.ChangePinBySmsWorker;
+import uz.alex.its.beverlee.worker.ChangePinWorker;
+import uz.alex.its.beverlee.worker.RequestPinByCallWorker;
+import uz.alex.its.beverlee.worker.RequestPinBySmsWorker;
 import uz.alex.its.beverlee.worker.CheckPinAssignedWorker;
 import uz.alex.its.beverlee.worker.VerifyPinWorker;
 
@@ -74,7 +75,7 @@ public class PinRepository {
         return verifyPinRequest.getId();
     }
 
-    public UUID changePinBySms() {
+    public UUID requestPinBySms() {
         final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresDeviceIdle(false)
@@ -82,14 +83,14 @@ public class PinRepository {
                 .setRequiresCharging(false)
                 .setRequiresBatteryNotLow(false)
                 .build();
-        final OneTimeWorkRequest changePinBySmsRequest = new OneTimeWorkRequest.Builder(ChangePinBySmsWorker.class)
+        final OneTimeWorkRequest changePinBySmsRequest = new OneTimeWorkRequest.Builder(RequestPinBySmsWorker.class)
                 .setConstraints(constraints)
                 .build();
         WorkManager.getInstance(context).enqueue(changePinBySmsRequest);
         return changePinBySmsRequest.getId();
     }
 
-    public UUID changePinByCall() {
+    public UUID requestPinByCall() {
         final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresDeviceIdle(false)
@@ -97,10 +98,30 @@ public class PinRepository {
                 .setRequiresCharging(false)
                 .setRequiresBatteryNotLow(false)
                 .build();
-        final OneTimeWorkRequest changePinByCallRequest = new OneTimeWorkRequest.Builder(ChangePinByCallWorker.class)
+        final OneTimeWorkRequest changePinByCallRequest = new OneTimeWorkRequest.Builder(RequestPinByCallWorker.class)
                 .setConstraints(constraints)
                 .build();
         WorkManager.getInstance(context).enqueue(changePinByCallRequest);
         return changePinByCallRequest.getId();
+    }
+
+    public UUID changePin(final String oldPin, final String newPin, final String newPinConfirmation) {
+        final Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresDeviceIdle(false)
+                .setRequiresStorageNotLow(false)
+                .setRequiresCharging(false)
+                .setRequiresBatteryNotLow(false)
+                .build();
+        final Data inputData = new Data.Builder()
+                .putString(Constants.OLD_PIN, oldPin)
+                .putString(Constants.NEW_PIN, newPin)
+                .putString(Constants.NEW_PIN_CONFIRMATION, newPinConfirmation).build();
+        final OneTimeWorkRequest changePinRequest = new OneTimeWorkRequest.Builder(ChangePinWorker.class)
+                .setConstraints(constraints)
+                .setInputData(inputData)
+                .build();
+        WorkManager.getInstance(context).enqueue(changePinRequest);
+        return changePinRequest.getId();
     }
 }

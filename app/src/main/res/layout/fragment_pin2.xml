@@ -70,7 +70,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@id/indicator_dots"
-            android:layout_above="@id/change_pin_button"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="@dimen/pin_margin"
             android:layout_marginTop="@dimen/xxl_margin"
@@ -83,20 +82,20 @@
             app:keypadTextSize="@dimen/pin_text_size"
             app:keypadVerticalSpacing="@dimen/xl_margin" />
 
-        <TextView
-            android:id="@+id/change_pin_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/s_margin"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/m_margin"
-            android:background="@android:color/transparent"
-            android:text="@string/change_pin"
-            android:textAllCaps="false"
-            android:fontFamily="@font/geometria_medium"
-            android:textColor="@color/black"
-            android:textSize="17sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/change_pin_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="@dimen/s_margin"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginBottom="@dimen/m_margin"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:text="@string/change_pin"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:fontFamily="@font/geometria_medium"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="17sp" />-->
 
     </RelativeLayout>
 

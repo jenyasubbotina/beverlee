@@ -17,8 +17,8 @@ import retrofit2.Response;
 import uz.alex.its.beverlee.api.RetrofitClient;
 import uz.alex.its.beverlee.utils.Constants;
 
-public class ChangePinBySmsWorker extends Worker {
-    public ChangePinBySmsWorker(@NonNull @NotNull Context context, @NonNull @NotNull WorkerParameters workerParams) {
+public class RequestPinBySmsWorker extends Worker {
+    public RequestPinBySmsWorker(@NonNull @NotNull Context context, @NonNull @NotNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
@@ -30,7 +30,7 @@ public class ChangePinBySmsWorker extends Worker {
         RetrofitClient.getInstance(getApplicationContext()).setAuthorizationHeader(getApplicationContext());
 
         try {
-            final Response<Void> response = RetrofitClient.getInstance(getApplicationContext()).changePinBySms();
+            final Response<Void> response = RetrofitClient.getInstance(getApplicationContext()).requestPinBySms();
 
             if ((response.code() == 201 || response.code() == 200) && response.isSuccessful()) {
                 return Result.success();
@@ -48,5 +48,5 @@ public class ChangePinBySmsWorker extends Worker {
         }
     }
 
-    private static final String TAG = ChangePinBySmsWorker.class.toString();
+    private static final String TAG = RequestPinBySmsWorker.class.toString();
 }

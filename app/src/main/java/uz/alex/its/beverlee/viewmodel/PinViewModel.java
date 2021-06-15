@@ -1,9 +1,7 @@
 package uz.alex.its.beverlee.viewmodel;
 
 import android.content.Context;
-import android.text.TextUtils;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -11,12 +9,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
-import java.util.List;
 import java.util.UUID;
 
 import uz.alex.its.beverlee.repository.PinRepository;
-import uz.alex.its.beverlee.storage.SharedPrefs;
-import uz.alex.its.beverlee.utils.Constants;
 
 public class PinViewModel extends ViewModel {
     private final PinRepository pinRepository;
@@ -24,12 +19,14 @@ public class PinViewModel extends ViewModel {
     private final MutableLiveData<UUID> checkPinAssignedUUID;
     private final MutableLiveData<UUID> assignPinUUID;
     private final MutableLiveData<UUID> verifyPinUUID;
+    private final MutableLiveData<UUID> changePinUUID;
 
     public PinViewModel(final Context context) {
         this.pinRepository = new PinRepository(context);
         this.checkPinAssignedUUID = new MutableLiveData<>();
         this.assignPinUUID = new MutableLiveData<>();
         this.verifyPinUUID = new MutableLiveData<>();
+        this.changePinUUID = new MutableLiveData<>();
     }
 
     public void checkPinAssigned() {
@@ -56,12 +53,20 @@ public class PinViewModel extends ViewModel {
         return Transformations.switchMap(verifyPinUUID, input -> WorkManager.getInstance(context).getWorkInfoByIdLiveData(input));
     }
 
-    public void changePinBySms() {
-        pinRepository.changePinBySms();
+    public void requestPinBySms() {
+        pinRepository.requestPinBySms();
     }
 
-    public void changePinByCall() {
-        pinRepository.changePinByCall();
+    public void requestPinByCall() {
+        pinRepository.requestPinByCall();
+    }
+
+    public void changePin(final String oldPin, final String newPin, final String newPinConfirmation) {
+        changePinUUID.setValue(pinRepository.changePin(oldPin, newPin, newPinConfirmation));
+    }
+
+    public LiveData<WorkInfo> getChangePinResult(final Context context) {
+        return Transformations.switchMap(changePinUUID, input -> WorkManager.getInstance(context).getWorkInfoByIdLiveData(input));
     }
 
     private static final String TAG = PinViewModel.class.toString();

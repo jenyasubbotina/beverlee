@@ -269,4 +269,6 @@
     <string name="send_sms">Отправить смс</string>
     <string name="voice_message">Голосовое сообщение</string>
     <string name="submit_new_pin">Подтвердите новый pin код</string>
+    <string name="current_pin">Текущий pin код</string>
+    <string name="new_pin">Новый pin код</string>
 </resources>
