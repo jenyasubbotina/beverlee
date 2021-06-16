@@ -27,7 +27,7 @@ public class ChangePinWorker extends Worker {
         this.params = new ChangePinParams(
                 getInputData().getString(Constants.OLD_PIN),
                 getInputData().getString(Constants.NEW_PIN),
-                getInputData().getString(Constants.NEW_PASSWORD_CONFIRMATION));
+                getInputData().getString(Constants.NEW_PIN_CONFIRMATION));
     }
 
     @NonNull
