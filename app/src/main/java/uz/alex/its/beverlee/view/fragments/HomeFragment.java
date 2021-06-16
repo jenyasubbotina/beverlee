@@ -3,7 +3,6 @@ package uz.alex.its.beverlee.view.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
@@ -43,9 +42,9 @@ import uz.alex.its.beverlee.view.interfaces.NewsCallback;
 import uz.alex.its.beverlee.viewmodel.ContactsViewModel;
 import uz.alex.its.beverlee.viewmodel.NewsViewModel;
 import uz.alex.its.beverlee.viewmodel.TransactionViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.ContactsViewModelFactory;
-import uz.alex.its.beverlee.viewmodel_factory.NewsViewModelFactory;
-import uz.alex.its.beverlee.viewmodel_factory.TransactionViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.ContactsViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.NewsViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.TransactionViewModelFactory;
 
 public class HomeFragment extends Fragment implements ContactCallback, NewsCallback {
     /* pull to refresh */
@@ -53,6 +52,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
 
     /* header */
     private ImageView crownImageView;
+    private ImageView cartImageView;
     private ImageView bellImageView;
 
     /* body */
@@ -138,6 +138,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
 
         /* header */
         crownImageView = root.findViewById(R.id.crown_image_view);
+        cartImageView = root.findViewById(R.id.cart_image_view);
         bellImageView = root.findViewById(R.id.bell_image_view);
 
         /* body */
@@ -216,6 +217,10 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         crownImageView.setOnClickListener(v -> {
             final Intent profileIntent = new Intent(getActivity(), ProfileActivity.class);
             startActivity(profileIntent);
+        });
+
+        cartImageView.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_purchaseFragment);
         });
 
         bellImageView.setOnClickListener(v -> {

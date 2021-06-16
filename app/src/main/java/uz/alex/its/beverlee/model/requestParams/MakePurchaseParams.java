@@ -5,7 +5,9 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MakePurchaseParams {
+import java.io.Serializable;
+
+public class MakePurchaseParams implements Serializable {
     @Expose
     @SerializedName("pin")
     private final String pin;

@@ -4,12 +4,10 @@ import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,7 +44,7 @@ import uz.alex.its.beverlee.utils.DateFormatter;
 import uz.alex.its.beverlee.view.adapters.TransactionAdapter;
 import uz.alex.its.beverlee.view.dialog.CalendarDialog;
 import uz.alex.its.beverlee.viewmodel.TransactionViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.TransactionViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.TransactionViewModelFactory;
 
 /**
  * A simple {@link Fragment} subclass.

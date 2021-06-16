@@ -27,7 +27,7 @@ import uz.alex.its.beverlee.model.news.NewsModel.News;
 import uz.alex.its.beverlee.utils.DateFormatter;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.viewmodel.NewsViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.NewsViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.NewsViewModelFactory;
 
 public class NewsDataFragment extends Fragment {
     private ImageView backImageView;

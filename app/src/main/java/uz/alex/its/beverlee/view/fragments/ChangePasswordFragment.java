@@ -1,35 +1,24 @@
 package uz.alex.its.beverlee.view.fragments;
 
-import android.content.Context;
-import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.work.WorkInfo;
 
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,14 +28,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import uz.alex.its.beverlee.R;
-import uz.alex.its.beverlee.model.DeviceDisplay;
 import uz.alex.its.beverlee.utils.AppExecutors;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.utils.NetworkConnectivity;
 import uz.alex.its.beverlee.viewmodel.UserViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.UserViewModelFactory;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
+import uz.alex.its.beverlee.viewmodel.factory.UserViewModelFactory;
 
 public class ChangePasswordFragment extends Fragment {
     private ImageView backArrowImageView;

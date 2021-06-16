@@ -37,7 +37,7 @@ import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.adapters.CountryAdapter;
 import uz.alex.its.beverlee.viewmodel.AuthViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.AuthViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.AuthViewModelFactory;
 
 public class SignUpFragment extends Fragment {
     private EditText firstNameEditText;

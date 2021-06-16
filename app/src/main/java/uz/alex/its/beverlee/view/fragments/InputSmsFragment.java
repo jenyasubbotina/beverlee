@@ -28,7 +28,7 @@ import uz.alex.its.beverlee.view.VerifyPhoneCounterTask;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.activities.MainActivity;
 import uz.alex.its.beverlee.viewmodel.AuthViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.AuthViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.AuthViewModelFactory;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 

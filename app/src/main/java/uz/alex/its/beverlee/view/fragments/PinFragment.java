@@ -2,33 +2,20 @@ package uz.alex.its.beverlee.view.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.biometric.BiometricManager;
-import androidx.biometric.BiometricPrompt;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.work.WorkInfo;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
 import com.andrognito.pinlockview.PinLockView;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Executor;
 
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.storage.SharedPrefs;
@@ -37,10 +24,7 @@ import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.utils.NetworkConnectivity;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.viewmodel.PinViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.PinViewModelFactory;
-
-import static androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG;
-import static androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL;
+import uz.alex.its.beverlee.viewmodel.factory.PinViewModelFactory;
 
 public class PinFragment extends Fragment {
 

@@ -30,7 +30,7 @@ import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.view.PinChangeCounterTask;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.viewmodel.PinViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.PinViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.PinViewModelFactory;
 
 public class ChangePinFragment extends Fragment {
     private ImageView backArrowImageView;

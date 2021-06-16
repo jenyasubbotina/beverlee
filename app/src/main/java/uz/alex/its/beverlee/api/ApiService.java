@@ -137,10 +137,10 @@ public interface ApiService {
 
     /* Purchases */
     @GET("/api/user/buy/requests")
-    Call<List<Purchase>> getUserPurchases();
+    Call<PurchaseModel> getUserPurchases();
 
     @POST("/api/user/buy/requests/{requestId}/buy")
-    Call<PurchaseModel> makePurchase(@Path("requestId") final long requestId, @Body MakePurchaseParams makePurchaseParams);
+    Call<PurchaseModel.PurchaseResponse> makePurchase(@Path("requestId") final long requestId, @Body MakePurchaseParams makePurchaseParams);
 
     @DELETE("/api/user/buy/requests/{requestId}")
     Call<Void> deletePurchase(@Path("requestId") final long requestId);

@@ -51,7 +51,8 @@ public class Constants {
     public static final int REQUEST_CODE_PICK_IMAGE = 0x101;
     public static final int REQUEST_CODE_READ_CONTACTS = 0x102;
     public static final int REQUEST_CODE_PROVIDE_AUTHENTICATOR = 0x103;
-    public static final int REQUEST_CODE_VERIFY_TRANSFER = 104;
+    public static final int REQUEST_CODE_VERIFY_TRANSFER = 0x104;
+    public static final int REQUEST_CODE_VERIFY_PURCHASE = 0x105;
 
     /* local storage */
     public static final String DATABASE_NAME = "beverlee_local_database.db";
@@ -115,4 +116,6 @@ public class Constants {
     public static final String OLD_PIN = "old_pin";
     public static final String NEW_PIN = "new_pin";
     public static final String NEW_PIN_CONFIRMATION = "new_pin_confirmation";
+    public static final String REQUEST_ID = "request_id";
+    public static final String MAKE_PURCHASE_PARAMS = "make_purchase_params";
 }

@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_homeFragment_to_transferFragment"
             app:destination="@id/transferFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_purchaseFragment"
+            app:destination="@id/purchaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -241,4 +244,9 @@
             app:nullable="false"
             android:defaultValue="false"/>
     </fragment>
+    <fragment
+        android:id="@+id/purchaseFragment"
+        android:name="uz.alex.its.beverlee.view.fragments.PurchaseFragment"
+        android:label="fragment_purchase"
+        tools:layout="@layout/fragment_purchase" />
 </navigation>

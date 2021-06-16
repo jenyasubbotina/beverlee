@@ -1,9 +1,7 @@
 package uz.alex.its.beverlee.view.fragments;
 
-import android.Manifest;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -37,15 +35,12 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import uz.alex.its.beverlee.R;
-import uz.alex.its.beverlee.model.actor.ContactModel.Contact;
 import uz.alex.its.beverlee.model.actor.ContactModel.ContactData;
 import uz.alex.its.beverlee.utils.Constants;
-import uz.alex.its.beverlee.utils.PermissionManager;
-import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.adapters.ContactAdapter;
 import uz.alex.its.beverlee.view.interfaces.ContactCallback;
 import uz.alex.its.beverlee.viewmodel.ContactsViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.ContactsViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.ContactsViewModelFactory;
 
 public class ContactsFragment extends Fragment implements ContactCallback {
     /* pull tor refresh */

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/purchase_title_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="16sp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/purchase_price_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/purchase_title_text_view"
+        app:layout_constraintStart_toStartOf="@id/purchase_title_text_view"
+        app:layout_goneMarginTop="8dp"
+        android:text="@string/purchase_price"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/purchase_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/purchase_title_text_view"
+        app:layout_constraintTop_toBottomOf="@id/purchase_price_text_view"
+        app:layout_constraintEnd_toStartOf="@id/delete_from_basket_text_view"
+        android:text="@string/buy"
+        android:textColor="@color/white"
+        android:fontFamily="@font/geometria_medium"
+        android:textSize="16sp"
+        android:paddingHorizontal="48dp"
+        android:paddingVertical="12dp"
+        android:layout_marginTop="16dp"
+        android:textAllCaps="false"
+        android:background="@drawable/btn_purple"
+        android:gravity="end|center"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintTop_toTopOf="@id/purchase_btn"
+        app:layout_constraintBottom_toBottomOf="@id/purchase_btn"
+        app:layout_constraintStart_toStartOf="@id/purchase_btn"
+        android:layout_marginStart="36dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/purchase"
+        android:src="@drawable/outline_shopping_basket_white_20"
+        android:elevation="8dp"/>
+
+    <TextView
+        android:id="@+id/delete_from_basket_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/purchase_btn"
+        app:layout_constraintBottom_toBottomOf="@id/purchase_btn"
+        app:layout_constraintStart_toEndOf="@id/purchase_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
+        android:padding="8dp"
+        android:lines="1"
+        android:text="@string/remove_from_basket"
+        android:textSize="14sp"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/geometria_actual"/>
+
+    <View
+        android:id="@+id/stroke"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@id/purchase_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="28dp"
+        android:background="#DEE3EE" />
+    
+</androidx.constraintlayout.widget.ConstraintLayout>

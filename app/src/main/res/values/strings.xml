@@ -271,4 +271,8 @@
     <string name="submit_new_pin">Подтвердите новый pin код</string>
     <string name="current_pin">Текущий pin код</string>
     <string name="new_pin">Новый pin код</string>
+    <string name="basket">Корзина</string>
+    <string name="remove_from_basket"><u>Удалить из корзины</u></string>
+    <string name="buy">Купить</string>
+    <string name="purchase_price">%1$s $</string>
 </resources>

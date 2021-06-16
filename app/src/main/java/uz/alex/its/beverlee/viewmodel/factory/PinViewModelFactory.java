@@ -1,4 +1,4 @@
-package uz.alex.its.beverlee.viewmodel_factory;
+package uz.alex.its.beverlee.viewmodel.factory;
 
 import android.content.Context;
 import androidx.annotation.NonNull;

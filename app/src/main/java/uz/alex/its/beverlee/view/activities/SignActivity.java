@@ -1,29 +1,22 @@
 package uz.alex.its.beverlee.view.activities;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.push.NotifyManager;
 import uz.alex.its.beverlee.push.TokenReceiver;
 import uz.alex.its.beverlee.storage.SharedPrefs;
 import uz.alex.its.beverlee.utils.Constants;
-import uz.alex.its.beverlee.viewmodel.PinViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.PinViewModelFactory;
 
 public class SignActivity extends AppCompatActivity {
 

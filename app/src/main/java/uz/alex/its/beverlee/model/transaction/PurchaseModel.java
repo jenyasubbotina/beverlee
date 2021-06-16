@@ -5,37 +5,90 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class PurchaseModel {
     @Expose
-    @SerializedName("url")
-    private final String url;
+    @SerializedName("draw")
+    private final long draw;
 
     @Expose
-    @SerializedName("balance")
-    private final double balance;
+    @SerializedName("recordsTotal")
+    private final int recordsTotal;
 
-    public PurchaseModel(final String url, final double balance) {
-        this.url = url;
-        this.balance = balance;
+    @Expose
+    @SerializedName("recordsFiltered")
+    private final int recordsFiltered;
+
+    @Expose
+    @SerializedName("data")
+    private final List<Purchase> purchaseList;
+
+    public PurchaseModel(final long draw, final int recordsTotal, final int recordsFiltered, final List<Purchase> purchaseList) {
+        this.draw = draw;
+        this.recordsTotal = recordsTotal;
+        this.recordsFiltered = recordsFiltered;
+        this.purchaseList = purchaseList;
     }
 
-    public String getUrl() {
-        return url;
+    public long getDraw() {
+        return draw;
     }
 
-    public double getBalance() {
-        return balance;
+    public int getRecordsTotal() {
+        return recordsTotal;
+    }
+
+    public int getRecordsFiltered() {
+        return recordsFiltered;
+    }
+
+    public List<Purchase> getPurchaseList() {
+        return purchaseList;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "PurchaseResult{" +
-                "url='" + url + '\'' +
-                ", balance=" + balance +
+        return "NewsResponse{" +
+                "draw=" + draw +
+                ", recordsTotal=" + recordsTotal +
+                ", recordsFiltered=" + recordsFiltered +
+                ", newsList=" + purchaseList +
                 '}';
     }
 
+    public static class PurchaseResponse {
+        @Expose
+        @SerializedName("url")
+        private final String url;
+
+        @Expose
+        @SerializedName("balance")
+        private final double balance;
+
+        public PurchaseResponse(final String url, final double balance) {
+            this.url = url;
+            this.balance = balance;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public double getBalance() {
+            return balance;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "PurchaseResult{" +
+                    "url='" + url + '\'' +
+                    ", balance=" + balance +
+                    '}';
+        }
+    }
     public static class Purchase {
         @Expose
         @SerializedName("id")

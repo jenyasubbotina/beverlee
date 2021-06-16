@@ -1,27 +1,18 @@
 package uz.alex.its.beverlee.view.fragments;
 
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.BounceInterpolator;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
-import java.io.Serializable;
-
 import uz.alex.its.beverlee.R;
-import uz.alex.its.beverlee.viewmodel.AuthViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.AuthViewModelFactory;
 
 public class InitializationFragment extends Fragment {
     private Button signInBtn;

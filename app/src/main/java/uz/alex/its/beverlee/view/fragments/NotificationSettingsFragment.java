@@ -1,6 +1,5 @@
 package uz.alex.its.beverlee.view.fragments;
 
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -17,10 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,9 +29,7 @@ import uz.alex.its.beverlee.utils.AppExecutors;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.utils.NetworkConnectivity;
 import uz.alex.its.beverlee.viewmodel.UserViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.UserViewModelFactory;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
+import uz.alex.its.beverlee.viewmodel.factory.UserViewModelFactory;
 
 public class NotificationSettingsFragment extends Fragment {
     /* pull to refresh */

@@ -14,35 +14,42 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.core.widgets.Rectangle;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.work.WorkInfo;
 
 import uz.alex.its.beverlee.R;
+import uz.alex.its.beverlee.model.requestParams.MakePurchaseParams;
 import uz.alex.its.beverlee.model.requestParams.VerifyTransferParams;
 import uz.alex.its.beverlee.utils.Constants;
-import uz.alex.its.beverlee.viewmodel.TransactionViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.TransactionViewModelFactory;
 
-public class VerifyTransactionDialog extends DialogFragment {
-    private EditText transferCodeEditText;
+public class PinDialog extends DialogFragment {
+    private EditText pinEditText;
     private Button submitBtn;
 
-    private VerifyTransferParams params;
+    private int action;
+    private long requestId;
+    private VerifyTransferParams verifyTransferParams;
 
-    public VerifyTransactionDialog() { }
+    public PinDialog() { }
 
-    public static VerifyTransactionDialog newInstance(final VerifyTransferParams params) {
-        VerifyTransactionDialog dialog = new VerifyTransactionDialog();
+    public static PinDialog newInstance(final VerifyTransferParams params) {
+        PinDialog dialog = new PinDialog();
         Bundle args = new Bundle();
         args.putSerializable(Constants.VERIFY_TRANSFER_PARAMS, params);
+        args.putInt(ACTION, ACTION_VERIFY_TRANSFER);
+        dialog.setArguments(args);
+        return dialog;
+    }
+
+    public static PinDialog newInstance(final long requestId) {
+        PinDialog dialog = new PinDialog();
+        Bundle args = new Bundle();
+        args.putLong(Constants.REQUEST_ID, requestId);
+        args.putInt(ACTION, ACTION_VERIFY_PURCHASE);
         dialog.setArguments(args);
         return dialog;
     }
@@ -61,7 +68,9 @@ public class VerifyTransactionDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            this.params = (VerifyTransferParams) getArguments().getSerializable(Constants.VERIFY_TRANSFER_PARAMS);
+            this.action = getArguments().getInt(ACTION);
+            this.requestId = getArguments().getLong(Constants.REQUEST_ID);
+            this.verifyTransferParams = (VerifyTransferParams) getArguments().getSerializable(Constants.VERIFY_TRANSFER_PARAMS);
         }
     }
 
@@ -75,23 +84,34 @@ public class VerifyTransactionDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        transferCodeEditText = view.findViewById(R.id.transfer_code_edit_text);
+        pinEditText = view.findViewById(R.id.transfer_code_edit_text);
         submitBtn = view.findViewById(R.id.submit_btn);
 
         submitBtn.setOnClickListener(v -> {
             submitBtn.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.bubble));
 
-            final String code = transferCodeEditText.getText().toString().trim();
+            final String code = pinEditText.getText().toString().trim();
 
             if (TextUtils.isEmpty(code)) {
                 Toast.makeText(requireContext(), R.string.error_transfer_empty_code, Toast.LENGTH_SHORT).show();
                 return;
             }
-            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent()
-                    .putExtra(Constants.PINCODE, code)
-                    .putExtra(Constants.RECIPIENT_ID, params.getRecipientId())
-                    .putExtra(Constants.AMOUNT, params.getAmount())
-                    .putExtra(Constants.NOTE, params.getNote()));
+            if (getTargetFragment() == null) {
+                Log.e(TAG, "onViewCreated(): targetFragment is NULL");
+                return;
+            }
+            if (action == 1) {
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent()
+                        .putExtra(Constants.PINCODE, code)
+                        .putExtra(Constants.RECIPIENT_ID, verifyTransferParams.getRecipientId())
+                        .putExtra(Constants.AMOUNT, verifyTransferParams.getAmount())
+                        .putExtra(Constants.NOTE, verifyTransferParams.getNote()));
+            }
+            else if (action == 2) {
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, new Intent()
+                        .putExtra(Constants.PINCODE, code)
+                        .putExtra(Constants.REQUEST_ID, requestId));
+            }
             dismiss();
         });
     }
@@ -109,5 +129,8 @@ public class VerifyTransactionDialog extends DialogFragment {
         setDimensions(90, requireContext());
     }
 
-    private static final String TAG = VerifyTransactionDialog.class.toString();
+    private static final String TAG = PinDialog.class.toString();
+    private static final String ACTION = "action";
+    private static final int ACTION_VERIFY_TRANSFER = 1;
+    private static final int ACTION_VERIFY_PURCHASE = 2;
 }

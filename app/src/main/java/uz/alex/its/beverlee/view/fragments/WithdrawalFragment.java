@@ -16,7 +16,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -34,10 +33,8 @@ import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.adapters.CountryAdapter;
 import uz.alex.its.beverlee.viewmodel.AuthViewModel;
 import uz.alex.its.beverlee.viewmodel.TransactionViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.AuthViewModelFactory;
-import uz.alex.its.beverlee.viewmodel_factory.TransactionViewModelFactory;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
+import uz.alex.its.beverlee.viewmodel.factory.AuthViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.TransactionViewModelFactory;
 
 public class WithdrawalFragment extends Fragment {
     private ImageView backArrowImageView;

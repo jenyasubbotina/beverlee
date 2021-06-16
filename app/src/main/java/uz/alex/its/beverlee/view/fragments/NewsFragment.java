@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.news.NewsModel.News;
@@ -26,7 +25,7 @@ import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.adapters.NewsAdapter;
 import uz.alex.its.beverlee.view.interfaces.NewsCallback;
 import uz.alex.its.beverlee.viewmodel.NewsViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.NewsViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.NewsViewModelFactory;
 
 public class NewsFragment extends Fragment implements NewsCallback {
     private ImageView backImageView;

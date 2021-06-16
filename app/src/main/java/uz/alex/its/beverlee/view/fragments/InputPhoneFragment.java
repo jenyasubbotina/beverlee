@@ -31,8 +31,8 @@ import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.activities.MainActivity;
 import uz.alex.its.beverlee.viewmodel.AuthViewModel;
 import uz.alex.its.beverlee.viewmodel.PinViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.AuthViewModelFactory;
-import uz.alex.its.beverlee.viewmodel_factory.PinViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.AuthViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.PinViewModelFactory;
 
 public class InputPhoneFragment extends Fragment {
     private EditText phoneEditText;

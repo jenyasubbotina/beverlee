@@ -53,9 +53,25 @@
                 app:layout_constraintTop_toTopOf="@id/header_card"
                 app:layout_constraintBottom_toBottomOf="@id/header_card"
                 app:layout_constraintStart_toEndOf="@id/crown_image_view"
-                app:layout_constraintEnd_toStartOf="@id/bell_image_view"
+                app:layout_constraintEnd_toStartOf="@id/cart_image_view"
                 android:layout_marginVertical="48dp"
                 android:contentDescription="@string/text_content_desc" />
+
+            <ImageView
+                android:id="@+id/cart_image_view"
+                android:layout_width="36dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintTop_toTopOf="@id/text_image_view"
+                app:layout_constraintBottom_toBottomOf="@id/text_image_view"
+                app:layout_constraintEnd_toStartOf="@id/bell_image_view"
+                android:layout_marginEnd="4dp"
+                android:padding="6dp"
+                android:src="@drawable/cart_36"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/text_content_desc"
+                android:clickable="true"
+                android:focusable="true"/>
 
             <ImageView
                 android:id="@+id/bell_image_view"
@@ -65,7 +81,7 @@
                 app:layout_constraintTop_toTopOf="@id/text_image_view"
                 app:layout_constraintBottom_toBottomOf="@id/text_image_view"
                 app:layout_constraintEnd_toEndOf="@id/header_card"
-                android:layout_marginEnd="22dp"
+                android:layout_marginEnd="12dp"
                 android:padding="6dp"
                 android:src="@drawable/ic_bell"
                 android:scaleType="fitCenter"
@@ -251,7 +267,9 @@
                 app:layout_constraintTop_toBottomOf="@id/income_or_expenditure_text_view"
                 app:layout_constraintBottom_toBottomOf="@id/card_profit"
                 app:layout_constraintEnd_toEndOf="@id/card_profit"
-                app:layout_constraintStart_toStartOf="@id/card_profit" />
+                app:layout_constraintStart_toStartOf="@id/card_profit"
+                android:background="@null"
+                app:tickMark="@null"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/news_min_recycler_view"

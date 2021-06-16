@@ -2,7 +2,6 @@ package uz.alex.its.beverlee.view.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -22,8 +21,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,21 +30,18 @@ import android.widget.Toast;
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.actor.ContactModel;
-import uz.alex.its.beverlee.model.actor.ContactModel.Contact;
 import uz.alex.its.beverlee.model.requestParams.VerifyTransferParams;
 import uz.alex.its.beverlee.utils.AppExecutors;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.utils.NetworkConnectivity;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.adapters.ContactAdapter;
-import uz.alex.its.beverlee.view.dialog.VerifyTransactionDialog;
+import uz.alex.its.beverlee.view.dialog.PinDialog;
 import uz.alex.its.beverlee.view.interfaces.ContactCallback;
 import uz.alex.its.beverlee.viewmodel.ContactsViewModel;
 import uz.alex.its.beverlee.viewmodel.TransactionViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.ContactsViewModelFactory;
-import uz.alex.its.beverlee.viewmodel_factory.TransactionViewModelFactory;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
+import uz.alex.its.beverlee.viewmodel.factory.ContactsViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.TransactionViewModelFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -263,7 +257,7 @@ public class TransferFragment extends Fragment implements ContactCallback {
 
         transactionViewModel.getVerifyTransferResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                final VerifyTransactionDialog dialog = VerifyTransactionDialog.newInstance(new VerifyTransferParams(
+                final PinDialog dialog = PinDialog.newInstance(new VerifyTransferParams(
                         workInfo.getOutputData().getLong(Constants.RECIPIENT_ID, 0L),
                         workInfo.getOutputData().getDouble(Constants.AMOUNT, 0),
                         workInfo.getOutputData().getString(Constants.NOTE)));

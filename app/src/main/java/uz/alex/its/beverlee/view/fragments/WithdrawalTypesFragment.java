@@ -23,7 +23,7 @@ import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.adapters.WithdrawalTypeAdapter;
 import uz.alex.its.beverlee.view.interfaces.WithdrawalTypeCallback;
 import uz.alex.its.beverlee.viewmodel.TransactionViewModel;
-import uz.alex.its.beverlee.viewmodel_factory.TransactionViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.TransactionViewModelFactory;
 
 public class WithdrawalTypesFragment extends Fragment implements WithdrawalTypeCallback {
     private SwipeRefreshLayout swipeRefreshLayout;
