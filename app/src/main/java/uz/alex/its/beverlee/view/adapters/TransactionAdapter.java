@@ -112,7 +112,10 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         }
         if (transactionList.get(position).getTypeId() == 1) {
-            holder.transactionFromTextView.setText(null);
+            holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getUserFullName(), ""));
+        }
+        else if (transactionList.get(position).getTypeId() == 2) {
+            holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getPurchase().getDescription(), ""));
         }
         else if (transactionList.get(position).getTypeId() == 3) {
             holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getTransfer().getSender().getFirstName(), transactionList.get(position).getTransfer().getSender().getLastName()));

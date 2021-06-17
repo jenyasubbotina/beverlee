@@ -35,7 +35,7 @@ public class PinFragment extends Fragment {
     private PinViewModel pinViewModel;
     private NetworkConnectivity networkConnectivity;
 
-    private TextView pinTextView, pinErrorTextView;
+    private TextView pinTextView, pinErrorTextView, changePinTextView;
 
     private PinLockView pinLockView;
     private IndicatorDots pinIndicator;
@@ -66,6 +66,7 @@ public class PinFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_pin2, container, false);
 
         pinTextView = v.findViewById(R.id.pin_text_view);
+        changePinTextView = v.findViewById(R.id.change_pin_text_view);
         pinErrorTextView = v.findViewById(R.id.pin_error_text_view);
 
         pinLockView = v.findViewById(R.id.pin_lock_view);
@@ -120,6 +121,9 @@ public class PinFragment extends Fragment {
         else {
             pinTextView.setText(R.string.create_pin);
         }
+        changePinTextView.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(R.id.action_pinFragment_to_changePinFragment2);
+        });
     }
 
     @Override

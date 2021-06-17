@@ -243,10 +243,18 @@
             app:argType="boolean"
             app:nullable="false"
             android:defaultValue="false"/>
+        <action
+            android:id="@+id/action_pinFragment_to_changePinFragment2"
+            app:destination="@id/changePinFragment2" />
     </fragment>
     <fragment
         android:id="@+id/purchaseFragment"
         android:name="uz.alex.its.beverlee.view.fragments.PurchaseFragment"
         android:label="fragment_purchase"
         tools:layout="@layout/fragment_purchase" />
+    <fragment
+        android:id="@+id/changePinFragment2"
+        android:name="uz.alex.its.beverlee.view.fragments.ChangePinFragment"
+        android:label="fragment_change_pin"
+        tools:layout="@layout/fragment_change_pin" />
 </navigation>
