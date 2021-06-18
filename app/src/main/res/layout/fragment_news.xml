@@ -64,19 +64,17 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/xl_margin"
         android:background="@drawable/card_top_radius_light"
+        app:layout_constraintTop_toBottomOf="@id/news_search_edit_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/news_search_edit_text">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/news_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/l_margin"
-            android:layout_marginBottom="@dimen/m_margin"
-            tools:listitem="@layout/view_holder_news_banner" />
-
+            tools:listitem="@layout/view_holder_news_banner"
+            android:overScrollMode="never"/>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

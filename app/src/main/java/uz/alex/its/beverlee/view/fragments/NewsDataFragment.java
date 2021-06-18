@@ -31,7 +31,6 @@ import uz.alex.its.beverlee.viewmodel.factory.NewsViewModelFactory;
 
 public class NewsDataFragment extends Fragment {
     private ImageView backImageView;
-    private EditText searchEditText;
     private ImageView bannerImageView;
     private TextView titleTextView;
     private TextView dateTextView;
@@ -71,7 +70,6 @@ public class NewsDataFragment extends Fragment {
         UiUtils.hideBottomNav(requireActivity());
 
         backImageView = root.findViewById(R.id.back_arrow_image_view);
-        searchEditText = root.findViewById(R.id.news_search_edit_text);
         bannerImageView = root.findViewById(R.id.news_header);
         titleTextView = root.findViewById(R.id.news_title_text_view);
         dateTextView = root.findViewById(R.id.news_date_text_view);
@@ -97,36 +95,11 @@ public class NewsDataFragment extends Fragment {
         backImageView.setOnClickListener(v -> {
             NavHostFragment.findNavController(NewsDataFragment.this).popBackStack();
         });
-
-        searchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        final NewsViewModelFactory factory = new NewsViewModelFactory(requireContext());
-        final NewsViewModel newsViewModel = new ViewModelProvider(getViewModelStore(), factory).get(NewsViewModel.class);
-
-        newsViewModel.fetchNewsData(currentNews.getId());
-        newsViewModel.getNewsData().observe(getViewLifecycleOwner(), newsData -> {
-            Log.i(TAG, "onActivityCreated(): newsData=" + newsData);
-        });
     }
 
     private static final String TAG = NewsDataFragment.class.toString();

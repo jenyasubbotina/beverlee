@@ -147,15 +147,15 @@
                 android:id="@+id/login_btn"
                 android:layout_width="0dp"
                 android:layout_height="65dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/password_field"
+                app:layout_constraintEnd_toEndOf="@id/password_field"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:background="@drawable/btn_purple"
                 android:text="@string/sign_in"
                 android:textAllCaps="false"
                 android:fontFamily="@font/geometria_medium"
                 android:textColor="#fff"
-                android:layout_margin="50dp"
+                android:layout_marginVertical="50dp"
                 android:textSize="17sp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
