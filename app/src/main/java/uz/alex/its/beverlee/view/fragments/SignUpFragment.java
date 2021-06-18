@@ -30,6 +30,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.Country;
 import uz.alex.its.beverlee.storage.SharedPrefs;
@@ -52,9 +55,6 @@ public class SignUpFragment extends Fragment {
     private TextView userAgreementTextView;
     private Button signUpBtn;
     private ProgressBar progressBar;
-
-    private ConstraintLayout cardLayout;
-    private NestedScrollView nestedScrollView;
 
     private Spinner countrySpinner;
     private CountryAdapter adapter;
@@ -94,9 +94,6 @@ public class SignUpFragment extends Fragment {
         userAgreementTextView = root.findViewById(R.id.user_agreement_text_view);
         signUpBtn = root.findViewById(R.id.sign_up_button);
         progressBar = root.findViewById(R.id.progress_bar);
-
-        nestedScrollView = root.findViewById(R.id.scroll_layout);
-        cardLayout = root.findViewById(R.id.card_layout);
 
         //populate
         adapter = new CountryAdapter(requireContext(), R.layout.view_holder_country, R.id.country_name_text_view);
@@ -214,8 +211,26 @@ public class SignUpFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         authViewModel.getCountryList().observe(getViewLifecycleOwner(), countryList -> {
-            adapter.setCountryList(countryList);
-            adapter.notifyDataSetChanged();
+            if (countryList != null && !countryList.isEmpty()) {
+                final List<Country> tempList = new ArrayList<>();
+
+                for (final Country country: countryList) {
+                    if (country.getTitle().equals(getString(R.string.russia))) {
+                        tempList.add(0, country);
+                    }
+                    else if (country.getTitle().equals(getString(R.string.kazakhstan))) {
+                        tempList.add(1, country);
+                    }
+                    else if (country.getTitle().equals(getString(R.string.uzbekistan))) {
+                        tempList.add(2, country);
+                    }
+                    else {
+                        tempList.add(country);
+                    }
+                }
+                adapter.setCountryList(tempList);
+                adapter.notifyDataSetChanged();
+            }
         });
 
         authViewModel.getSignUpResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {

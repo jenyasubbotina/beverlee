@@ -22,6 +22,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.Country;
@@ -276,8 +279,26 @@ public class WithdrawalFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         authViewModel.getCountryList().observe(getViewLifecycleOwner(), countryList -> {
-            countryAdapter.setCountryList(countryList);
-            countryAdapter.notifyDataSetChanged();
+            if (countryList != null && !countryList.isEmpty()) {
+                final List<Country> tempList = new ArrayList<>();
+
+                for (final Country country: countryList) {
+                    if (country.getTitle().equals(getString(R.string.russia))) {
+                        tempList.add(0, country);
+                    }
+                    else if (country.getTitle().equals(getString(R.string.kazakhstan))) {
+                        tempList.add(1, country);
+                    }
+                    else if (country.getTitle().equals(getString(R.string.uzbekistan))) {
+                        tempList.add(2, country);
+                    }
+                    else {
+                        tempList.add(country);
+                    }
+                }
+                countryAdapter.setCountryList(tempList);
+                countryAdapter.notifyDataSetChanged();
+            }
         });
 
         transactionViewModel.getWithdrawalResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {

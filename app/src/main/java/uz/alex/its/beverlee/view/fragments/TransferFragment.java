@@ -143,14 +143,9 @@ public class TransferFragment extends Fragment implements ContactCallback {
 
         UiUtils.hideBottomNav(requireActivity());
 
+        currentBalanceTextView.setText(getString(R.string.current_balance, String.valueOf(0.0)));
+
         backArrowImageView.setOnClickListener(v -> {
-//            if (requireActivity().getCurrentFocus() == null) {
-//                NavHostFragment.findNavController(this).popBackStack();
-//                return;
-//            }
-//            InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(INPUT_METHOD_SERVICE);
-//            imm.hideSoftInputFromWindow(requireActivity().getCurrentFocus().getWindowToken(), 0);
-//            requireActivity().getCurrentFocus().clearFocus();
             NavHostFragment.findNavController(this).popBackStack();
         });
 

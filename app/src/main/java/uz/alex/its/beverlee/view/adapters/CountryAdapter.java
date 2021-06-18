@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.Country;
 import uz.alex.its.beverlee.view.CircleTransformation;
@@ -89,9 +91,9 @@ public class CountryAdapter extends ArrayAdapter<Country> {
         final TextView nameTextView = (TextView) root.findViewById(R.id.country_name_text_view);
         final ImageView flagImageView = (ImageView) root.findViewById(R.id.country_flag_image_view);
 
-        nameTextView.setText(getItem(position).getTitle());
+        nameTextView.setText(Objects.requireNonNull(getItem(position)).getTitle());
         Picasso.get()
-                .load(getItem(position).getFlag())
+                .load(Objects.requireNonNull(getItem(position)).getFlag())
                 .centerCrop()
                 .fit()
                 .transform(new CircleTransformation(50, 0))

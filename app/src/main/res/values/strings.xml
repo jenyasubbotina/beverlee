@@ -275,4 +275,7 @@
     <string name="remove_from_basket"><u>Удалить из корзины</u></string>
     <string name="buy">Купить</string>
     <string name="purchase_price">%1$s $</string>
+    <string name="russia">Russian Federation</string>
+    <string name="kazakhstan">Kazakhstan</string>
+    <string name="uzbekistan">Uzbekistan</string>
 </resources>

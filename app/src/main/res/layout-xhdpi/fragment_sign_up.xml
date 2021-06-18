@@ -219,7 +219,6 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/edit_text_locked"
                 android:fontFamily="@font/geometria_medium"
-                android:paddingHorizontal="24dp"
                 android:textColor="#3B3A39"
                 android:textColorHint="#DBDCEA"
                 android:textSize="17sp"
