@@ -283,14 +283,10 @@ public class WithdrawalFragment extends Fragment {
                 final List<Country> tempList = new ArrayList<>();
 
                 for (final Country country: countryList) {
-                    if (country.getTitle().equals(getString(R.string.russia))) {
+                    if (country.getTitle().equals(getString(R.string.russia))
+                            || country.getTitle().equals(getString(R.string.uzbekistan))
+                            || country.getTitle().equals(getString(R.string.kazakhstan))) {
                         tempList.add(0, country);
-                    }
-                    else if (country.getTitle().equals(getString(R.string.kazakhstan))) {
-                        tempList.add(1, country);
-                    }
-                    else if (country.getTitle().equals(getString(R.string.uzbekistan))) {
-                        tempList.add(2, country);
                     }
                     else {
                         tempList.add(country);
