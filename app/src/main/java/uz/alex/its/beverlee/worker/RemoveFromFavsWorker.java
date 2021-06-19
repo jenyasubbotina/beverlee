@@ -27,7 +27,7 @@ public class RemoveFromFavsWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        return LocalDatabase.getInstance(context).contactDao().deleteContact(new ContactData(id, new Contact(contactId, contactFullName, false))) <= 0
+        return LocalDatabase.getInstance(context).contactDao().deleteContact(new Contact(contactId, contactFullName, false)) <= 0
                 ? Result.failure(new Data.Builder().putString(Constants.REQUEST_ERROR, "no such record found").build())
                 : Result.success();
     }

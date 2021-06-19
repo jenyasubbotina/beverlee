@@ -319,11 +319,11 @@ public class TransferFragment extends Fragment implements ContactCallback {
     }
 
     @Override
-    public void onContactSelected(final ContactModel.ContactData contact, final ContactAdapter.ContactViewHolder holder) {
+    public void onContactSelected(final ContactModel.Contact contact, final ContactAdapter.ContactViewHolder holder) {
         if (!contactListHidden) {
             contactListHidden = true;
             dismissDropDown();
-            recipientEditText.setText(String.valueOf(contact.getContact().getId()));
+            recipientEditText.setText(String.valueOf(contact.getId()));
         }
     }
 

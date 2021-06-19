@@ -22,7 +22,7 @@ import uz.alex.its.beverlee.view.interfaces.ContactCallback;
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
     private final Context context;
     private final ContactCallback contactCallback;
-    private List<ContactData> contactList;
+    private List<Contact> contactList;
     private final int type;
 
     public ContactAdapter(@NonNull final Context context, @NonNull final ContactCallback contactCallback, final int contactType) {
@@ -31,14 +31,14 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         this.type = contactType;
     }
 
-    public void setContactList(@Nullable final List<ContactData> newContactList) {
+    public void setContactList(@Nullable final List<Contact> newContactList) {
         final ContactDiffUtil diffUtil = new ContactDiffUtil(contactList, newContactList);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtil);
         this.contactList = newContactList;
         diffResult.dispatchUpdatesTo(this);
     }
 
-    public List<ContactData> getContactList() {
+    public List<Contact> getContactList() {
         return contactList;
     }
 
@@ -59,7 +59,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        holder.contactNameTextView.setText(contactList.get(position).getContact().getFio());
+        holder.contactNameTextView.setText(contactList.get(position).getFio());
         holder.bind(contactList.get(position), contactCallback);
         /* spinner view holder */
         if (getItemViewType(position) == TYPE_SPINNER) {
@@ -78,7 +78,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             final ContactVerticalViewHolder verticalViewHolder = (ContactVerticalViewHolder) holder;
             verticalViewHolder.checkImageView.setVisibility(View.INVISIBLE);
 
-            if (contactList.get(position).getContact().isFav()) {
+            if (contactList.get(position).isFav()) {
                 verticalViewHolder.favIconImageView.setVisibility(View.VISIBLE);
                 return;
             }
@@ -108,7 +108,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             checkImageView = itemView.findViewById(R.id.check_image_view);
         }
 
-        public void bind(final ContactData contact, final ContactCallback contactCallback) {
+        public void bind(final Contact contact, final ContactCallback contactCallback) {
             itemView.setOnClickListener(v -> contactCallback.onContactSelected(contact, this));
         }
     }
@@ -121,7 +121,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             checkImageView = itemView.findViewById(R.id.check_image_view);
         }
 
-        public void bind(final ContactData contact, final ContactCallback contactCallback) {
+        public void bind(final Contact contact, final ContactCallback contactCallback) {
             itemView.setOnClickListener(v -> contactCallback.onContactSelected(contact, this));
         }
     }
@@ -135,8 +135,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         }
 
         @Override
-        public void bind(ContactData contactData, ContactCallback contactCallback) {
-            itemView.setOnClickListener(v -> contactCallback.onContactSelected(contactData, this));
+        public void bind(Contact contact, ContactCallback contactCallback) {
+            itemView.setOnClickListener(v -> contactCallback.onContactSelected(contact, this));
         }
     }
 
@@ -150,7 +150,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             contactNameTextView = itemView.findViewById(R.id.name_text_view);
         }
 
-        public abstract void bind(final ContactData contactData, final ContactCallback contactCallback);
+        public abstract void bind(final Contact contact, final ContactCallback contactCallback);
     }
 
     public static final int TYPE_HORIZONTAL = 0;

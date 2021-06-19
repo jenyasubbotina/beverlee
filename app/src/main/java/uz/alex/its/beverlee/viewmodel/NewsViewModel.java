@@ -42,7 +42,6 @@ public class NewsViewModel extends ViewModel {
             if (input) {
                 return repository.getNewsList();
             }
-            Log.i(TAG, "searching by title: " + searchByTitle.getValue());
             return Transformations.switchMap(searchByTitle, repository::getNewsListByQuery);
         });
     }

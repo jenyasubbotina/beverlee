@@ -23,7 +23,9 @@ import uz.alex.its.beverlee.repository.ContactsRepository;
 public class ContactsViewModel extends ViewModel {
     private final ContactsRepository contactsRepository;
 
-    private final MutableLiveData<List<ContactData>> contactList;
+    private final MutableLiveData<List<Contact>> contactList;
+    private final MutableLiveData<String> searchQuery;
+    private final MutableLiveData<Boolean> searchFieldEmpty;
 
     private final MutableLiveData<Boolean> isFavorite;
 
@@ -35,6 +37,9 @@ public class ContactsViewModel extends ViewModel {
         this.contactsRepository = new ContactsRepository(context);
 
         this.contactList = new MutableLiveData<>();
+        this.searchQuery = new MutableLiveData<>();
+        this.searchFieldEmpty = new MutableLiveData<>();
+        this.searchFieldEmpty.setValue(true);
 
         this.isFavorite = new MutableLiveData<>();
         this.isFavorite.setValue(false);
@@ -44,50 +49,33 @@ public class ContactsViewModel extends ViewModel {
         this.removeFromFavsUUID = new MutableLiveData<>();
     }
 
-    public LiveData<List<ContactData>> getContactList() {
+    public LiveData<List<Contact>> getContactList() {
         return Transformations.switchMap(isFavorite, input -> {
             if (!input) {
-                return contactList;
+                return Transformations.switchMap(searchFieldEmpty, isEmpty -> {
+                    if (isEmpty) {
+                        return contactsRepository.getContactList();
+                    }
+                    return Transformations.switchMap(searchQuery, contactsRepository::getContactListBySearchQuery);
+                });
             }
             return contactsRepository.getFavContactList();
         });
     }
 
     public void fetchContactList(final Integer page, final Integer perPage) {
-        contactsRepository.fetchContactList(null, page, perPage, new Callback<ContactModel>() {
-            @Override
-            public void onResponse(@NonNull Call<ContactModel> call, @NonNull Response<ContactModel> response) {
-                if (response.code() == 200 && response.isSuccessful()) {
-                    final ContactModel customizableObject = response.body();
-
-                    if (customizableObject == null) {
-                        Log.e(TAG, "onResponse(): response=null");
-                        return;
-                    }
-                    if (customizableObject.getContactData() == null) {
-                        Log.e(TAG, "onResponse(): contactList=null");
-                        return;
-                    }
-                    contactList.setValue(customizableObject.getContactData());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ContactModel> call, @NonNull Throwable t) {
-                Log.e(TAG, "onFailure(): ", t);
-            }
-        });
+        contactsRepository.fetchContactList(null, page, perPage);
     }
 
     public void deleteContact(final long id) {
         deleteContactUUID.setValue(contactsRepository.deleteContact(id));
     }
 
-    public void addToFavs(final ContactData contact) {
+    public void addToFavs(final Contact contact) {
         addToFavsUUID.setValue(contactsRepository.addToFavs(contact));
     }
 
-    public void removeFromFavs(final ContactData contact) {
+    public void removeFromFavs(final Contact contact) {
         removeFromFavsUUID.setValue(contactsRepository.removeFromFavs(contact));
     }
 
@@ -103,35 +91,17 @@ public class ContactsViewModel extends ViewModel {
         return Transformations.switchMap(removeFromFavsUUID, input -> WorkManager.getInstance(context).getWorkInfoByIdLiveData(input));
     }
 
-    private static final String TAG = ContactsViewModel.class.toString();
-
     public void setIsFavorite(final boolean b) {
         isFavorite.setValue(b);
     }
 
-    public void searchContactList(final String name) {
-        contactsRepository.fetchContactList(name, null, null, new Callback<ContactModel>() {
-            @Override
-            public void onResponse(@NonNull Call<ContactModel> call, @NonNull Response<ContactModel> response) {
-                if (response.code() == 200 && response.isSuccessful()) {
-                    final ContactModel customizableObject = response.body();
-
-                    if (customizableObject == null) {
-                        Log.e(TAG, "onResponse(): response=null");
-                        return;
-                    }
-                    if (customizableObject.getContactData() == null) {
-                        Log.e(TAG, "onResponse(): contactList=null");
-                        return;
-                    }
-                    contactList.setValue(customizableObject.getContactData());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ContactModel> call, @NonNull Throwable t) {
-                Log.e(TAG, "onFailure(): ", t);
-            }
-        });
+    public void setSearchQuery(final String query) {
+        this.searchQuery.setValue(query);
     }
+
+    public void setSearchFieldEmpty(final boolean empty) {
+        this.searchFieldEmpty.setValue(empty);
+    }
+
+    private static final String TAG = ContactsViewModel.class.toString();
 }

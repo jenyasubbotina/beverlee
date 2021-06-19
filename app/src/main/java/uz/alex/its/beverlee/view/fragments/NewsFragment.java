@@ -114,12 +114,6 @@ public class NewsFragment extends Fragment implements NewsCallback {
         newsViewModel.getNewsList().observe(getViewLifecycleOwner(), newsList -> {
             newsAdapter.setNewsList(newsList);
             newsAdapter.notifyDataSetChanged();
-
-            if (newsList != null && !newsList.isEmpty()) {
-                for (final News news : newsList) {
-                    Log.i(TAG, "->" + news);
-                }
-            }
         });
     }
 

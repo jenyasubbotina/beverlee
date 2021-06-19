@@ -5,10 +5,10 @@ import uz.alex.its.beverlee.model.actor.ContactModel.ContactData;
 import java.util.List;
 
 public class ContactDiffUtil extends DiffUtil.Callback {
-    final List<ContactData> oldList;
-    final List<ContactData> newList;
+    final List<ContactModel.Contact> oldList;
+    final List<ContactModel.Contact> newList;
 
-    public ContactDiffUtil(final List<ContactData> oldList, final List<ContactData> newList) {
+    public ContactDiffUtil(final List<ContactModel.Contact> oldList, final List<ContactModel.Contact> newList) {
         this.oldList = oldList;
         this.newList = newList;
     }
@@ -33,9 +33,9 @@ public class ContactDiffUtil extends DiffUtil.Callback {
         if (oldList.get(oldItemPosition).getId() != newList.get(newItemPosition).getId()) {
             return false;
         }
-        if (oldList.get(oldItemPosition).getContact().getId() != newList.get(newItemPosition).getContact().getId()) {
+        if (!oldList.get(oldItemPosition).getFio().equals(newList.get(newItemPosition).getFio())) {
             return false;
         }
-        return !oldList.get(oldItemPosition).getContact().getFio().equals(newList.get(newItemPosition).getContact().getFio());
+        return !oldList.get(oldItemPosition).isFav() == newList.get(newItemPosition).isFav();
     }
 }

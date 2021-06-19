@@ -49,17 +49,13 @@ public class ContactModel {
         return contactData;
     }
 
-    @Entity(tableName = "fav_contact_list")
     public static class ContactData {
         @Expose
         @SerializedName("id")
-        @PrimaryKey(autoGenerate = false)
-        @ColumnInfo(name = "id")
         private final long id;
 
         @Expose
         @SerializedName("user")
-        @Embedded
         private final Contact contact;
 
         public ContactData(final long id, final Contact contact) {
@@ -85,12 +81,12 @@ public class ContactModel {
         }
     }
 
-    @Entity(tableName = "contacts")
+    @Entity(tableName = "contact_list")
     public static class Contact {
         @Expose
         @SerializedName("id")
         @PrimaryKey(autoGenerate = false)
-        @ColumnInfo(name = "contact_id")
+        @ColumnInfo(name = "id")
         private final long id;
 
         @Expose
@@ -98,8 +94,8 @@ public class ContactModel {
         @ColumnInfo(name = "full_name")
         private final String fio;
 
-        @ColumnInfo(name = "is_fav")
-        private boolean isFav;
+        @ColumnInfo(name = "is_fav", defaultValue = "false")
+        private final boolean isFav;
 
         public Contact(final long id, final String fio, final boolean isFav) {
             this.id = id;
@@ -115,12 +111,18 @@ public class ContactModel {
             return fio;
         }
 
-        public void setFav(final boolean fav) {
-            isFav = fav;
-        }
-
         public boolean isFav() {
             return isFav;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "Contact{" +
+                    "id=" + id +
+                    ", fio='" + fio + '\'' +
+                    ", isFav=" + isFav +
+                    '}';
         }
     }
 }

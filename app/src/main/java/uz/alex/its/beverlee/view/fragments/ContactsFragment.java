@@ -35,6 +35,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import uz.alex.its.beverlee.R;
+import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.actor.ContactModel.ContactData;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.view.adapters.ContactAdapter;
@@ -78,7 +79,7 @@ public class ContactsFragment extends Fragment implements ContactCallback {
 
     private ContactsViewModel contactsViewModel;
 
-    private static volatile ContactData selectedContact;
+    private static volatile ContactModel.Contact selectedContact;
 
     public ContactsFragment() {
 
@@ -250,8 +251,11 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() > 4) {
-                    contactsViewModel.searchContactList(s.toString());
+                    contactsViewModel.setSearchQuery(s.toString());
+                    contactsViewModel.setSearchFieldEmpty(false);
+                    return;
                 }
+                contactsViewModel.setSearchFieldEmpty(true);
             }
         });
     }
@@ -333,7 +337,7 @@ public class ContactsFragment extends Fragment implements ContactCallback {
     }
 
     @Override
-    public void onContactSelected(final ContactData contact, final ContactAdapter.ContactViewHolder holder) {
+    public void onContactSelected(final ContactModel.Contact contact, final ContactAdapter.ContactViewHolder holder) {
         if (!contactSelected) {
             contactSelected = true;
             selectedHolder = (ContactAdapter.ContactVerticalViewHolder) holder;

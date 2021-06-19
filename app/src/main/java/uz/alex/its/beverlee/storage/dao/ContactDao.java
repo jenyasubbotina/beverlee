@@ -13,11 +13,20 @@ import uz.alex.its.beverlee.model.actor.ContactModel.ContactData;
 @Dao
 public interface ContactDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    long insertContact(final ContactData contact);
+    long insertContact(final Contact contact);
 
     @Delete
-    int deleteContact(final ContactData contact);
+    int deleteContact(final Contact contact);
 
-    @Query("SELECT * FROM fav_contact_list ORDER BY full_name ASC")
-    LiveData<List<ContactData>> selectAllContacts();
+    @Query("SELECT * FROM contact_list WHERE is_fav == :isFav ORDER BY full_name ASC")
+    LiveData<List<Contact>> selectFavContactList(final boolean isFav);
+
+    @Query("SELECT * FROM contact_list WHERE is_fav == :isFav ORDER BY full_name ASC")
+    LiveData<List<Contact>> selectContactList(final boolean isFav);
+
+    @Query("SELECT * FROM contact_list WHERE full_name LIKE '%' || :query || '%' ORDER BY full_name ASC")
+    LiveData<List<Contact>> selectContactListBySearchQuery(final String query);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long[] insertContactList(List<Contact> contactData);
 }

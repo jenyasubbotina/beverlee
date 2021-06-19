@@ -21,9 +21,8 @@ import uz.alex.its.beverlee.utils.Constants;
 
 @Database(entities = {
         Contact.class,
-        ContactData.class,
         Push.class,
-        NewsModel.News.class}, version = 9, exportSchema = false)
+        NewsModel.News.class}, version = 10, exportSchema = false)
 @TypeConverters({ DateConverter.class })
 public abstract class LocalDatabase extends RoomDatabase {
     /* Declare dao objects here */

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import uz.alex.its.beverlee.R;
+import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.chart.LineChartItem;
 import uz.alex.its.beverlee.model.news.NewsModel.News;
 import uz.alex.its.beverlee.model.actor.ContactModel.ContactData;
@@ -97,7 +98,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
     private ContactsViewModel contactsViewModel;
     private NewsViewModel newsViewModel;
 
-    private static volatile ContactData selectedContact;
+    private static volatile ContactModel.Contact selectedContact;
 
     public HomeFragment() {
 
@@ -428,7 +429,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
     }
 
     @Override
-    public void onContactSelected(final ContactData contact, final ContactAdapter.ContactViewHolder holder) {
+    public void onContactSelected(final ContactModel.Contact contact, final ContactAdapter.ContactViewHolder holder) {
         if (!contactSelected) {
             contactSelected = true;
             selectedContact = contact;
