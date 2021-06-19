@@ -162,7 +162,9 @@
                 android:textColorHint="#DBDCEA"
                 android:textSize="19sp"
                 app:layout_constraintHorizontal_bias="0.508"
-                android:autofillHints="@string/country" />
+                android:autofillHints="@string/country"
+                android:spinnerMode="dropdown"
+                android:popupBackground="@drawable/rounded_rect_light_grey"/>
 
             <TextView
                 android:id="@+id/city_text_view"

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +97,12 @@ public class NewsFragment extends Fragment implements NewsCallback {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (s.length() >= 3) {
+                    newsViewModel.submitSearch(s.toString());
+                    newsViewModel.setSearchFieldEmpty(false);
+                    return;
+                }
+                newsViewModel.setSearchFieldEmpty(true);
             }
         });
     }
@@ -108,6 +114,12 @@ public class NewsFragment extends Fragment implements NewsCallback {
         newsViewModel.getNewsList().observe(getViewLifecycleOwner(), newsList -> {
             newsAdapter.setNewsList(newsList);
             newsAdapter.notifyDataSetChanged();
+
+            if (newsList != null && !newsList.isEmpty()) {
+                for (final News news : newsList) {
+                    Log.i(TAG, "->" + news);
+                }
+            }
         });
     }
 

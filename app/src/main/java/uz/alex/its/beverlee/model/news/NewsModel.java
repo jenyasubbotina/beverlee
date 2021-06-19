@@ -1,6 +1,9 @@
 package uz.alex.its.beverlee.model.news;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -58,25 +61,32 @@ public class NewsModel {
                 '}';
     }
 
+    @Entity(tableName = "news")
     public static class News {
         @Expose
         @SerializedName("id")
+        @PrimaryKey
+        @ColumnInfo(name = "id")
         private final long id;
 
         @Expose
         @SerializedName("title")
+        @ColumnInfo(name = "title")
         private final String title;
 
         @Expose
         @SerializedName("description")
+        @ColumnInfo(name = "description")
         private final String description;
 
         @Expose
         @SerializedName("photo_url")
+        @ColumnInfo(name = "photo_url")
         private final String photoUrl;
 
         @Expose
         @SerializedName("created_at")
+        @ColumnInfo(name = "created_at")
         private final long createdAt;
 
         public News(final long id, final String title, final String description, final String photoUrl, final long createdAt) {

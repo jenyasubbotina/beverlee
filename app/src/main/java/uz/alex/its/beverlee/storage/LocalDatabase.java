@@ -10,22 +10,26 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import uz.alex.its.beverlee.model.actor.ContactModel.ContactData;
+import uz.alex.its.beverlee.model.news.NewsModel;
 import uz.alex.its.beverlee.model.notification.Push;
 import uz.alex.its.beverlee.model.actor.ContactModel.Contact;
 import uz.alex.its.beverlee.storage.converters.DateConverter;
 import uz.alex.its.beverlee.storage.dao.ContactDao;
+import uz.alex.its.beverlee.storage.dao.NewsDao;
 import uz.alex.its.beverlee.storage.dao.PushDao;
 import uz.alex.its.beverlee.utils.Constants;
 
 @Database(entities = {
         Contact.class,
         ContactData.class,
-        Push.class}, version = 8, exportSchema = false)
+        Push.class,
+        NewsModel.News.class}, version = 9, exportSchema = false)
 @TypeConverters({ DateConverter.class })
 public abstract class LocalDatabase extends RoomDatabase {
     /* Declare dao objects here */
     public abstract PushDao pushDao();
     public abstract ContactDao contactDao();
+    public abstract NewsDao newsDao();
 
     private static volatile LocalDatabase instance;
 
