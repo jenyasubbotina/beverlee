@@ -278,4 +278,9 @@
     <string name="russia">Russian Federation</string>
     <string name="kazakhstan">Kazakhstan</string>
     <string name="uzbekistan">Uzbekistan</string>
+    <string name="transaction_search">Результаты поиска</string>
+    <string name="year">Год</string>
+    <string name="month">Месяц</string>
+    <string name="date">Дата</string>
+    <string name="transaction_type">Тип транзакции</string>
 </resources>

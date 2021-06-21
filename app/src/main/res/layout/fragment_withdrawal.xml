@@ -295,7 +295,6 @@
                 android:elevation="2dp"
                 app:spinning_bar_color="@color/colorWhite"
                 app:spinning_bar_padding="12dp"/>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

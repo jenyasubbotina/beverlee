@@ -185,13 +185,6 @@ public class WithdrawalFragment extends Fragment {
         amountWithCommissionTextView.setText(getString(R.string.amount_with_commission, 0.0));
 
         backArrowImageView.setOnClickListener(v -> {
-//            if (requireActivity().getCurrentFocus() == null) {
-//                NavHostFragment.findNavController(this).popBackStack();
-//                return;
-//            }
-//            InputMethodManager imm = (InputMethodManager)requireActivity().getSystemService(INPUT_METHOD_SERVICE);
-//            imm.hideSoftInputFromWindow(requireActivity().getCurrentFocus().getWindowToken(), 0);
-//            requireActivity().getCurrentFocus().clearFocus();
             NavHostFragment.findNavController(this).popBackStack();
         });
 
@@ -228,15 +221,6 @@ public class WithdrawalFragment extends Fragment {
                 amountWithCommissionTextView.setText(getString(R.string.amount_with_commission, amountWithCommission));
             }
         });
-
-//        if (currentWithdrawalType.getType().equalsIgnoreCase(getString(R.string.withdrawal_type_card))) {
-//            if (currentWithdrawalType.getMethod().equalsIgnoreCase(getString(R.string.master_card))) {
-//                cardWalletNumberEditText.addTextChangedListener(WithdrawalFormatter.getMasterCardFormat());
-//            }
-//            else if (currentWithdrawalType.getMethod().equalsIgnoreCase(getString(R.string.visa_card))) {
-//                cardWalletNumberEditText.addTextChangedListener(WithdrawalFormatter.getVisaCardFormat());
-//            }
-//        }
 
         withdrawBtn.setOnClickListener(v -> {
             withdrawBtn.startAnimation();

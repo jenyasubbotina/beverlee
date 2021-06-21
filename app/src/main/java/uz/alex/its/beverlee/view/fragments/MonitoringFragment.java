@@ -99,7 +99,17 @@ public class MonitoringFragment extends Fragment {
         transactionViewModel = new ViewModelProvider(getViewModelStore(), transactionFactory).get(TransactionViewModel.class);
 
         transactionViewModel.fetchMonthlyBalance(Calendar.getInstance().get(Calendar.MONTH) + 1);
-        transactionViewModel.fetchMonthlyTransactionList(null, Calendar.getInstance().get(Calendar.MONTH), null);
+
+        if (getArguments() != null) {
+            transactionViewModel.fetchTransactionList(
+                    MonitoringFragmentArgs.fromBundle(getArguments()).getTransactionTypeId(),
+                    MonitoringFragmentArgs.fromBundle(getArguments()).getStartDate(),
+                    MonitoringFragmentArgs.fromBundle(getArguments()).getFinishDate(),
+                    null);
+        }
+        else {
+            transactionViewModel.fetchMonthlyTransactionList(null, Calendar.getInstance().get(Calendar.MONTH), null);
+        }
     }
 
     @Override
@@ -178,6 +188,10 @@ public class MonitoringFragment extends Fragment {
         receiptOrtransferTextView.setText(getString(R.string.monthly_balance, "Получено", 0.0));
         replenishedOrWithdrawalTextView.setText(getString(R.string.monthly_balance, "Пополнение", 0.0));
 
+        if (getArguments() != null) {
+            currentMonthTextView.setText(getString(R.string.month_name,
+                    getString(transactionViewModel.getMonthName(MonitoringFragmentArgs.fromBundle(getArguments()).getMonth()))));
+        }
         return root;
     }
 
@@ -243,25 +257,7 @@ public class MonitoringFragment extends Fragment {
             transactionViewModel.decrementCurrentMonth();
         });
 
-        pieChart.setOnClickListener(v -> {
-            final CalendarDialog calendar = new CalendarDialog();
-            calendar.addListener(selection -> {
-                if (selection == null) {
-                    return;
-                }
-                if (selection.first == null || selection.second == null) {
-                    return;
-                }
-                if (selection.first > selection.second) {
-                    return;
-                }
-                final String startDate = DateFormatter.dateToYearMonthDay(new Date(selection.first));
-                final String finishDate = DateFormatter.dateToYearMonthDay(new Date(selection.second));
-
-                transactionViewModel.fetchTransactionList(null, startDate, finishDate, null);
-            });
-            calendar.show(getParentFragmentManager());
-        });
+        pieChart.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_monitoringFragment_to_transactionSearchFragment));
 
         final ObjectAnimator minimizeCardAnimator = ObjectAnimator.ofInt(transactionsCard, "top",1600, 850);
         final ObjectAnimator maximizeCardAnimator = ObjectAnimator.ofInt(transactionsCard, "top",870, 1670);
