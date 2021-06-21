@@ -169,8 +169,11 @@ public class TransactionSearchFragment extends Fragment {
             final int monthNumber =  monthSpinner.getSelectedItemPosition() + 1;
             final int firstDay = (int) firstDaySpinner.getSelectedItem();
             final int lastDay = (int) lastDaySpinner.getSelectedItem();
+            final LocalDateTime startDate = LocalDateTime.of(year, monthNumber, firstDay, 0, 0);
+            final LocalDateTime endDate = LocalDateTime.of(year, monthNumber, lastDay, 0, 0);
+            final LocalDateTime now = LocalDateTime.now();
 
-            if (firstDay > lastDay) {
+            if (firstDay > lastDay || startDate.isAfter(now)) {
                 Toast.makeText(requireContext(), "Ошибка ввода", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -178,8 +181,8 @@ public class TransactionSearchFragment extends Fragment {
                     TransactionSearchFragmentDirections.actionTransactionSearchFragmentToMonitoringFragment()
                             .setYear(year)
                             .setMonth(monthNumber)
-                            .setStartDate(formatter.format(LocalDateTime.of(year, monthNumber, firstDay, 0, 0)))
-                            .setFinishDate(formatter.format(LocalDateTime.of(year, monthNumber, lastDay, 0, 0)))
+                            .setStartDate(formatter.format(startDate))
+                            .setFinishDate(formatter.format(endDate))
                             .setTransactionTypeId(transactionTypeSpinner.getSelectedItemPosition()));
         });
     }

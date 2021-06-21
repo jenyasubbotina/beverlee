@@ -93,8 +93,6 @@ public class TransactionViewModel extends ViewModel {
         this.lineChartData = new MutableLiveData<>();
 
         this.currentMonthNumber = new MutableLiveData<>();
-        this.monthNumber = Calendar.getInstance().get(Calendar.MONTH);
-        this.currentMonthNumber.setValue(monthNumber);
 
         this.incomeTransactionList = new MutableLiveData<>();
         this.expenditureTransactionList = new MutableLiveData<>();
@@ -109,6 +107,11 @@ public class TransactionViewModel extends ViewModel {
         this.page = 0;
         this.perPage = 15;
         this.isLoading = false;
+    }
+
+    public void initCurrentMonthNumber() {
+        this.monthNumber = Calendar.getInstance().get(Calendar.MONTH);
+        this.currentMonthNumber.setValue(monthNumber);
     }
 
     /* get balance */

@@ -118,6 +118,8 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         contactsViewModel = new ViewModelProvider(getViewModelStore(), contactsFactory).get(ContactsViewModel.class);
         newsViewModel = new ViewModelProvider(getViewModelStore(), newsFactory).get(NewsViewModel.class);
 
+        transactionViewModel.initCurrentMonthNumber();
+
         transactionViewModel.fetchCurrentBalance();
 
         transactionViewModel.fetchMonthlyTransactionList(null, Calendar.getInstance().get(Calendar.MONTH), null);

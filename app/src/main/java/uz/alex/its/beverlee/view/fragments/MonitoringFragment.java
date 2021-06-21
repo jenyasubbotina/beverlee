@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,7 +103,7 @@ public class MonitoringFragment extends Fragment {
 
         if (getArguments() != null) {
             transactionViewModel.fetchTransactionList(
-                    MonitoringFragmentArgs.fromBundle(getArguments()).getTransactionTypeId(),
+                    MonitoringFragmentArgs.fromBundle(getArguments()).getTransactionTypeId() <= 0 ? null : MonitoringFragmentArgs.fromBundle(getArguments()).getTransactionTypeId(),
                     MonitoringFragmentArgs.fromBundle(getArguments()).getStartDate(),
                     MonitoringFragmentArgs.fromBundle(getArguments()).getFinishDate(),
                     null);
@@ -189,8 +190,12 @@ public class MonitoringFragment extends Fragment {
         replenishedOrWithdrawalTextView.setText(getString(R.string.monthly_balance, "Пополнение", 0.0));
 
         if (getArguments() != null) {
-            currentMonthTextView.setText(getString(R.string.month_name,
-                    getString(transactionViewModel.getMonthName(MonitoringFragmentArgs.fromBundle(getArguments()).getMonth()))));
+            if (MonitoringFragmentArgs.fromBundle(getArguments()).getMonth() <= 0) {
+                transactionViewModel.initCurrentMonthNumber();
+            }
+            else {
+                currentMonthTextView.setText(getString(R.string.month_name, getString(transactionViewModel.getMonthName(MonitoringFragmentArgs.fromBundle(getArguments()).getMonth()))));
+            }
         }
         return root;
     }
@@ -311,9 +316,7 @@ public class MonitoringFragment extends Fragment {
             }
             currentMonthTextView.setText(getString(R.string.month_name, getString(transactionViewModel.getMonthName(monthNumber + 1))));
 
-            LocalDate currentdate = LocalDate.now();
-            int currentMonth = currentdate.getMonth().getValue();
-            if (monthNumber == currentMonth-1) {
+            if (monthNumber == LocalDate.now().getMonth().getValue() - 1) {
                nextChartImageView.setVisibility(View.INVISIBLE);
             } else {
                 nextChartImageView.setVisibility(View.VISIBLE);

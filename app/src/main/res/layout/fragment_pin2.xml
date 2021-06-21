@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:indeterminateTint="@color/colorPurple"/>
-
     <ImageView
         android:id="@+id/lock_image_view"
         android:layout_width="0dp"
@@ -57,6 +47,7 @@
         app:layout_constraintTop_toBottomOf="@id/pin_text_view" />
 
     <RelativeLayout
+        android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/card_top_radius_light"
@@ -65,6 +56,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pin_error_text_view">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:indeterminateTint="@color/colorPurple"
+            android:visibility="gone"/>
 
         <com.andrognito.pinlockview.IndicatorDots
             android:id="@+id/indicator_dots"
