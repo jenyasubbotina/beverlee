@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.andrognito.pinlockview.IndicatorDots;
@@ -41,6 +42,8 @@ public class PinFragment extends Fragment {
     private IndicatorDots pinIndicator;
     private PinLockListener mPinLockListener;
 
+    private ProgressBar progressBar;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +68,7 @@ public class PinFragment extends Fragment {
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_pin2, container, false);
 
+        progressBar = v.findViewById(R.id.progress_bar);
         pinTextView = v.findViewById(R.id.pin_text_view);
         changePinTextView = v.findViewById(R.id.change_pin_text_view);
         pinErrorTextView = v.findViewById(R.id.pin_error_text_view);
@@ -135,6 +139,7 @@ public class PinFragment extends Fragment {
                 SharedPrefs.getInstance(requireContext()).putBoolean(Constants.PIN_ASSIGNED, true);
                 pinAssigned = true;
 
+                progressBar.setVisibility(View.GONE);
                 pinErrorTextView.setVisibility(View.INVISIBLE);
                 pinTextView.setText(R.string.repeat_pin);
 
@@ -144,21 +149,27 @@ public class PinFragment extends Fragment {
                 SharedPrefs.getInstance(requireContext()).putBoolean(Constants.PIN_ASSIGNED, false);
                 pinErrorTextView.setText(R.string.error_pin_asign);
                 pinErrorTextView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+                return;
             }
+            progressBar.setVisibility(View.VISIBLE);
         });
 
         pinViewModel.getVerifyPinResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                progressBar.setVisibility(View.GONE);
                 NavHostFragment.findNavController(this).navigate(PinFragmentDirections.actionPinFragmentToHomeFragment());
                 pinErrorTextView.setVisibility(View.INVISIBLE);
                 return;
             }
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
+                progressBar.setVisibility(View.GONE);
                 pinErrorTextView.setText(R.string.error_wrong_pin);
                 pinErrorTextView.setVisibility(View.VISIBLE);
                 pinLockView.resetPinLockView();
                 return;
             }
+            progressBar.setVisibility(View.VISIBLE);
             pinErrorTextView.setVisibility(View.INVISIBLE);
         });
 
