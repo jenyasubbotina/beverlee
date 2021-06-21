@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
 
         transactionViewModel.fetchMonthlyTransactionList(null, Calendar.getInstance().get(Calendar.MONTH), null);
 
-        transactionViewModel.fetchMonthlyBalance(Calendar.getInstance().get(Calendar.MONTH));
+        transactionViewModel.fetchMonthlyBalance(Calendar.getInstance().get(Calendar.MONTH) + 1);
 
         contactsViewModel.fetchContactList(null, null);
 
