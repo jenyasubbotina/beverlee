@@ -11,12 +11,12 @@ import androidx.work.WorkManager;
 import java.util.UUID;
 
 import uz.alex.its.beverlee.utils.Constants;
-import uz.alex.its.beverlee.worker.AssignPinWorker;
-import uz.alex.its.beverlee.worker.ChangePinWorker;
-import uz.alex.its.beverlee.worker.RequestPinByCallWorker;
-import uz.alex.its.beverlee.worker.RequestPinBySmsWorker;
-import uz.alex.its.beverlee.worker.CheckPinAssignedWorker;
-import uz.alex.its.beverlee.worker.VerifyPinWorker;
+import uz.alex.its.beverlee.worker.pin.AssignPinWorker;
+import uz.alex.its.beverlee.worker.pin.ChangePinWorker;
+import uz.alex.its.beverlee.worker.pin.RequestPinByCallWorker;
+import uz.alex.its.beverlee.worker.pin.RequestPinBySmsWorker;
+import uz.alex.its.beverlee.worker.pin.CheckPinAssignedWorker;
+import uz.alex.its.beverlee.worker.pin.VerifyPinWorker;
 
 public class PinRepository {
     private final Context context;

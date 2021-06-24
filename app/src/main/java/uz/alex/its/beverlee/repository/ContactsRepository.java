@@ -24,9 +24,9 @@ import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.storage.LocalDatabase;
 import uz.alex.its.beverlee.storage.dao.ContactDao;
 import uz.alex.its.beverlee.utils.Constants;
-import uz.alex.its.beverlee.worker.AddToFavsWorker;
-import uz.alex.its.beverlee.worker.DeleteContactWorker;
-import uz.alex.its.beverlee.worker.RemoveFromFavsWorker;
+import uz.alex.its.beverlee.worker.contact.AddToFavsWorker;
+import uz.alex.its.beverlee.worker.contact.DeleteContactWorker;
+import uz.alex.its.beverlee.worker.contact.RemoveFromFavsWorker;
 import uz.alex.its.beverlee.model.actor.ContactModel.Contact;
 
 public class ContactsRepository {

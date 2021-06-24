@@ -18,9 +18,10 @@ import uz.alex.its.beverlee.model.balance.Balance;
 import uz.alex.its.beverlee.model.balance.DaysBalance;
 import uz.alex.its.beverlee.model.balance.MonthBalance;
 import uz.alex.its.beverlee.utils.Constants;
-import uz.alex.its.beverlee.worker.TransferFundsWorker;
-import uz.alex.its.beverlee.worker.VerifyTransferWorker;
-import uz.alex.its.beverlee.worker.WithdrawFundsWorker;
+import uz.alex.its.beverlee.worker.transaction.ReplenishWorker;
+import uz.alex.its.beverlee.worker.transaction.TransferWorker;
+import uz.alex.its.beverlee.worker.transaction.VerifyTransferWorker;
+import uz.alex.its.beverlee.worker.transaction.WithdrawFundsWorker;
 
 public class TransactionRepository {
     private final Context context;
@@ -85,7 +86,7 @@ public class TransactionRepository {
                 .putString(Constants.NOTE, note)
                 .putString(Constants.TRANSACTION_PIN, pin)
                 .build();
-        final OneTimeWorkRequest transferFundsRequest = new OneTimeWorkRequest.Builder(TransferFundsWorker.class)
+        final OneTimeWorkRequest transferFundsRequest = new OneTimeWorkRequest.Builder(TransferWorker.class)
                 .setConstraints(constraints)
                 .setInputData(inputData)
                 .build();
@@ -140,6 +141,25 @@ public class TransactionRepository {
                                      final Callback<TransactionModel> callback) {
         RetrofitClient.getInstance(context).setAuthorizationHeader(context);
         RetrofitClient.getInstance(context).getTransactionHistory(page, perPage, typeId, dateStart, dateFinish, contactId, callback);
+    }
+
+    public UUID replenish(final String amount) {
+        final Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresDeviceIdle(false)
+                .setRequiresStorageNotLow(false)
+                .setRequiresCharging(false)
+                .setRequiresBatteryNotLow(false)
+                .build();
+        final Data inputData = new Data.Builder()
+                .putString(Constants.AMOUNT, amount)
+                .build();
+        final OneTimeWorkRequest replenishRequest = new OneTimeWorkRequest.Builder(ReplenishWorker.class)
+                .setConstraints(constraints)
+                .setInputData(inputData)
+                .build();
+        WorkManager.getInstance(context).enqueue(replenishRequest);
+        return replenishRequest.getId();
     }
 
     private static final String TAG = TransactionRepository.class.toString();

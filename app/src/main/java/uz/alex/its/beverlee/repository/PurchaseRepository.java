@@ -8,17 +8,14 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-import java.util.List;
 import java.util.UUID;
 
 import retrofit2.Callback;
 import uz.alex.its.beverlee.api.RetrofitClient;
-import uz.alex.its.beverlee.model.requestParams.MakePurchaseParams;
 import uz.alex.its.beverlee.model.transaction.PurchaseModel;
 import uz.alex.its.beverlee.utils.Constants;
-import uz.alex.its.beverlee.worker.AssignPinWorker;
-import uz.alex.its.beverlee.worker.DeletePurchaseWorker;
-import uz.alex.its.beverlee.worker.MakePurchaseWorker;
+import uz.alex.its.beverlee.worker.purchase.DeletePurchaseWorker;
+import uz.alex.its.beverlee.worker.purchase.MakePurchaseWorker;
 
 public class PurchaseRepository {
     private final Context context;

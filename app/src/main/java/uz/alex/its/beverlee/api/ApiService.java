@@ -1,7 +1,5 @@
 package uz.alex.its.beverlee.api;
 
-import java.util.List;
-
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,6 +13,7 @@ import retrofit2.http.Query;
 import uz.alex.its.beverlee.model.requestParams.ChangePasswordParams;
 import uz.alex.its.beverlee.model.requestParams.ChangePinParams;
 import uz.alex.its.beverlee.model.requestParams.NotificationSettingsParams;
+import uz.alex.its.beverlee.model.requestParams.ReplenishParams;
 import uz.alex.its.beverlee.model.requestParams.UserDataParams;
 import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.CountryModel;
@@ -26,11 +25,11 @@ import uz.alex.its.beverlee.model.requestParams.WithdrawalParams;
 import uz.alex.its.beverlee.model.news.NewsDataModel;
 import uz.alex.its.beverlee.model.news.NewsModel;
 import uz.alex.its.beverlee.model.notification.NotificationSettingsModel;
+import uz.alex.its.beverlee.model.transaction.ReplenishModel;
 import uz.alex.its.beverlee.model.transaction.TransactionModel;
 import uz.alex.its.beverlee.model.actor.UserModel;
 import uz.alex.its.beverlee.model.transaction.WithdrawalTypeModel;
 import uz.alex.its.beverlee.model.balance.DaysBalance;
-import uz.alex.its.beverlee.model.transaction.PurchaseModel.Purchase;
 import uz.alex.its.beverlee.model.balance.Balance;
 import uz.alex.its.beverlee.model.balance.MonthBalance;
 import uz.alex.its.beverlee.model.LoginModel;
@@ -151,6 +150,10 @@ public interface ApiService {
 
     @POST("/api/user/transfer/verify")
     Call<Void> verifyTransfer(@Body final VerifyTransferParams verifyTransferParams);
+
+    /* Replenish */
+    @POST("/api/user/refill/order")
+    Call<ReplenishModel> replenish(@Body final ReplenishParams params);
 
     /* Withdrawal */
     @GET("/api/user/withdrawal/requests/types")

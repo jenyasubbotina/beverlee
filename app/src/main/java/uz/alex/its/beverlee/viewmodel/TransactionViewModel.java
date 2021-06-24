@@ -57,6 +57,8 @@ public class TransactionViewModel extends ViewModel {
     private final MutableLiveData<List<Transaction>> incomeTransactionList;
     private final MutableLiveData<List<Transaction>> expenditureTransactionList;
 
+    private final MutableLiveData<UUID> replenishResult;
+
     private final MutableLiveData<List<WithdrawalType>> withdrawalTypeList;
     private final MutableLiveData<UUID> withdrawalResult;
 
@@ -96,6 +98,8 @@ public class TransactionViewModel extends ViewModel {
 
         this.incomeTransactionList = new MutableLiveData<>();
         this.expenditureTransactionList = new MutableLiveData<>();
+
+        this.replenishResult = new MutableLiveData<>();
 
         this.withdrawalTypeList = new MutableLiveData<>();
         this.withdrawalResult = new MutableLiveData<>();
@@ -148,6 +152,14 @@ public class TransactionViewModel extends ViewModel {
         return monthlyTurnover;
     }
 
+    /* replenish */
+    public void replenish(final String amount) {
+        replenishResult.setValue(repository.replenish(amount));
+    }
+
+    public LiveData<WorkInfo> getReplenishResult(final Context context) {
+        return Transformations.switchMap(replenishResult, input -> WorkManager.getInstance(context).getWorkInfoByIdLiveData(input));
+    }
 
     /* withdrawal */
     public void fetchWithdrawalTypes() {
@@ -304,6 +316,7 @@ public class TransactionViewModel extends ViewModel {
                 contactId);
     }
 
+    //todo: refactor to DB to do search
     public LiveData<List<Transaction>> getTransactionList() {
         return Transformations.switchMap(isIncrease, input -> {
             if (input) {

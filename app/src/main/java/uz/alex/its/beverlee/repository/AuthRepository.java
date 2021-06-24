@@ -6,19 +6,16 @@ import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
-import androidx.work.OverwritingInputMerger;
 import androidx.work.WorkManager;
 
 import java.util.UUID;
 
 import uz.alex.its.beverlee.utils.Constants;
-import uz.alex.its.beverlee.worker.CheckPinAssignedWorker;
-import uz.alex.its.beverlee.worker.CheckVerifiedWorker;
-import uz.alex.its.beverlee.worker.LoginWorker;
-import uz.alex.its.beverlee.worker.RegisterWorker;
-import uz.alex.its.beverlee.worker.SubmitVerificationWorker;
-import uz.alex.its.beverlee.worker.VerifyPhoneByCallWorker;
-import uz.alex.its.beverlee.worker.VerifyPhoneBySmsWorker;
+import uz.alex.its.beverlee.worker.login.LoginWorker;
+import uz.alex.its.beverlee.worker.login.RegisterWorker;
+import uz.alex.its.beverlee.worker.login.SubmitVerificationWorker;
+import uz.alex.its.beverlee.worker.login.VerifyPhoneByCallWorker;
+import uz.alex.its.beverlee.worker.login.VerifyPhoneBySmsWorker;
 
 public class AuthRepository {
     private final Context context;

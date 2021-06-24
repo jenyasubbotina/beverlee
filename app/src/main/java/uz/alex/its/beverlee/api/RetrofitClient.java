@@ -10,27 +10,24 @@ import com.google.gson.JsonDeserializer;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
 import uz.alex.its.beverlee.R;
+import uz.alex.its.beverlee.api.interceptor.AcceptInterceptor;
+import uz.alex.its.beverlee.api.interceptor.AuthInterceptor;
+import uz.alex.its.beverlee.api.interceptor.ContentTypeInterceptor;
 import uz.alex.its.beverlee.model.requestParams.AvatarParams;
 import uz.alex.its.beverlee.model.requestParams.ChangePasswordParams;
 import uz.alex.its.beverlee.model.requestParams.ChangePinParams;
 import uz.alex.its.beverlee.model.requestParams.MakePurchaseParams;
 import uz.alex.its.beverlee.model.requestParams.NotificationSettingsParams;
+import uz.alex.its.beverlee.model.requestParams.ReplenishParams;
 import uz.alex.its.beverlee.model.requestParams.UserDataParams;
 import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.CountryModel;
@@ -46,6 +43,7 @@ import uz.alex.its.beverlee.model.news.NewsDataModel;
 import uz.alex.its.beverlee.model.news.NewsModel;
 import uz.alex.its.beverlee.model.notification.NotificationSettingsModel;
 import uz.alex.its.beverlee.model.transaction.PurchaseModel;
+import uz.alex.its.beverlee.model.transaction.ReplenishModel;
 import uz.alex.its.beverlee.model.transaction.TransactionModel;
 import uz.alex.its.beverlee.model.actor.UserModel;
 import uz.alex.its.beverlee.model.transaction.WithdrawalTypeModel;
@@ -221,6 +219,10 @@ public class RetrofitClient {
     /* Поступления/списания за месяц по дням */
     public void getMonthlyBalanceHistoryByDays(final int month, final Callback<DaysBalance> callback) {
         apiService.getMonthlyBalanceHistoryByDays(month).enqueue(callback);
+    }
+
+    public Response<ReplenishModel> replenish(final ReplenishParams params) throws IOException {
+        return apiService.replenish(params).execute();
     }
 
     public void getWithdrawalTypes(final Callback<WithdrawalTypeModel> callback) {

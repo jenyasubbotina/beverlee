@@ -118,4 +118,5 @@ public class Constants {
     public static final String NEW_PIN_CONFIRMATION = "new_pin_confirmation";
     public static final String REQUEST_ID = "request_id";
     public static final String MAKE_PURCHASE_PARAMS = "make_purchase_params";
+    public static final String REPLENISH_URL = "replenish_url";
 }

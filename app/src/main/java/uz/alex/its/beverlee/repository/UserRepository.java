@@ -16,11 +16,11 @@ import uz.alex.its.beverlee.model.requestParams.AvatarParams;
 import uz.alex.its.beverlee.model.notification.NotificationSettingsModel;
 import uz.alex.its.beverlee.model.actor.UserModel;
 import uz.alex.its.beverlee.utils.Constants;
-import uz.alex.its.beverlee.worker.ChangePasswordWorker;
-import uz.alex.its.beverlee.worker.DeleteAvatarWorker;
-import uz.alex.its.beverlee.worker.SaveNotificationSettingsWorker;
-import uz.alex.its.beverlee.worker.SaveUserDataWorker;
-import uz.alex.its.beverlee.worker.UploadAvatarWorker;
+import uz.alex.its.beverlee.worker.personal.ChangePasswordWorker;
+import uz.alex.its.beverlee.worker.personal.DeleteAvatarWorker;
+import uz.alex.its.beverlee.worker.personal.SaveNotificationSettingsWorker;
+import uz.alex.its.beverlee.worker.personal.SaveUserDataWorker;
+import uz.alex.its.beverlee.worker.personal.UploadAvatarWorker;
 
 public class UserRepository {
     private final Context context;
