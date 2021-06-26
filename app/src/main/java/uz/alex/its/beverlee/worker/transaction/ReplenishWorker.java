@@ -13,9 +13,7 @@ import java.io.IOException;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import uz.alex.its.beverlee.api.RetrofitClient;
-import uz.alex.its.beverlee.model.balance.Balance;
 import uz.alex.its.beverlee.model.requestParams.ReplenishParams;
-import uz.alex.its.beverlee.model.requestParams.TransferFundsParams;
 import uz.alex.its.beverlee.model.transaction.ReplenishModel;
 import uz.alex.its.beverlee.utils.Constants;
 
@@ -36,7 +34,6 @@ public class ReplenishWorker extends Worker {
             Log.e(TAG, "doWork(): empty input data");
             return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, "empty input data").build());
         }
-
         RetrofitClient.getInstance(getApplicationContext()).setAuthorizationHeader(getApplicationContext());
 
         try {
@@ -49,7 +46,7 @@ public class ReplenishWorker extends Worker {
                     Log.w(TAG, "doWork(): response is NULL");
                     return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, "response is NULL").build());
                 }
-                return Result.success(outputDataBuilder.putString(Constants.REPLENISH_URL, replenishModel.getUrlList().get(0)).build());
+                return Result.success(outputDataBuilder.putString(Constants.REPLENISH_URL, replenishModel.getReplenishLink().getUrl()).build());
             }
             final ResponseBody error = response.errorBody();
 

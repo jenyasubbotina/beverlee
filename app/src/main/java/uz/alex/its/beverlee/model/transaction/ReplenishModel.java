@@ -22,13 +22,13 @@ public class ReplenishModel {
 
     @Expose
     @SerializedName("data")
-    private final List<String> urlList;
+    private final ReplenishLink url;
 
-    public ReplenishModel(final long draw, final int recordsTotal, final int recordsFiltered, final List<String> urlList) {
+    public ReplenishModel(final long draw, final int recordsTotal, final int recordsFiltered, final ReplenishLink url) {
         this.draw = draw;
         this.recordsTotal = recordsTotal;
         this.recordsFiltered = recordsFiltered;
-        this.urlList = urlList;
+        this.url = url;
     }
 
     public long getDraw() {
@@ -43,8 +43,8 @@ public class ReplenishModel {
         return recordsFiltered;
     }
 
-    public List<String> getUrlList() {
-        return urlList;
+    public ReplenishLink getReplenishLink() {
+        return url;
     }
 
     @NonNull
@@ -54,7 +54,27 @@ public class ReplenishModel {
                 "draw=" + draw +
                 ", recordsTotal=" + recordsTotal +
                 ", recordsFiltered=" + recordsFiltered +
-                ", urlList=" + urlList +
+                ", urlList=" + url +
                 '}';
+    }
+
+    public static class ReplenishLink {
+        private final String url;
+
+        public ReplenishLink(final String url) {
+            this.url = url;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "ReplenishLink{" +
+                    "url='" + url + '\'' +
+                    '}';
+        }
     }
 }
