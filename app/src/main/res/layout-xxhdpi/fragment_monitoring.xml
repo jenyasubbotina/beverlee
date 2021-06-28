@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_refresh_layout"
@@ -58,7 +59,7 @@
                 android:drawableStart="@drawable/ic_loop_white"
                 android:drawablePadding="11dp"
                 android:fontFamily="@font/geometria_light"
-                android:hint="@string/search"
+                android:hint="@string/input_first_name_last_name_or_id"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingStart="21dp"

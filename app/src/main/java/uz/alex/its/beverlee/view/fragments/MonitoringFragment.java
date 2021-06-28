@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,16 +36,19 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.w3c.dom.Text;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import uz.alex.its.beverlee.R;
+import uz.alex.its.beverlee.model.transaction.TransactionModel;
+import uz.alex.its.beverlee.model.transaction.TransactionParams;
+import uz.alex.its.beverlee.storage.LocalDatabase;
 import uz.alex.its.beverlee.utils.DateFormatter;
 import uz.alex.its.beverlee.view.adapters.TransactionAdapter;
-import uz.alex.its.beverlee.view.dialog.CalendarDialog;
 import uz.alex.its.beverlee.viewmodel.TransactionViewModel;
 import uz.alex.its.beverlee.viewmodel.factory.TransactionViewModelFactory;
 
@@ -64,7 +69,7 @@ public class MonitoringFragment extends Fragment {
     private View transactionsCard;
 
     private TextView incomeOrExpenditureTextView;
-    private TextView currentMonthTextView;
+    private TextView currentMonthAndYearTextView;
     private TextView monthlyBalanceTextView;
 
     private PieChart pieChart;
@@ -99,18 +104,36 @@ public class MonitoringFragment extends Fragment {
         final TransactionViewModelFactory transactionFactory = new TransactionViewModelFactory(requireContext());
         transactionViewModel = new ViewModelProvider(getViewModelStore(), transactionFactory).get(TransactionViewModel.class);
 
-        transactionViewModel.fetchMonthlyBalance(Calendar.getInstance().get(Calendar.MONTH) + 1);
+        TransactionParams params = null;
 
-        if (getArguments() != null) {
-            transactionViewModel.fetchTransactionList(
-                    MonitoringFragmentArgs.fromBundle(getArguments()).getTransactionTypeId() <= 0 ? null : MonitoringFragmentArgs.fromBundle(getArguments()).getTransactionTypeId(),
-                    MonitoringFragmentArgs.fromBundle(getArguments()).getStartDate(),
-                    MonitoringFragmentArgs.fromBundle(getArguments()).getFinishDate(),
+        if (getArguments() != null
+                && MonitoringFragmentArgs.fromBundle(getArguments()).getYear() > 0
+                && MonitoringFragmentArgs.fromBundle(getArguments()).getMonth() >= 1
+                && MonitoringFragmentArgs.fromBundle(getArguments()).getMonth() <= 12
+                && MonitoringFragmentArgs.fromBundle(getArguments()).getFirstDay() >= 1
+                && MonitoringFragmentArgs.fromBundle(getArguments()).getLastDay() <= 31) {
+            params = new TransactionParams(
+                    true,
+                    MonitoringFragmentArgs.fromBundle(getArguments()).getYear(),
+                    MonitoringFragmentArgs.fromBundle(getArguments()).getMonth(),
+                    MonitoringFragmentArgs.fromBundle(getArguments()).getFirstDay(),
+                    MonitoringFragmentArgs.fromBundle(getArguments()).getLastDay(),
+                    MonitoringFragmentArgs.fromBundle(getArguments()).getTransactionTypeId(),
                     null);
         }
         else {
-            transactionViewModel.fetchMonthlyTransactionList(null, Calendar.getInstance().get(Calendar.MONTH), null);
+            params = new TransactionParams(
+                    true,
+                    LocalDateTime.now().getYear(),
+                    LocalDateTime.now().getMonthValue(),
+                    1,
+                    DateFormatter.getLastDayOfMonthAndYear(LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue()),
+                    0,
+                    null);
         }
+        transactionViewModel.setTransactionParams(params);
+        transactionViewModel.fetchTransactionList();
+        transactionViewModel.fetchMonthlyBalance();
     }
 
     @Override
@@ -135,7 +158,7 @@ public class MonitoringFragment extends Fragment {
         /* monitoring chart */
         transactionsCard = root.findViewById(R.id.transactions_card);
         incomeOrExpenditureTextView = root.findViewById(R.id.income_or_expenditure_text_view);
-        currentMonthTextView = root.findViewById(R.id.month_name_text_view);
+        currentMonthAndYearTextView = root.findViewById(R.id.month_and_year_text_view);
         monthlyBalanceTextView = root.findViewById(R.id.monthly_balance_text_view);
         prevChartImageView = root.findViewById(R.id.prev_chart_image_view);
         nextChartImageView = root.findViewById(R.id.next_chart_image_view);
@@ -189,14 +212,9 @@ public class MonitoringFragment extends Fragment {
         receiptOrtransferTextView.setText(getString(R.string.monthly_balance, "Получено", 0.0));
         replenishedOrWithdrawalTextView.setText(getString(R.string.monthly_balance, "Пополнение", 0.0));
 
-        if (getArguments() != null) {
-            if (MonitoringFragmentArgs.fromBundle(getArguments()).getMonth() <= 0) {
-                transactionViewModel.initCurrentMonthNumber();
-            }
-            else {
-                currentMonthTextView.setText(getString(R.string.month_name, getString(transactionViewModel.getMonthName(MonitoringFragmentArgs.fromBundle(getArguments()).getMonth()))));
-            }
-        }
+        //currentMonthTextView.setText(getString(R.string.month_name, getString(transactionViewModel.getMonthName(MonitoringFragmentArgs.fromBundle(getArguments()).getMonth()))));
+        //currentYearTextView.
+
         return root;
     }
 
@@ -217,6 +235,26 @@ public class MonitoringFragment extends Fragment {
             }
             else {
                 searchFieldEditText.setHint(R.string.search);
+            }
+        });
+
+        searchFieldEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() < 3) {
+                    return;
+                }
+                transactionViewModel.setSearchQuery(s.toString());
             }
         });
 
@@ -255,11 +293,15 @@ public class MonitoringFragment extends Fragment {
         });
 
         nextChartImageView.setOnClickListener(v -> {
-            transactionViewModel.incrementCurrentMonth();
+            transactionViewModel.nextMonth();
+            transactionViewModel.fetchTransactionList();
+            transactionViewModel.fetchMonthlyBalance();
         });
 
         prevChartImageView.setOnClickListener(v -> {
-            transactionViewModel.decrementCurrentMonth();
+            transactionViewModel.prevMonth();
+            transactionViewModel.fetchTransactionList();
+            transactionViewModel.fetchMonthlyBalance();
         });
 
         pieChart.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_monitoringFragment_to_transactionSearchFragment));
@@ -301,8 +343,8 @@ public class MonitoringFragment extends Fragment {
         });
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            transactionViewModel.fetchMonthlyBalance(Calendar.getInstance().get(Calendar.MONTH) + 1);
-            transactionViewModel.fetchMonthlyTransactionList(null, Calendar.getInstance().get(Calendar.MONTH), null);
+            transactionViewModel.fetchMonthlyBalance();
+            transactionViewModel.fetchTransactionList();
         });
     }
 
@@ -310,17 +352,23 @@ public class MonitoringFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        transactionViewModel.getCurrentMonthNumber().observe(getViewLifecycleOwner(), monthNumber -> {
-            if (monthNumber < 0 || monthNumber > 11) {
+        transactionViewModel.isLoading().observe(getViewLifecycleOwner(), isInLoading -> {
+            if (isInLoading) {
+                swipeRefreshLayout.setRefreshing(true);
                 return;
             }
-            currentMonthTextView.setText(getString(R.string.month_name, getString(transactionViewModel.getMonthName(monthNumber + 1))));
+            swipeRefreshLayout.setRefreshing(false);
+        });
 
-            if (monthNumber == LocalDate.now().getMonth().getValue() - 1) {
-               nextChartImageView.setVisibility(View.INVISIBLE);
-            } else {
-                nextChartImageView.setVisibility(View.VISIBLE);
-            }
+        transactionViewModel.getTransactionParams().observe(getViewLifecycleOwner(), transactionParams -> {
+            currentMonthAndYearTextView.setText(getString(R.string.month_year,
+                    getString(transactionViewModel.getMonthName(transactionParams.getMonth())),
+                    String.valueOf(transactionParams.getYear())));
+            nextChartImageView.setEnabled(transactionParams.getYear() < LocalDateTime.now().getYear() || transactionParams.getMonth() < 12);
+        });
+
+        transactionViewModel.getTransactionList().observe(getViewLifecycleOwner(), transactionList -> {
+            transactionAdapter.setTransactionList(transactionList);
         });
 
         transactionViewModel.getMonthlyBalance().observe(getViewLifecycleOwner(), monthlyBalance -> {
@@ -331,10 +379,6 @@ public class MonitoringFragment extends Fragment {
             if (radioGroup.getCheckedRadioButtonId() == expenditureRadioBtn.getId()) {
                 monthlyBalanceTextView.setText(getString(R.string.monthly_summary, "-", monthlyBalance));
             }
-        });
-
-        transactionViewModel.getTransactionList().observe(getViewLifecycleOwner(), transactionList -> {
-            transactionAdapter.setTransactionList(transactionList);
         });
 
         transactionViewModel.getMonthlyBonusOrPurchaseAmount().observe(getViewLifecycleOwner(), amount -> {
@@ -392,12 +436,11 @@ public class MonitoringFragment extends Fragment {
             monitoringDataSet.setDrawValues(false);
             pieChart.setData(new PieData(monitoringDataSet));
             pieChart.invalidate();
-            swipeRefreshLayout.setRefreshing(false);
         });
     }
 
-    private static final String TAG = MonitoringFragment.class.toString();
-
     private static int[] incomeColorArr;
     private static int[] expenditureColorArr;
+
+    private static final String TAG = MonitoringFragment.class.toString();
 }

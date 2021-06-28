@@ -215,13 +215,13 @@
                 app:layout_constraintTop_toTopOf="@id/card_profit" />
 
             <TextView
-                android:id="@+id/month_name_text_view"
+                android:id="@+id/month_and_year_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:fontFamily="@font/geometria_medium"
                 android:gravity="start"
-                android:text="@string/month_name"
+                android:text="@string/month_year"
                 android:textColor="@color/colorOrange"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toStartOf="@id/monthly_balance_text_view"

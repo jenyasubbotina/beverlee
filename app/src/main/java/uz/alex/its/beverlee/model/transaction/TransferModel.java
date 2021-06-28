@@ -1,6 +1,8 @@
 package uz.alex.its.beverlee.model.transaction;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -61,26 +63,32 @@ public class TransferModel {
     public static class Transfer {
         @Expose
         @SerializedName("id")
+        @ColumnInfo(name = "transfer_id")
         private final long id;
 
         @Expose
         @SerializedName("transaction_id")
+        @ColumnInfo(name = "transfer_transaction_id")
         private final long transactionId;
 
         @Expose
         @SerializedName("sender_id")
+        @ColumnInfo(name = "transfer_sender_id")
         private final long senderId;
 
         @Expose
         @SerializedName("recipient_id")
+        @ColumnInfo(name = "transfer_recipient_id")
         private final long recipientId;
 
         @Expose
         @SerializedName("type")
+        @ColumnInfo(name = "transfer_type")
         private final String type;
 
         @Expose
         @SerializedName("amount")
+        @ColumnInfo(name = "transfer_amount")
         private final double amount;
 
         @Expose

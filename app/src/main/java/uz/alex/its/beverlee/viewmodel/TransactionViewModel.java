@@ -11,8 +11,11 @@ import androidx.lifecycle.ViewModel;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -22,6 +25,7 @@ import retrofit2.Response;
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.chart.LineChartStat;
 import uz.alex.its.beverlee.model.transaction.TransactionModel;
+import uz.alex.its.beverlee.model.transaction.TransactionParams;
 import uz.alex.its.beverlee.model.transaction.WithdrawalTypeModel;
 import uz.alex.its.beverlee.model.balance.Balance;
 import uz.alex.its.beverlee.model.chart.PieChartStat;
@@ -34,11 +38,8 @@ import uz.alex.its.beverlee.utils.DateFormatter;
 public class TransactionViewModel extends ViewModel {
     private final TransactionRepository repository;
 
-    private final MutableLiveData<Integer> currentMonthNumber;
-
     private final MutableLiveData<Balance> currentBalance;
 
-    private final MutableLiveData<Boolean> isIncrease;
     private final MutableLiveData<Double> monthlyBalanceIncrease;
     private final MutableLiveData<Double> monthlyBalanceDecrease;
     private final MutableLiveData<Double> monthlyTurnover;
@@ -54,9 +55,6 @@ public class TransactionViewModel extends ViewModel {
     private final MutableLiveData<PieChartStat> expenditureStatistics;
     private final MutableLiveData<LineChartStat> lineChartData;
 
-    private final MutableLiveData<List<Transaction>> incomeTransactionList;
-    private final MutableLiveData<List<Transaction>> expenditureTransactionList;
-
     private final MutableLiveData<UUID> replenishResult;
 
     private final MutableLiveData<List<WithdrawalType>> withdrawalTypeList;
@@ -66,18 +64,18 @@ public class TransactionViewModel extends ViewModel {
 
     private final MutableLiveData<UUID> transferResult;
 
-    private int monthNumber;
+    private final TransactionParams transactionParams;
+    private final MutableLiveData<TransactionParams> params;
+
+    private final MutableLiveData<Boolean> isLoading;
+
     private int page;
     private int perPage;
-    private boolean isLoading;
 
     public TransactionViewModel(final Context context) {
         this.repository = new TransactionRepository(context);
 
         this.currentBalance = new MutableLiveData<>();
-
-        this.isIncrease = new MutableLiveData<>();
-        this.isIncrease.setValue(true);
 
         this.monthlyBalanceIncrease = new MutableLiveData<>();
         this.monthlyBalanceDecrease = new MutableLiveData<>();
@@ -94,11 +92,6 @@ public class TransactionViewModel extends ViewModel {
         this.expenditureStatistics = new MutableLiveData<>();
         this.lineChartData = new MutableLiveData<>();
 
-        this.currentMonthNumber = new MutableLiveData<>();
-
-        this.incomeTransactionList = new MutableLiveData<>();
-        this.expenditureTransactionList = new MutableLiveData<>();
-
         this.replenishResult = new MutableLiveData<>();
 
         this.withdrawalTypeList = new MutableLiveData<>();
@@ -110,19 +103,20 @@ public class TransactionViewModel extends ViewModel {
 
         this.page = 0;
         this.perPage = 15;
-        this.isLoading = false;
-    }
+        this.isLoading = new MutableLiveData<>();
+        this.isLoading.setValue(false);
 
-    public void initCurrentMonthNumber() {
-        this.monthNumber = Calendar.getInstance().get(Calendar.MONTH);
-        this.currentMonthNumber.setValue(monthNumber);
+        this.transactionParams = new TransactionParams();
+        this.params = new MutableLiveData<>();
     }
 
     /* get balance */
     public void fetchCurrentBalance() {
+        isLoading.setValue(true);
         repository.getCurrentBalance(new Callback<Balance>() {
             @Override
             public void onResponse(@NonNull Call<Balance> call, @NonNull Response<Balance> response) {
+                isLoading.setValue(false);
                 if (response.code() == 200 && response.isSuccessful()) {
                     currentBalance.setValue(response.body());
                 }
@@ -131,6 +125,7 @@ public class TransactionViewModel extends ViewModel {
             @Override
             public void onFailure(@NonNull Call<Balance> call, @NonNull Throwable t) {
                 Log.e(TAG, "onFailure(): ", t);
+                isLoading.setValue(false);
             }
         });
     }
@@ -140,8 +135,8 @@ public class TransactionViewModel extends ViewModel {
     }
 
     public LiveData<Double> getMonthlyBalance() {
-        return Transformations.switchMap(isIncrease, input -> {
-            if (input) {
+        return Transformations.switchMap(params, input -> {
+            if (input.isIncrease()) {
                 return monthlyBalanceIncrease;
             }
             return monthlyBalanceDecrease;
@@ -163,9 +158,11 @@ public class TransactionViewModel extends ViewModel {
 
     /* withdrawal */
     public void fetchWithdrawalTypes() {
+        isLoading.setValue(true);
         repository.fetchWithdrawalTypes(new Callback<WithdrawalTypeModel>() {
             @Override
             public void onResponse(@NonNull Call<WithdrawalTypeModel> call, @NonNull Response<WithdrawalTypeModel> response) {
+                isLoading.setValue(false);
                 if (response.code() == 200 && response.isSuccessful()) {
                     final WithdrawalTypeModel customizableObject = response.body();
 
@@ -180,6 +177,7 @@ public class TransactionViewModel extends ViewModel {
             @Override
             public void onFailure(@NonNull Call<WithdrawalTypeModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "onFailure(): ", t);
+                isLoading.setValue(false);
             }
         });
     }
@@ -221,13 +219,20 @@ public class TransactionViewModel extends ViewModel {
     }
 
     /* transactions */
-    public void fetchTransactionList(final Integer typeId,
-                                     final String dateStart,
-                                     final String dateFinish,
-                                     final Long contactId) {
-        repository.fetchTransactionList(null, null, typeId, dateStart, dateFinish, contactId, new Callback<TransactionModel>() {
+    public void fetchTransactionList() {
+        isLoading.setValue(true);
+        repository.fetchTransactionList(
+                null,
+                null,
+                transactionParams.getTransactionTypeId(),
+                transactionParams.getYear(),
+                transactionParams.getMonth(),
+                transactionParams.getFirstDay(),
+                transactionParams.getLastDay(),
+                new Callback<TransactionModel>() {
             @Override
             public void onResponse(@NonNull Call<TransactionModel> call, @NonNull Response<TransactionModel> response) {
+                isLoading.setValue(false);
                 if (response.code() == 200 && response.isSuccessful()) {
                     final TransactionModel customizableObject = response.body();
 
@@ -236,8 +241,7 @@ public class TransactionViewModel extends ViewModel {
                         return;
                     }
                     final List<Transaction> fetchedTransactionList = customizableObject.getTransactionList();
-                    incomeTransactionList.setValue(fetchedTransactionList.stream().filter(Transaction::isBalanceIncrease).collect(Collectors.toList()));
-                    expenditureTransactionList.setValue(fetchedTransactionList.stream().filter(i -> !i.isBalanceIncrease()).collect(Collectors.toList()));
+                    repository.insertTransactionList(fetchedTransactionList);
 
                     double bonusAmount = 0;
                     double purchaseAmount = 0;
@@ -303,57 +307,116 @@ public class TransactionViewModel extends ViewModel {
             @Override
             public void onFailure(@NonNull Call<TransactionModel> call, @NonNull Throwable t) {
                 Log.e(TAG, "onFailure(): ", t);
+                isLoading.setValue(false);
             }
         });
     }
 
-    public void fetchMonthlyTransactionList(final Integer typeId,
-                                            final int month,
-                                            final Long contactId) {
-        fetchTransactionList(typeId,
-                DateFormatter.dateToYearMonthDay(DateFormatter.getFirstDayOfMonth(month)),
-                DateFormatter.dateToYearMonthDay(DateFormatter.getLastDayOfMonth(month)),
-                contactId);
-    }
-
-    //todo: refactor to DB to do search
+    /* typeId and contactId can be null */
     public LiveData<List<Transaction>> getTransactionList() {
-        return Transformations.switchMap(isIncrease, input -> {
-            if (input) {
-                return incomeTransactionList;
+        return Transformations.switchMap(params, input -> repository.getTransactionList(
+                input.isIncrease(),
+                input.getYear(),
+                input.getMonth(),
+                input.getFirstDay(),
+                input.getLastDay(),
+                input.getTransactionTypeId(),
+                input.getSearchQuery()));
+    }
+
+    public void nextMonth() {
+        int currentYear = transactionParams.getYear();
+        int currentMonth = transactionParams.getMonth();
+
+        if (currentMonth >= LocalDateTime.now().getMonthValue()) {
+            if (currentYear >= LocalDateTime.now().getYear()) {
+                return;
             }
-            return expenditureTransactionList;
-        });
+        }
+        if (currentMonth >= 12) {
+            currentYear++;
+            currentMonth = 1;
+        }
+        else {
+            currentMonth++;
+        }
+        transactionParams.setYear(currentYear);
+        transactionParams.setMonth(currentMonth);
+        transactionParams.setFirstDay(1);
+        transactionParams.setLastDay(DateFormatter.getLastDayOfMonthAndYear(currentYear, currentMonth));
+        transactionParams.setTransactionTypeId(0);
+        transactionParams.setSearchQuery(null);
+        params.setValue(transactionParams);
+    }
+
+    public void prevMonth() {
+        int currentYear = transactionParams.getYear();
+        int currentMonth = transactionParams.getMonth();
+
+        if (currentMonth <= 1) {
+            currentYear--;
+            currentMonth = 12;
+        }
+        else {
+            currentMonth--;
+        }
+        transactionParams.setYear(currentYear);
+        transactionParams.setMonth(currentMonth);
+        transactionParams.setFirstDay(1);
+        transactionParams.setLastDay(DateFormatter.getLastDayOfMonthAndYear(currentYear, currentMonth));
+        transactionParams.setTransactionTypeId(0);
+        transactionParams.setSearchQuery(null);
+        params.setValue(transactionParams);
+    }
+
+    public void setTransactionParams(
+            final boolean isIncrease,
+            final int year,
+            final int month,
+            final int firstDay,
+            final int lastDay,
+            final int transactionType,
+            final String searchQuery) {
+        this.transactionParams.setIncrease(isIncrease);
+        this.transactionParams.setYear(year);
+        this.transactionParams.setMonth(month);
+        this.transactionParams.setFirstDay(firstDay);
+        this.transactionParams.setLastDay(lastDay);
+        this.transactionParams.setTransactionTypeId(transactionType);
+        this.transactionParams.setSearchQuery(searchQuery);
+        this.params.setValue(transactionParams);
+    }
+
+    public void setTransactionParams(final TransactionParams params) {
+        this.transactionParams.setIncrease(params.isIncrease());
+        this.transactionParams.setYear(params.getYear());
+        this.transactionParams.setMonth(params.getMonth());
+        this.transactionParams.setFirstDay(params.getFirstDay());
+        this.transactionParams.setLastDay(params.getLastDay());
+        this.transactionParams.setTransactionTypeId(params.getTransactionTypeId());
+        this.transactionParams.setSearchQuery(params.getSearchQuery());
+        this.params.setValue(params);
+    }
+
+    public void setSearchQuery(final String query) {
+        this.transactionParams.setTransactionTypeId(0);
+        this.transactionParams.setFirstDay(1);
+        this.transactionParams.setLastDay(DateFormatter.getLastDayOfMonthAndYear(transactionParams.getYear(), transactionParams.getMonth()));
+        this.transactionParams.setSearchQuery(query);
+        this.params.setValue(transactionParams);
     }
 
     public void setIncrease(final boolean increase) {
-        this.isIncrease.setValue(increase);
+        this.transactionParams.setIncrease(increase);
+        this.params.setValue(transactionParams);
     }
 
-    public void incrementCurrentMonth() {
-        if (monthNumber >= 11) {
-            return;
-        }
-        currentMonthNumber.setValue(++monthNumber);
-
-        fetchMonthlyTransactionList( null, monthNumber, null);
-        fetchMonthlyBalance(monthNumber + 1);
-    }
-
-    public void decrementCurrentMonth() {
-        if (monthNumber <= 0) {
-            return;
-        }
-        currentMonthNumber.setValue(--monthNumber);
-
-        fetchMonthlyTransactionList(null, monthNumber, null);
-        fetchMonthlyBalance(monthNumber + 1);
-    }
-
-    public void fetchMonthlyBalance(final int month) {
-        repository.getMonthlyBalance(month, new Callback<MonthBalance>() {
+    public void fetchMonthlyBalance() {
+        isLoading.setValue(true);
+        repository.getMonthlyBalance(transactionParams.getMonth(), new Callback<MonthBalance>() {
             @Override
             public void onResponse(@NonNull Call<MonthBalance> call, @NonNull Response<MonthBalance> response) {
+                isLoading.setValue(false);
                 if (response.code() == 200 && response.isSuccessful()) {
                     final MonthBalance monthBalance = response.body();
 
@@ -374,18 +437,16 @@ public class TransactionViewModel extends ViewModel {
 
             @Override
             public void onFailure(@NonNull Call<MonthBalance> call, @NonNull Throwable t) {
+                isLoading.setValue(false);
                 Log.e(TAG, "onFailure(): ", t);
             }
         });
     }
 
-    public LiveData<Integer> getCurrentMonthNumber() {
-        return currentMonthNumber;
-    }
-
+    /* visual graphs */
     public LiveData<PieChartStat> getPieChartData() {
-        return Transformations.switchMap(isIncrease, input -> {
-           if (input) {
+        return Transformations.switchMap(params, input -> {
+           if (input.isIncrease()) {
                return incomeStatistics;
            }
            return expenditureStatistics;
@@ -397,8 +458,8 @@ public class TransactionViewModel extends ViewModel {
     }
 
     public LiveData<Double> getMonthlyBonusOrPurchaseAmount() {
-        return Transformations.switchMap(isIncrease, input -> {
-            if (input) {
+        return Transformations.switchMap(params, input -> {
+            if (input.isIncrease()) {
                 return monthlyBonusAmount;
             }
             return monthlyPurchaseAmount;
@@ -406,8 +467,8 @@ public class TransactionViewModel extends ViewModel {
     }
 
     public LiveData<Double> getMonthlyReceiptOrTransferAmount() {
-        return Transformations.switchMap(isIncrease, input -> {
-            if (input) {
+        return Transformations.switchMap(params, input -> {
+            if (input.isIncrease()) {
                 return monthlyReceiptAmount;
             }
             return monthlyTransferAmount;
@@ -415,15 +476,13 @@ public class TransactionViewModel extends ViewModel {
     }
 
     public LiveData<Double> getMonthlyReplenishOrWithdrawalAmount() {
-        return Transformations.switchMap(isIncrease, input -> {
-            if (input) {
+        return Transformations.switchMap(params, input -> {
+            if (input.isIncrease()) {
                 return monthlyReplenishAmount;
             }
             return monthlyWithdrawalAmount;
         });
     }
-
-    private final String TAG = TransactionViewModel.class.toString();
 
     public int getMonthName(final int monthNumber) {
         int resource = -1;
@@ -468,4 +527,14 @@ public class TransactionViewModel extends ViewModel {
         }
         return resource;
     }
+
+    public LiveData<TransactionParams> getTransactionParams() {
+        return params;
+    }
+
+    public LiveData<Boolean> isLoading() {
+        return isLoading;
+    }
+
+    private final String TAG = TransactionViewModel.class.toString();
 }

@@ -13,22 +13,27 @@ import uz.alex.its.beverlee.model.actor.ContactModel.ContactData;
 import uz.alex.its.beverlee.model.news.NewsModel;
 import uz.alex.its.beverlee.model.notification.Push;
 import uz.alex.its.beverlee.model.actor.ContactModel.Contact;
+import uz.alex.its.beverlee.model.transaction.TransactionModel;
 import uz.alex.its.beverlee.storage.converters.DateConverter;
+import uz.alex.its.beverlee.storage.converters.TransactionParticipantConverter;
 import uz.alex.its.beverlee.storage.dao.ContactDao;
 import uz.alex.its.beverlee.storage.dao.NewsDao;
 import uz.alex.its.beverlee.storage.dao.PushDao;
+import uz.alex.its.beverlee.storage.dao.TransactionDao;
 import uz.alex.its.beverlee.utils.Constants;
 
 @Database(entities = {
         Contact.class,
         Push.class,
-        NewsModel.News.class}, version = 10, exportSchema = false)
-@TypeConverters({ DateConverter.class })
+        NewsModel.News.class,
+        TransactionModel.Transaction.class}, version = 11, exportSchema = false)
+@TypeConverters({ DateConverter.class, TransactionParticipantConverter.class})
 public abstract class LocalDatabase extends RoomDatabase {
     /* Declare dao objects here */
     public abstract PushDao pushDao();
     public abstract ContactDao contactDao();
     public abstract NewsDao newsDao();
+    public abstract TransactionDao transactionDao();
 
     private static volatile LocalDatabase instance;
 

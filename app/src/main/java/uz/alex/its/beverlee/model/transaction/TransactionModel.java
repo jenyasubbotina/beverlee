@@ -1,6 +1,11 @@
 package uz.alex.its.beverlee.model.transaction;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
@@ -58,51 +63,59 @@ public class TransactionModel {
                 '}';
     }
 
+    @Entity(tableName = "transactions")
     public static class Transaction {
         @Expose
         @SerializedName("id")
+        @ColumnInfo(name = "id")
+        @PrimaryKey
         private final long id;
 
         /* 1 -> Начисление бонуса; 2 -> Покупка в магазине; 3 -> Перевод(Получение); 4 -> Перевод(Отправка); 5 -> Пополнение(Платежка); 6 -> Вывод(Платежка); */
         @Expose
         @SerializedName("type_id")
+        @ColumnInfo(name = "type_id")
         private final int typeId;
 
         @Expose
         @SerializedName("type_title")
+        @ColumnInfo(name = "type_title")
         private final String typeTitle;
 
         @Expose
         @SerializedName("user_id")
+        @ColumnInfo(name = "user_id")
         private final long userId;
 
         @Expose
         @SerializedName("user_fio")
+        @ColumnInfo(name = "user_fio")
         private final String userFullName;
 
         @Expose
         @SerializedName("amount")
+        @ColumnInfo(name = "amount")
         private final double amount;
 
         @Expose
         @SerializedName("is_balance_increase")
+        @ColumnInfo(name = "is_balance_increase")
         private final boolean isBalanceIncrease;
 
         @Expose
         @SerializedName("created_at")
+        @ColumnInfo(name = "created_at")
         private final long createdAt;
 
         @Expose
         @SerializedName("buy")
+        @Embedded
         private final Purchase purchase;
 
         @Expose
         @SerializedName("transfer")
+        @Embedded
         private final Transfer transfer;
-
-//    @Expose
-//    @SerializedName("withdrawal")
-//    private Withdrawal withdrawal;
 
         public Transaction(final long id,
                            final int typeId,

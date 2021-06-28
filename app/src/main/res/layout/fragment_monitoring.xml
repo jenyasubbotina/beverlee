@@ -55,7 +55,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/dark_search_field"
-                android:hint="@string/search"
+                android:hint="@string/input_first_name_last_name_or_id"
                 android:textColorHint="#FFF"
                 android:textSize="12sp"
                 android:textColor="#FFF"

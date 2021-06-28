@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -20,19 +19,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.engine.bitmap_recycle.IntegerArrayAdapter;
-
 import org.jetbrains.annotations.NotNull;
 
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -170,7 +165,6 @@ public class TransactionSearchFragment extends Fragment {
             final int firstDay = (int) firstDaySpinner.getSelectedItem();
             final int lastDay = (int) lastDaySpinner.getSelectedItem();
             final LocalDateTime startDate = LocalDateTime.of(year, monthNumber, firstDay, 0, 0);
-            final LocalDateTime endDate = LocalDateTime.of(year, monthNumber, lastDay, 0, 0);
             final LocalDateTime now = LocalDateTime.now();
 
             if (firstDay > lastDay || startDate.isAfter(now)) {
@@ -181,8 +175,8 @@ public class TransactionSearchFragment extends Fragment {
                     TransactionSearchFragmentDirections.actionTransactionSearchFragmentToMonitoringFragment()
                             .setYear(year)
                             .setMonth(monthNumber)
-                            .setStartDate(formatter.format(startDate))
-                            .setFinishDate(formatter.format(endDate))
+                            .setFirstDay(firstDay)
+                            .setLastDay(lastDay)
                             .setTransactionTypeId(transactionTypeSpinner.getSelectedItemPosition()));
         });
     }
@@ -219,5 +213,5 @@ public class TransactionSearchFragment extends Fragment {
     }
 
     private static final String TAG = TransactionSearchFragment.class.toString();
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 }

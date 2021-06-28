@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/month_name_text_view"
+        app:layout_constraintEnd_toStartOf="@id/month_and_year_text_view"
         android:gravity="start"
         android:layout_marginTop="27dp"
         android:layout_marginStart="28dp"
@@ -22,25 +22,26 @@
         android:text="@string/income_or_expenditure"/>
 
     <TextView
-        android:id="@+id/month_name_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/month_and_year_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/income_or_expenditure_text_view"
         app:layout_constraintStart_toEndOf="@id/income_or_expenditure_text_view"
         app:layout_constraintEnd_toStartOf="@id/monthly_balance_text_view"
         android:gravity="start"
         android:layout_marginStart="4dp"
+        android:layout_marginEnd="2dp"
         android:textSize="13sp"
         android:fontFamily="@font/geometria_medium"
         android:textColor="@color/colorOrange"
-        android:text="@string/month_name"/>
+        android:text="@string/month_year"/>
 
     <TextView
         android:id="@+id/monthly_balance_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/income_or_expenditure_text_view"
-        app:layout_constraintStart_toEndOf="@id/month_name_text_view"
+        app:layout_constraintStart_toEndOf="@id/month_and_year_text_view"
         app:layout_constraintEnd_toStartOf="@id/minimize_chart_image_view"
         android:gravity="end"
         android:textSize="13sp"

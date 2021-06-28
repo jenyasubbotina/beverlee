@@ -1,6 +1,7 @@
 package uz.alex.its.beverlee.model.actor;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

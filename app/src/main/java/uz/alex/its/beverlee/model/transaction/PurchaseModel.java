@@ -1,6 +1,7 @@
 package uz.alex.its.beverlee.model.transaction;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -92,18 +93,22 @@ public class PurchaseModel {
     public static class Purchase {
         @Expose
         @SerializedName("id")
+        @ColumnInfo(name = "purchase_id")
         private final long id;
 
         @Expose
         @SerializedName("amount")
+        @ColumnInfo(name = "purchase_amount")
         private final double amount;
 
         @Expose
         @SerializedName("description")
+        @ColumnInfo(name = "purchase_description")
         private final String description;
 
         @Expose
         @SerializedName("created_at")
+        @ColumnInfo(name = "purchase_created_at")
         private final long createdAt;
 
         public Purchase(final long id, final double amount, final String description, final long createdAt) {

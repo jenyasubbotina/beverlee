@@ -82,7 +82,6 @@
     <string name="income">Доходы</string>
     <string name="expenditure">Траты</string>
     <string name="income_or_expenditure">%1$s за </string>
-    <string name="month_name">%s</string>
     <string name="monthly_balance">%1$s <b>%2$.2f $</b></string>
     <string name="bonus">Бонус</string>
     <string name="beverlee">BEVERLee</string>
@@ -122,7 +121,7 @@
     <string name="card_number_">Номер на карте</string>
     <string name="sender">Кому</string>
     <string name="name_on_card">Имя, фамилия на карте</string>
-    <string name="month_year">Срок действия</string>
+    <string name="month_year">%1$s %2$s</string>
     <string name="security_code">Защитный код</string>
     <string name="security_code_hint">779</string>
     <string name="amount">Сумма</string>
@@ -283,4 +282,5 @@
     <string name="month">Месяц</string>
     <string name="date">Дата</string>
     <string name="transaction_type">Тип транзакции</string>
+    <string name="input_first_name_last_name_or_id">Введите имя, фамилию или ID</string>
 </resources>

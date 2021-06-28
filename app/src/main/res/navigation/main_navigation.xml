@@ -165,15 +165,15 @@
             app:nullable="false"
             android:defaultValue="0"/>
         <argument
-            android:name="start_date"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="null"/>
+            android:name="first_day"
+            app:argType="integer"
+            app:nullable="false"
+            android:defaultValue="0"/>
         <argument
-            android:name="finish_date"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="null"/>
+            android:name="last_day"
+            app:argType="integer"
+            app:nullable="false"
+            android:defaultValue="0"/>
         <argument
             android:name="transaction_type_id"
             app:argType="integer"

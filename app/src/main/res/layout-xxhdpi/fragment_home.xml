@@ -233,7 +233,7 @@
                 android:text="@string/income_or_expenditure"/>
 
             <TextView
-                android:id="@+id/month_name_text_view"
+                android:id="@+id/month_and_year_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="@id/income_or_expenditure_text_view"
@@ -244,7 +244,7 @@
                 android:textSize="13sp"
                 android:fontFamily="@font/geometria_medium"
                 android:textColor="@color/colorOrange"
-                android:text="@string/month_name"/>
+                android:text="@string/month_year"/>
 
             <TextView
                 android:id="@+id/monthly_balance_text_view"

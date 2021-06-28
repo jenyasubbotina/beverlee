@@ -25,15 +25,17 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.chart.LineChartItem;
 import uz.alex.its.beverlee.model.news.NewsModel.News;
-import uz.alex.its.beverlee.model.actor.ContactModel.ContactData;
+import uz.alex.its.beverlee.model.transaction.TransactionParams;
 import uz.alex.its.beverlee.utils.Constants;
+import uz.alex.its.beverlee.utils.DateFormatter;
 import uz.alex.its.beverlee.view.LineChart;
 import uz.alex.its.beverlee.view.activities.ProfileActivity;
 import uz.alex.its.beverlee.view.adapters.ContactAdapter;
@@ -64,7 +66,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
 
     /* monitoring */
     private TextView incomeOrExpenditureTextView;
-    private TextView monthNameTextView;
+    private TextView monthAndYearTextView;
     private TextView monthlyBalanceTextView;
     private LineChart lineChart;
 
@@ -118,13 +120,20 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         contactsViewModel = new ViewModelProvider(getViewModelStore(), contactsFactory).get(ContactsViewModel.class);
         newsViewModel = new ViewModelProvider(getViewModelStore(), newsFactory).get(NewsViewModel.class);
 
-        transactionViewModel.initCurrentMonthNumber();
+        transactionViewModel.setTransactionParams(new TransactionParams(
+                true,
+                LocalDateTime.now().getYear(),
+                LocalDateTime.now().getMonthValue(),
+                1,
+                DateFormatter.getLastDayOfMonthAndYear(LocalDateTime.now().getYear(), LocalDateTime.now().getMonthValue()),
+                0,
+                null));
 
         transactionViewModel.fetchCurrentBalance();
 
-        transactionViewModel.fetchMonthlyTransactionList(null, Calendar.getInstance().get(Calendar.MONTH), null);
+        transactionViewModel.fetchTransactionList();
 
-        transactionViewModel.fetchMonthlyBalance(Calendar.getInstance().get(Calendar.MONTH) + 1);
+        transactionViewModel.fetchMonthlyBalance();
 
         contactsViewModel.fetchContactList(null, null);
 
@@ -152,7 +161,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
 
         /* monitoring */
         incomeOrExpenditureTextView = root.findViewById(R.id.income_or_expenditure_text_view);
-        monthNameTextView = root.findViewById(R.id.month_name_text_view);
+        monthAndYearTextView = root.findViewById(R.id.month_and_year_text_view);
         monthlyBalanceTextView = root.findViewById(R.id.monthly_balance_text_view);
         lineChart = root.findViewById(R.id.line_chart);
         cardProfit = root.findViewById(R.id.card_profit);
@@ -293,8 +302,8 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             transactionViewModel.fetchCurrentBalance();
-            transactionViewModel.fetchMonthlyTransactionList(null, Calendar.getInstance().get(Calendar.MONTH), null);
-            transactionViewModel.fetchMonthlyBalance(Calendar.getInstance().get(Calendar.MONTH));
+            transactionViewModel.fetchTransactionList();
+            transactionViewModel.fetchMonthlyBalance();
             contactsViewModel.fetchContactList(null, null);
             newsViewModel.fetchNews(null, null);
         });
@@ -376,11 +385,10 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
             incomeOrExpenditureTextView.setText(getString(R.string.income_or_expenditure, getString(R.string.expenditure)));
         });
 
-        transactionViewModel.getCurrentMonthNumber().observe(getViewLifecycleOwner(), currentMonthNumber -> {
-            if (currentMonthNumber < 0 || currentMonthNumber > 11) {
-                return;
-            }
-            monthNameTextView.setText(getString(R.string.month_name, getString(transactionViewModel.getMonthName(currentMonthNumber + 1))));
+        transactionViewModel.getTransactionParams().observe(getViewLifecycleOwner(), transactionParams -> {
+            monthAndYearTextView.setText(getString(R.string.month_year,
+                    getString(transactionViewModel.getMonthName(transactionParams.getMonth())),
+                    String.valueOf(transactionParams.getYear())));
         });
 
         transactionViewModel.getLineChartData().observe(getViewLifecycleOwner(), statisticsData -> {
