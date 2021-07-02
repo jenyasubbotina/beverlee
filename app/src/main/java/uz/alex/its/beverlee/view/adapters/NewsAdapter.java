@@ -79,7 +79,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         if (getItemViewType(position) == TYPE_BANNER) {
             final NewsBannerViewHolder viewHolder = (NewsBannerViewHolder) holder;
             viewHolder.dateTextView.setText(DateFormatter.timestampToStringDate(newsList.get(position).getCreatedAt()));
-            viewHolder.bindMoreTextView(callback, position);
         }
     }
 
@@ -110,20 +109,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     static class NewsBannerViewHolder extends NewsViewHolder {
         TextView dateTextView;
         TextView descriptionTextView;
-        TextView moreTextView;
 
         public NewsBannerViewHolder(@NonNull View itemView) {
             super(itemView);
 
             dateTextView = itemView.findViewById(R.id.news_date_text_view);
             descriptionTextView = itemView.findViewById(R.id.news_description_text_view);
-            moreTextView = itemView.findViewById(R.id.more_text_view);
-        }
-
-        void bindMoreTextView(final NewsCallback callback, final int position) {
-            moreTextView.setOnClickListener(v -> {
-                callback.expandNewsItem(position);
-            });
         }
 
         public void bindItem(final NewsCallback callback, final int position, final News news) {

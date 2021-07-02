@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:cardCornerRadius="16dp"
-        android:layout_marginVertical="@dimen/s_margin"
+        android:layout_marginBottom="@dimen/s_margin"
         android:layout_marginHorizontal="@dimen/l_margin"
         android:elevation="4dp">
 
@@ -58,17 +58,4 @@
         app:layout_constraintTop_toBottomOf="@id/news_title_text_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/news_title_text_view" />
-
-    <TextView
-        android:id="@+id/more_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/xl_margin"
-        android:fontFamily="@font/geometria_actual"
-        android:text="@string/news_more"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@id/news_date_text_view"
-        app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
