@@ -9,7 +9,7 @@
         android:id="@+id/news_min_card_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/l_margin"
+        android:layout_marginHorizontal="@dimen/m_margin"
         android:elevation="4dp"
         app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
