@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -40,6 +42,8 @@ import uz.alex.its.beverlee.viewmodel.factory.AuthViewModelFactory;
 import uz.alex.its.beverlee.viewmodel.factory.TransactionViewModelFactory;
 
 public class WithdrawalFragment extends Fragment {
+    private ConstraintLayout rootLayout;
+
     private ImageView backArrowImageView;
 
     private TextView recipientDataTextView;
@@ -105,6 +109,8 @@ public class WithdrawalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_withdrawal, container, false);
 
+        rootLayout = root.findViewById(R.id.card_layout);
+
         backArrowImageView = root.findViewById(R.id.back_arrow_image_view);
 
         recipientDataTextView = root.findViewById(R.id.recipient_data_text_view);
@@ -136,53 +142,51 @@ public class WithdrawalFragment extends Fragment {
 
         UiUtils.hideBottomNav(requireActivity());
 
+        final ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(rootLayout);
+        constraintSet.connect(withdrawBtn.getId(), ConstraintSet.START, amountEditText.getId(), ConstraintSet.START);
+        constraintSet.connect(withdrawBtn.getId(), ConstraintSet.END, amountEditText.getId(), ConstraintSet.END);
+        constraintSet.connect(withdrawBtn.getId(), ConstraintSet.BOTTOM, rootLayout.getId(), ConstraintSet.BOTTOM);
+
         /* if transfer -> fullName, phone, country, city, amount */
         /* if electronic -> walletNumber, amount */
         /* if card -> cardNumber, amount */
         if (currentWithdrawalType.getType().equalsIgnoreCase(getString(R.string.withdrawal_type_transfer))) {
-            fullNameTextView.setVisibility(View.VISIBLE);
-            phoneTextView.setVisibility(View.VISIBLE);
-            countryTextView.setVisibility(View.VISIBLE);
-            cityTextView.setVisibility(View.VISIBLE);
+            constraintSet.setVisibility(fullNameTextView.getId(), View.VISIBLE);
+            constraintSet.setVisibility(phoneTextView.getId(), View.VISIBLE);
+            constraintSet.setVisibility(countryTextView.getId(), View.VISIBLE);
+            constraintSet.setVisibility(cityTextView.getId(), View.VISIBLE);
+            constraintSet.setVisibility(fullNameEditText.getId(), View.VISIBLE);
+            constraintSet.setVisibility(phoneEditText.getId(), View.VISIBLE);
+            constraintSet.setVisibility(countrySpinner.getId(), View.VISIBLE);
+            constraintSet.setVisibility(cityEditText.getId(), View.VISIBLE);
+            constraintSet.setVisibility(cardWalletNumberTextView.getId(), View.GONE);
+            constraintSet.setVisibility(cardWalletNumberEditText.getId(), View.GONE);
 
-            fullNameEditText.setVisibility(View.VISIBLE);
-            phoneEditText.setVisibility(View.VISIBLE);
-            countrySpinner.setVisibility(View.VISIBLE);
-            cityEditText.setVisibility(View.VISIBLE);
-
-            cardWalletNumberTextView.setVisibility(View.GONE);
-            cardWalletNumberEditText.setVisibility(View.GONE);
+            constraintSet.connect(withdrawBtn.getId(), ConstraintSet.TOP, amountWithCommissionTextView.getId(), ConstraintSet.BOTTOM);
         }
-        else if (currentWithdrawalType.getType().equalsIgnoreCase(getString(R.string.withdrawal_type_card))) {
-            fullNameTextView.setVisibility(View.GONE);
-            phoneTextView.setVisibility(View.GONE);
-            countryTextView.setVisibility(View.GONE);
-            cityTextView.setVisibility(View.GONE);
-
-            fullNameEditText.setVisibility(View.GONE);
-            phoneEditText.setVisibility(View.GONE);
-            countrySpinner.setVisibility(View.GONE);
-            cityEditText.setVisibility(View.GONE);
-
+        else {
+            constraintSet.setVisibility(fullNameTextView.getId(), View.GONE);
+            constraintSet.setVisibility(phoneTextView.getId(), View.GONE);
+            constraintSet.setVisibility(countryTextView.getId(), View.GONE);
+            constraintSet.setVisibility(cityTextView.getId(), View.GONE);
+            constraintSet.setVisibility(fullNameEditText.getId(), View.GONE);
+            constraintSet.setVisibility(phoneEditText.getId(), View.GONE);
+            constraintSet.setVisibility(countrySpinner.getId(), View.GONE);
+            constraintSet.setVisibility(cityEditText.getId(), View.GONE);
+        }
+        if (currentWithdrawalType.getType().equalsIgnoreCase(getString(R.string.withdrawal_type_card))) {
             cardWalletNumberTextView.setText(getString(R.string.recipient_card_number, currentWithdrawalType.getMethod()));
             cardWalletNumberEditText.setHint(getString(R.string.recipient_card_number, ""));
         }
         else if (currentWithdrawalType.getType().equalsIgnoreCase(getString(R.string.withdrawal_type_wallet))) {
-            fullNameTextView.setVisibility(View.GONE);
-            phoneTextView.setVisibility(View.GONE);
-            countryTextView.setVisibility(View.GONE);
-            cityTextView.setVisibility(View.GONE);
-
-            fullNameEditText.setVisibility(View.GONE);
-            phoneEditText.setVisibility(View.GONE);
-            countrySpinner.setVisibility(View.GONE);
-            cityEditText.setVisibility(View.GONE);
-
             cardWalletNumberTextView.setText(getString(R.string.recipient_wallet_number, currentWithdrawalType.getMethod()));
             cardWalletNumberEditText.setHint(getString(R.string.recipient_wallet_number, ""));
         }
         recipientDataTextView.setText(getString(R.string.recipient_data, currentWithdrawalType.getMethod()));
         amountWithCommissionTextView.setText(getString(R.string.amount_with_commission, 0.0));
+
+        constraintSet.applyTo(rootLayout);
 
         backArrowImageView.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).popBackStack();
