@@ -102,7 +102,8 @@
                     android:textSize="19sp"
                     app:layout_constraintEnd_toEndOf="@id/news_header"
                     app:layout_constraintStart_toStartOf="@id/news_header"
-                    app:layout_constraintTop_toTopOf="@id/news_header" />
+                    app:layout_constraintTop_toTopOf="@id/news_header"
+                    android:lineSpacingExtra="@dimen/s_margin"/>
 
                 <TextView
                     android:id="@+id/news_date_text_view"
@@ -129,7 +130,8 @@
                     app:layout_constraintBottom_toBottomOf="@id/news_body"
                     app:layout_constraintEnd_toEndOf="@id/news_title_text_view"
                     app:layout_constraintStart_toStartOf="@id/news_title_text_view"
-                    app:layout_constraintTop_toTopOf="@id/news_body" />
+                    app:layout_constraintTop_toTopOf="@id/news_body"
+                    android:lineSpacingExtra="@dimen/xs_margin"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.cardview.widget.CardView>

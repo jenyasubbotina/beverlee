@@ -43,6 +43,7 @@
         android:textSize="13sp"
         android:textColor="#FFF"
         android:fontFamily="@font/geometria_medium"
+        android:lineSpacingExtra="@dimen/xs_margin"
         android:elevation="8dp"/>
 
     <TextView

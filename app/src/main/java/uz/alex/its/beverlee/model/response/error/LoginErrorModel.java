@@ -28,8 +28,6 @@ public class LoginErrorModel {
                 '}';
     }
 
-    public static final String PHONE_NOT_VERIFIED = "\\u041f\\u043e\\u0434\\u0442\\u0432\\u0435\\u0440\\u0434\\u0438\\u0442\\u0435 \\u043d\\u043e\\u043c\\u0435\\u0440 \\u0442\\u0435\\u043b\\u0435\\u0444\\u043e\\u043d\\u0430";
-
     public static class LoginError {
         @Expose
         @SerializedName("phone_number")

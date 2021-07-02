@@ -44,7 +44,8 @@
         android:textSize="13sp"
         android:textColor="#FFF"
         android:fontFamily="@font/geometria_medium"
-        android:elevation="8dp"/>
+        android:elevation="8dp"
+        android:lineSpacingExtra="@dimen/xs_margin"/>
 
     <TextView
         android:id="@+id/news_date_text_view"

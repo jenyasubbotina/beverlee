@@ -8,13 +8,20 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
+import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.api.RetrofitClient;
 import uz.alex.its.beverlee.model.requestParams.TransferFundsParams;
 import uz.alex.its.beverlee.model.balance.Balance;
+import uz.alex.its.beverlee.model.response.error.LoginErrorModel;
+import uz.alex.its.beverlee.model.response.error.TransferErrorModel;
 import uz.alex.its.beverlee.utils.Constants;
 
 public class TransferWorker extends Worker {
@@ -59,6 +66,13 @@ public class TransferWorker extends Worker {
 
             if (error == null) {
                 return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, Constants.UNKNOWN_ERROR).build());
+            }
+            if (response.code() == 422) {
+                final Type transferErrorType = new TypeToken<TransferErrorModel>() {}.getType();
+                final TransferErrorModel transferError = new GsonBuilder().setLenient().create().fromJson(error.string(), transferErrorType);
+                return Result.failure(outputDataBuilder
+                        .putString(Constants.REQUEST_ERROR, transferError.getTransferError().toString())
+                        .build());
             }
             return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, error.string()).build());
         }
