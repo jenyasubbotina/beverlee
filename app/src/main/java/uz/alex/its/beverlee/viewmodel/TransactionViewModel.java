@@ -532,6 +532,10 @@ public class TransactionViewModel extends ViewModel {
         return params;
     }
 
+    public TransactionParams getParams() {
+        return transactionParams;
+    }
+
     public LiveData<Boolean> isLoading() {
         return isLoading;
     }

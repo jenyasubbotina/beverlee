@@ -346,6 +346,12 @@ public class MonitoringFragment extends Fragment {
             transactionViewModel.fetchMonthlyBalance();
             transactionViewModel.fetchTransactionList();
         });
+
+        if (transactionViewModel.getParams().getTransactionTypeId() == 4
+                || transactionViewModel.getParams().getTransactionTypeId() == 5
+                || transactionViewModel.getParams().getTransactionTypeId() == 6) {
+            expenditureRadioBtn.setChecked(true);
+        }
     }
 
     @Override
