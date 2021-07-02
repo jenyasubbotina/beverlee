@@ -5,7 +5,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 def APP_NAME = "BeverLeeBank"
-def APP_VERSION = "0.0.2.0"
+def APP_VERSION = "0.0.2.2"
 
 android {
     compileSdkVersion 30

@@ -38,6 +38,7 @@ import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.actor.ContactModel.ContactData;
 import uz.alex.its.beverlee.utils.Constants;
+import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.adapters.ContactAdapter;
 import uz.alex.its.beverlee.view.interfaces.ContactCallback;
 import uz.alex.its.beverlee.viewmodel.ContactsViewModel;
@@ -137,6 +138,12 @@ public class ContactsFragment extends Fragment implements ContactCallback {
         favsSheetBehavior = BottomSheetBehavior.from(bottomSheetFavContacts);
         contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         favsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        /* bottom navigation */
+        bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav);
+        fab = requireActivity().findViewById(R.id.floating_btn);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        fab.setVisibility(View.VISIBLE);
 
         return root;
     }
