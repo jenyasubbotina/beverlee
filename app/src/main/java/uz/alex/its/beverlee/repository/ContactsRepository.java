@@ -38,36 +38,9 @@ public class ContactsRepository {
         this.contactDao = LocalDatabase.getInstance(context).contactDao();
     }
 
-    public void fetchContactList(final String searchQuery, final Integer page, final Integer perPage) {
+    public void fetchContactList(final String searchQuery, final Integer page, final Integer perPage, final Callback<ContactModel> callback) {
         RetrofitClient.getInstance(context).setAuthorizationHeader(context);
-        RetrofitClient.getInstance(context).getContactList(searchQuery, page, perPage, new Callback<ContactModel>() {
-            @Override
-            public void onResponse(@NonNull Call<ContactModel> call, @NonNull Response<ContactModel> response) {
-                if (response.code() == 200 && response.isSuccessful()) {
-                    final ContactModel customizableObject = response.body();
-
-                    if (customizableObject == null) {
-                        Log.e(TAG, "onResponse(): response=null");
-                        return;
-                    }
-                    if (customizableObject.getContactData() == null) {
-                        Log.e(TAG, "onResponse(): contactList=null");
-                        return;
-                    }
-                    final List<Contact> contactList = new ArrayList<>();
-
-                    for (final ContactData contact : customizableObject.getContactData()) {
-                        contactList.add(new Contact(contact.getContact().getId(), contact.getContact().getFio(), false));
-                    }
-                    saveContactList(contactList);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ContactModel> call, @NonNull Throwable t) {
-                Log.e(TAG, "onFailure(): ", t);
-            }
-        });
+        RetrofitClient.getInstance(context).getContactList(searchQuery, page, perPage, callback);
     }
 
     public void fetchContactData(final long contactId, final Callback<ContactModel> callback) {
@@ -141,16 +114,16 @@ public class ContactsRepository {
     }
 
     public void saveContactList(final List<Contact> contactList) {
-        new Thread(() -> contactDao.insertContactList(contactList)).start();
+        contactDao.insertContactList(contactList);
     }
 
-    private static final String TAG = ContactsRepository.class.toString();
-
     public LiveData<List<Contact>> getContactList() {
-        return contactDao.selectContactList(false);
+        return contactDao.selectContactList();
     }
 
     public LiveData<List<Contact>> getContactListBySearchQuery(final String query) {
         return contactDao.selectContactListBySearchQuery(query);
     }
+
+    private static final String TAG = ContactsRepository.class.toString();
 }

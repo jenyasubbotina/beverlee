@@ -268,6 +268,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/card_profit"
                 app:layout_constraintEnd_toEndOf="@id/card_profit"
                 app:layout_constraintStart_toStartOf="@id/card_profit"
+                android:background="@drawable/rounded_corners_transparent"
                 android:progressDrawable="@color/colorTransparent"/>
 
             <androidx.recyclerview.widget.RecyclerView

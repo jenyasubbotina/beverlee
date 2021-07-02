@@ -23,7 +23,6 @@ import uz.alex.its.beverlee.repository.ContactsRepository;
 public class ContactsViewModel extends ViewModel {
     private final ContactsRepository contactsRepository;
 
-    private final MutableLiveData<List<Contact>> contactList;
     private final MutableLiveData<String> searchQuery;
     private final MutableLiveData<Boolean> searchFieldEmpty;
 
@@ -33,10 +32,11 @@ public class ContactsViewModel extends ViewModel {
     private final MutableLiveData<UUID> addToFavsUUID;
     private final MutableLiveData<UUID> removeFromFavsUUID;
 
+    private final MutableLiveData<Boolean> isLoading;
+
     public ContactsViewModel(final Context context) {
         this.contactsRepository = new ContactsRepository(context);
 
-        this.contactList = new MutableLiveData<>();
         this.searchQuery = new MutableLiveData<>();
         this.searchFieldEmpty = new MutableLiveData<>();
         this.searchFieldEmpty.setValue(true);
@@ -47,6 +47,9 @@ public class ContactsViewModel extends ViewModel {
         this.deleteContactUUID = new MutableLiveData<>();
         this.addToFavsUUID = new MutableLiveData<>();
         this.removeFromFavsUUID = new MutableLiveData<>();
+
+        this.isLoading = new MutableLiveData<>();
+        this.isLoading.setValue(false);
     }
 
     public LiveData<List<Contact>> getContactList() {
@@ -64,7 +67,38 @@ public class ContactsViewModel extends ViewModel {
     }
 
     public void fetchContactList(final Integer page, final Integer perPage) {
-        contactsRepository.fetchContactList(null, page, perPage);
+        isLoading.setValue(true);
+        contactsRepository.fetchContactList(null, page, perPage, new Callback<ContactModel>() {
+            @Override
+            public void onResponse(@NonNull Call<ContactModel> call, @NonNull Response<ContactModel> response) {
+                isLoading.setValue(false);
+
+                if (response.code() == 200 && response.isSuccessful()) {
+                    final ContactModel customizableObject = response.body();
+
+                    if (customizableObject == null) {
+                        Log.e(TAG, "onResponse(): response=null");
+                        return;
+                    }
+                    if (customizableObject.getContactData() == null) {
+                        Log.e(TAG, "onResponse(): contactList=null");
+                        return;
+                    }
+                    final List<Contact> contactList = new ArrayList<>();
+
+                    for (final ContactData contact : customizableObject.getContactData()) {
+                        contactList.add(new Contact(contact.getContact().getId(), contact.getContact().getFio(), false));
+                    }
+                    new Thread(() -> contactsRepository.saveContactList(contactList)).start();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ContactModel> call, @NonNull Throwable t) {
+                isLoading.setValue(false);
+                Log.e(TAG, "onFailure(): ", t);
+            }
+        });
     }
 
     public void deleteContact(final long id) {
@@ -104,4 +138,8 @@ public class ContactsViewModel extends ViewModel {
     }
 
     private static final String TAG = ContactsViewModel.class.toString();
+
+    public LiveData<Boolean> isLoading() {
+        return isLoading;
+    }
 }

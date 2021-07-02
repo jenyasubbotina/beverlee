@@ -37,6 +37,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.actor.ContactModel.ContactData;
+import uz.alex.its.beverlee.storage.LocalDatabase;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.adapters.ContactAdapter;
@@ -270,6 +271,14 @@ public class ContactsFragment extends Fragment implements ContactCallback {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        contactsViewModel.isLoading().observe(getViewLifecycleOwner(), isInLoading -> {
+            if (isInLoading) {
+                swipeRefreshLayout.setRefreshing(true);
+                return;
+            }
+            swipeRefreshLayout.setRefreshing(false);
+        });
 
         contactsViewModel.getContactList().observe(getViewLifecycleOwner(), contactList -> {
             if (contactList != null && !contactList.isEmpty()) {

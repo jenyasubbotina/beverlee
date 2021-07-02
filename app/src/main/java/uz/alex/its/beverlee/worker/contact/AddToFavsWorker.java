@@ -29,7 +29,7 @@ public class AddToFavsWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        return LocalDatabase.getInstance(context).contactDao().insertContact(new Contact(contactId, contactFullName, true)) > 0
+        return LocalDatabase.getInstance(context).contactDao().updateContact(id, true) > 0
                 ? Result.success()
                 : Result.failure(new Data.Builder().putString(Constants.REQUEST_ERROR, "контакт уже в Избранных").build());
     }
