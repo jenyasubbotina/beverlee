@@ -101,8 +101,8 @@ public class ContactsViewModel extends ViewModel {
         });
     }
 
-    public void deleteContact(final long id) {
-        deleteContactUUID.setValue(contactsRepository.deleteContact(id));
+    public void deleteContact(final long contactId) {
+        deleteContactUUID.setValue(contactsRepository.deleteContact(contactId));
     }
 
     public void addToFavs(final Contact contact) {

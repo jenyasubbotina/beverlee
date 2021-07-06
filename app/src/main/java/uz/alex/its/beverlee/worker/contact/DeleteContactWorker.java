@@ -33,7 +33,7 @@ public class DeleteContactWorker extends Worker {
     public Result doWork() {
         final Data.Builder outputDataBuilder = new Data.Builder();
 
-        RetrofitClient.getInstance(getApplicationContext()).setAuthorizationHeader(getApplicationContext());
+        RetrofitClient.getInstance(context).setAuthorizationHeader(context);
 
         try {
             final Response<Void> response = RetrofitClient.getInstance(context).deleteContact(contactId);

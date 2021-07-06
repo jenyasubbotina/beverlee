@@ -330,6 +330,10 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             else {
                 contactListEmptyTextView.setVisibility(View.VISIBLE);
             }
+            assert contactList != null;
+            for (final ContactModel.Contact contact : contactList) {
+                Log.i(TAG, "->" + contact);
+            }
             adapter.setContactList(contactList);
             swipeRefreshLayout.setRefreshing(false);
         });

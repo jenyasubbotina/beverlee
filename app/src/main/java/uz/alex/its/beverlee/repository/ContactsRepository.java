@@ -48,7 +48,7 @@ public class ContactsRepository {
         RetrofitClient.getInstance(context).getContactData(contactId, callback);
     }
 
-    public UUID deleteContact(final long id) {
+    public UUID deleteContact(final long contactId) {
         final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresDeviceIdle(false)
@@ -57,7 +57,7 @@ public class ContactsRepository {
                 .setRequiresBatteryNotLow(false)
                 .build();
         final Data inputData = new Data.Builder()
-                .putLong(Constants.ID, id)
+                .putLong(Constants.CONTACT_ID, contactId)
                 .build();
         final OneTimeWorkRequest deleteContactRequest = new OneTimeWorkRequest.Builder(DeleteContactWorker.class)
                 .setConstraints(constraints)
