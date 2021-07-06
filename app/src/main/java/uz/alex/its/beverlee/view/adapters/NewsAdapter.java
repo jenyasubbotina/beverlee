@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.view.adapters;
 
 import android.content.Context;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
@@ -26,6 +29,7 @@ import uz.alex.its.beverlee.view.interfaces.NewsCallback;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private final Context context;
     private final NewsCallback callback;
+    private int minNewsWidth;
 
     private List<News> newsList;
 
@@ -33,6 +37,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     public NewsAdapter(final Context context, final NewsCallback callback, final int newsType) {
         this(context, callback, newsType, null);
+    }
+
+    public NewsAdapter(final Context context, final NewsCallback callback, final int newsType, final int minNewsWidth) {
+        this(context, callback, newsType, null);
+        this.minNewsWidth = minNewsWidth;
     }
 
     public NewsAdapter(final Context context, final NewsCallback callback, final int newsType, final List<News> newsList) {
@@ -76,6 +85,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         holder.bindItem(callback, position, newsList.get(position));
 
+        if (getItemViewType(position) == TYPE_MIN) {
+            final NewsMinViewHolder minViewHolder = (NewsMinViewHolder) holder;
+            final ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) minViewHolder.cardView.getLayoutParams();
+            params.width = minNewsWidth;
+            minViewHolder.cardView.setLayoutParams(params);
+        }
         if (getItemViewType(position) == TYPE_BANNER) {
             final NewsBannerViewHolder viewHolder = (NewsBannerViewHolder) holder;
             viewHolder.dateTextView.setText(DateFormatter.timestampToStringDate(newsList.get(position).getCreatedAt()));
@@ -126,8 +141,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     static class NewsMinViewHolder extends NewsViewHolder {
+        private CardView cardView;
+
         public NewsMinViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            cardView = itemView.findViewById(R.id.news_min_card_view);
         }
 
         public void bindItem(final NewsCallback callback, final int position, final News news) {

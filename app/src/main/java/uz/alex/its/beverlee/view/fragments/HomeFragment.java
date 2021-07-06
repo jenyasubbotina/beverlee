@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,6 +43,7 @@ import uz.alex.its.beverlee.view.LineChart;
 import uz.alex.its.beverlee.view.activities.ProfileActivity;
 import uz.alex.its.beverlee.view.adapters.ContactAdapter;
 import uz.alex.its.beverlee.view.adapters.NewsAdapter;
+import uz.alex.its.beverlee.view.decoration.NewsMinDecoration;
 import uz.alex.its.beverlee.view.interfaces.ContactCallback;
 import uz.alex.its.beverlee.view.interfaces.NewsCallback;
 import uz.alex.its.beverlee.viewmodel.ContactsViewModel;
@@ -174,12 +176,15 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
 
         /* news */
         newsMinRecyclerView = root.findViewById(R.id.news_min_recycler_view);
+        newsMinRecyclerView.addItemDecoration(new NewsMinDecoration(
+                ((ConstraintLayout.LayoutParams) cardProfit.getLayoutParams()).leftMargin,
+                (int) getResources().getDimension(R.dimen.m_margin)));
 
         /* news */
         final LinearLayoutManager newsLayoutManager = new LinearLayoutManager(requireContext());
         newsLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
 
-        newsAdapter = new NewsAdapter(requireContext(), this, NewsAdapter.TYPE_MIN);
+        newsAdapter = new NewsAdapter(requireContext(), this, NewsAdapter.TYPE_MIN, cardProfit.getWidth());
         newsMinRecyclerView.setLayoutManager(newsLayoutManager);
         newsMinRecyclerView.setAdapter(newsAdapter);
         newsMinRecyclerView.setNestedScrollingEnabled(false);

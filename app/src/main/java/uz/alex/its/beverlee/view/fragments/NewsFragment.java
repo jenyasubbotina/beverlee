@@ -24,6 +24,7 @@ import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.news.NewsModel.News;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.adapters.NewsAdapter;
+import uz.alex.its.beverlee.view.decoration.NewsBannerDecoration;
 import uz.alex.its.beverlee.view.interfaces.NewsCallback;
 import uz.alex.its.beverlee.viewmodel.NewsViewModel;
 import uz.alex.its.beverlee.viewmodel.factory.NewsViewModelFactory;
@@ -64,6 +65,7 @@ public class NewsFragment extends Fragment implements NewsCallback {
         backImageView = root.findViewById(R.id.back_arrow_image_view);
         searchEditText = root.findViewById(R.id.news_search_edit_text);
         final RecyclerView newsRecyclerView = root.findViewById(R.id.news_recycler_view);
+        newsRecyclerView.addItemDecoration(new NewsBannerDecoration((int) getResources().getDimension(R.dimen.l_margin), (int) getResources().getDimension(R.dimen.m_margin)));
         final LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
 

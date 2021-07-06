@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="142dp"
-    android:paddingTop="@dimen/m_margin">
+    android:minHeight="142dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/news_min_card_view"
@@ -16,8 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:cardCornerRadius="16dp"
-        android:layout_marginBottom="@dimen/s_margin"
-        android:layout_marginHorizontal="@dimen/l_margin"
         android:elevation="4dp">
 
         <ImageView

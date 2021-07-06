@@ -228,28 +228,6 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             }
         };
 
-        bottomSheetContacts.setOnTouchListener((v, event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                Log.i(TAG, "ACTION_DOWN");
-                if (contactsSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-                    Log.i(TAG, "EXPANDED STATE");
-                    Rect outRect = new Rect();
-                    bottomSheetContacts.getGlobalVisibleRect(outRect);
-
-                    if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
-                        Log.i(TAG, "OUTSIDE RECT");
-                        contactsSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    }
-                    else {
-                        Log.i(TAG, "INSIDE RECT");
-                    }
-                }
-            }
-            return bottomSheetContacts.dispatchTouchEvent(event);
-        });
-
-//        bottomSheetFavContacts;
-
         contactsSheetBehavior.addBottomSheetCallback(callback);
         favsSheetBehavior.addBottomSheetCallback(callback);
 
@@ -329,10 +307,6 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             }
             else {
                 contactListEmptyTextView.setVisibility(View.VISIBLE);
-            }
-            assert contactList != null;
-            for (final ContactModel.Contact contact : contactList) {
-                Log.i(TAG, "->" + contact);
             }
             adapter.setContactList(contactList);
             swipeRefreshLayout.setRefreshing(false);
