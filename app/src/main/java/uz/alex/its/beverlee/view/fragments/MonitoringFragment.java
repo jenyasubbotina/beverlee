@@ -297,7 +297,11 @@ public class MonitoringFragment extends Fragment {
             transactionViewModel.fetchMonthlyBalance();
         });
 
-        pieChart.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_monitoringFragment_to_transactionSearchFragment));
+        pieChart.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(
+                    MonitoringFragmentDirections.actionMonitoringFragmentToTransactionSearchFragment()
+                            .setIsIncome(radioGroup.getCheckedRadioButtonId() == incomeRadioBtn.getId()));
+        });
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             transactionViewModel.fetchMonthlyBalance();
@@ -306,7 +310,8 @@ public class MonitoringFragment extends Fragment {
 
         if (transactionViewModel.getParams().getTransactionTypeId() == 4
                 || transactionViewModel.getParams().getTransactionTypeId() == 5
-                || transactionViewModel.getParams().getTransactionTypeId() == 6) {
+                || transactionViewModel.getParams().getTransactionTypeId() == 6
+                || (transactionViewModel.getParams().getTransactionTypeId() == 0 && !MonitoringFragmentArgs.fromBundle(getArguments()).getIsIncome())) {
             expenditureRadioBtn.setChecked(true);
         }
     }

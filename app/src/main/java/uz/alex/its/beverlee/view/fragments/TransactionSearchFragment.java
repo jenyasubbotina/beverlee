@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,8 @@ public class TransactionSearchFragment extends Fragment {
     private List<Integer> februaryNotLeapDayList;
     private List<Integer> dayList;
 
+    private boolean isIncome;
+
     public TransactionSearchFragment() {
         // Required empty public constructor
     }
@@ -65,6 +68,9 @@ public class TransactionSearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getArguments() != null) {
+            isIncome = TransactionSearchFragmentArgs.fromBundle(getArguments()).getIsIncome();
+        }
         yearList = new ArrayList<>();
 
         final int currentYear = YearMonth.now().getYear();
@@ -173,6 +179,7 @@ public class TransactionSearchFragment extends Fragment {
             }
             NavHostFragment.findNavController(this).navigate(
                     TransactionSearchFragmentDirections.actionTransactionSearchFragmentToMonitoringFragment()
+                            .setIsIncome(isIncome)
                             .setYear(year)
                             .setMonth(monthNumber)
                             .setFirstDay(firstDay)

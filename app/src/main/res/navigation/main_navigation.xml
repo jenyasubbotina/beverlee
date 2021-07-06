@@ -179,6 +179,11 @@
             app:argType="integer"
             app:nullable="false"
             android:defaultValue="0"/>
+        <argument
+            android:name="is_income"
+            app:argType="boolean"
+            app:nullable="false"
+            android:defaultValue="true"/>
     </fragment>
     <fragment
         android:id="@+id/contactsFragment"
@@ -293,5 +298,10 @@
         <action
             android:id="@+id/action_transactionSearchFragment_to_monitoringFragment"
             app:destination="@id/monitoringFragment" />
+        <argument
+            android:name="is_income"
+            app:argType="boolean"
+            app:nullable="false"
+            android:defaultValue="true"/>
     </fragment>
 </navigation>
