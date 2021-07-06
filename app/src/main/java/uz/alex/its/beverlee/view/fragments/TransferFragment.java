@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
+import br.com.simplepass.loadingbutton.customViews.OnAnimationEndListener;
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.requestParams.VerifyTransferParams;
@@ -55,7 +56,6 @@ public class TransferFragment extends Fragment implements ContactCallback {
 
     /* views */
     private TextView currentBalanceTextView;
-    private TextView transferErrorTextView;
     private ImageView recipientImageView;
     private TextView amountTextView;
     private EditText amountEditText;
@@ -115,7 +115,6 @@ public class TransferFragment extends Fragment implements ContactCallback {
 
         backArrowImageView = root.findViewById(R.id.back_arrow_image_view);
         currentBalanceTextView = root.findViewById(R.id.current_balance_text_view);
-        transferErrorTextView = root.findViewById(R.id.transfer_error_text_view);
         recipientEditText = root.findViewById(R.id.recipient_edit_text);
         recipientImageView = root.findViewById(R.id.recipient_image_view);
         amountTextView = root.findViewById(R.id.amount_text_view);
@@ -160,7 +159,6 @@ public class TransferFragment extends Fragment implements ContactCallback {
 
         transferBtn.setOnClickListener(v -> {
             transferBtn.startAnimation();
-            transferErrorTextView.setVisibility(View.GONE);
 
             String recipientIdText = recipientEditText.getText().toString().trim();
             final String amountText = amountEditText.getText().toString().trim();
@@ -263,9 +261,9 @@ public class TransferFragment extends Fragment implements ContactCallback {
                 return;
             }
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
-                transferErrorTextView.setText(workInfo.getOutputData().getString(Constants.REQUEST_ERROR));
-                transferErrorTextView.setVisibility(View.VISIBLE);
+                Toast.makeText(requireContext(), workInfo.getOutputData().getString(Constants.REQUEST_ERROR), Toast.LENGTH_SHORT).show();
                 transferBtn.revertAnimation();
+                transferBtn.setBackgroundResource(R.drawable.btn_purple);
                 recipientEditText.setEnabled(true);
                 amountEditText.setEnabled(true);
                 return;
@@ -277,6 +275,7 @@ public class TransferFragment extends Fragment implements ContactCallback {
         transactionViewModel.getTransferResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 transferBtn.revertAnimation();
+                transferBtn.setBackgroundResource(R.drawable.btn_purple);
                 NavHostFragment.findNavController(this).navigate(
                         TransferFragmentDirections.actionTransferFragmentToTransactionResultFragment().setResult(true).setType("transfer"));
                 recipientEditText.setEnabled(true);
@@ -284,12 +283,13 @@ public class TransferFragment extends Fragment implements ContactCallback {
                 return;
             }
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
-                transferErrorTextView.setText(workInfo.getOutputData().getString(Constants.REQUEST_ERROR));
+                Toast.makeText(requireContext(), workInfo.getOutputData().getString(Constants.REQUEST_ERROR), Toast.LENGTH_SHORT).show();
                 NavHostFragment.findNavController(this).navigate(
                         TransferFragmentDirections.actionTransferFragmentToTransactionResultFragment()
                                 .setResult(false)
                                 .setType(Constants.RESULT_TYPE_TRANSFER));
                 transferBtn.revertAnimation();
+                transferBtn.setBackgroundResource(R.drawable.btn_purple);
                 recipientEditText.setEnabled(true);
                 amountEditText.setEnabled(true);
                 return;
