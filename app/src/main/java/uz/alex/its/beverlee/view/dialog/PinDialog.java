@@ -33,14 +33,16 @@ public class PinDialog extends DialogFragment {
     private int action;
     private long requestId;
     private VerifyTransferParams verifyTransferParams;
+    private int width;
 
     public PinDialog() { }
 
-    public static PinDialog newInstance(final VerifyTransferParams params) {
+    public static PinDialog newInstance(final VerifyTransferParams params, final int width) {
         PinDialog dialog = new PinDialog();
         Bundle args = new Bundle();
         args.putSerializable(Constants.VERIFY_TRANSFER_PARAMS, params);
         args.putInt(ACTION, ACTION_VERIFY_TRANSFER);
+        args.putInt(Constants.PIN_DIALOG_WIDTH, width);
         dialog.setArguments(args);
         return dialog;
     }
@@ -59,8 +61,18 @@ public class PinDialog extends DialogFragment {
         final Rectangle rect = new Rectangle();
         rect.setBounds(0, 0, metrics.widthPixels, metrics.heightPixels);
         final float width = rect.width * (float) percentage / 100;
-        getDialog().getWindow().setLayout((int) width, ViewGroup.LayoutParams.WRAP_CONTENT);
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        if (getDialog() != null) {
+            getDialog().getWindow().setLayout((int) width, ViewGroup.LayoutParams.WRAP_CONTENT);
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
+    }
+
+    private void setDimensions(final int width) {
+        if (getDialog() != null) {
+            getDialog().getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
     }
 
     @Override
@@ -71,6 +83,7 @@ public class PinDialog extends DialogFragment {
             this.action = getArguments().getInt(ACTION);
             this.requestId = getArguments().getLong(Constants.REQUEST_ID);
             this.verifyTransferParams = (VerifyTransferParams) getArguments().getSerializable(Constants.VERIFY_TRANSFER_PARAMS);
+            this.width = getArguments().getInt(Constants.PIN_DIALOG_WIDTH);
         }
     }
 
@@ -126,7 +139,14 @@ public class PinDialog extends DialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setDimensions(90, requireContext());
+        Log.i(TAG, "width=" + width);
+
+        if (width <= 0) {
+            setDimensions(90, requireContext());
+        }
+        else {
+            setDimensions(width);
+        }
     }
 
     private static final String TAG = PinDialog.class.toString();

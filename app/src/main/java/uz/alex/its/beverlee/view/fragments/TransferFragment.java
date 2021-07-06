@@ -18,9 +18,11 @@ import androidx.work.WorkInfo;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -253,9 +255,12 @@ public class TransferFragment extends Fragment implements ContactCallback {
                 final PinDialog dialog = PinDialog.newInstance(new VerifyTransferParams(
                         workInfo.getOutputData().getLong(Constants.RECIPIENT_ID, 0L),
                         workInfo.getOutputData().getDouble(Constants.AMOUNT, 0),
-                        workInfo.getOutputData().getString(Constants.NOTE)));
+                        workInfo.getOutputData().getString(Constants.NOTE)),
+                        amountEditText.getWidth());
                 dialog.setTargetFragment(this, Constants.REQUEST_CODE_VERIFY_TRANSFER);
                 dialog.show(getParentFragmentManager().beginTransaction(), TAG);
+                transferBtn.revertAnimation();
+                transferBtn.setBackgroundResource(R.drawable.btn_purple);
                 recipientEditText.setEnabled(true);
                 amountEditText.setEnabled(true);
                 return;
@@ -309,6 +314,8 @@ public class TransferFragment extends Fragment implements ContactCallback {
 
         if (requestCode == Constants.REQUEST_CODE_VERIFY_TRANSFER) {
             if (resultCode == Activity.RESULT_OK && data != null) {
+                transferBtn.setBackgroundResource(R.drawable.btn_purple);
+                transferBtn.startAnimation();
                 transactionViewModel.transferFunds(
                         data.getLongExtra(Constants.RECIPIENT_ID, 0L),
                         data.getDoubleExtra(Constants.AMOUNT, 0),

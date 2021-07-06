@@ -119,4 +119,5 @@ public class Constants {
     public static final String REQUEST_ID = "request_id";
     public static final String MAKE_PURCHASE_PARAMS = "make_purchase_params";
     public static final String REPLENISH_URL = "replenish_url";
+    public static final String PIN_DIALOG_WIDTH = "pin_dialog_width";
 }
