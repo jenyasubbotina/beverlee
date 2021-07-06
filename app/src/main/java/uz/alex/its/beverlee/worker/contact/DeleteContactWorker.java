@@ -13,17 +13,19 @@ import java.io.IOException;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import uz.alex.its.beverlee.api.RetrofitClient;
+import uz.alex.its.beverlee.model.actor.ContactModel;
+import uz.alex.its.beverlee.storage.LocalDatabase;
 import uz.alex.its.beverlee.utils.Constants;
 
 public class DeleteContactWorker extends Worker {
     private final Context context;
-    private final long id;
+    private final long contactId;
 
     public DeleteContactWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
 
         this.context = getApplicationContext();
-        this.id = getInputData().getLong(Constants.ID, 0L);
+        this.contactId = getInputData().getLong(Constants.CONTACT_ID, 0L);
     }
 
     @NonNull
@@ -34,9 +36,10 @@ public class DeleteContactWorker extends Worker {
         RetrofitClient.getInstance(getApplicationContext()).setAuthorizationHeader(getApplicationContext());
 
         try {
-            final Response<Void> response = RetrofitClient.getInstance(context).deleteContact(id);
+            final Response<Void> response = RetrofitClient.getInstance(context).deleteContact(contactId);
 
             if (response.code() == 204 && response.isSuccessful()) {
+                LocalDatabase.getInstance(context).contactDao().deleteContact(contactId);
                 return Result.success();
             }
             if (response.code() == 404) {

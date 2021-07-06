@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.WorkInfo;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -251,25 +253,32 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
-                    case BottomSheetBehavior.STATE_EXPANDED: {
+                    case BottomSheetBehavior.STATE_COLLAPSED: {
+                        Log.i(TAG, "collapsed...");
                         bottomNavigationView.setVisibility(View.INVISIBLE);
                         fab.setVisibility(View.INVISIBLE);
                         break;
                     }
+                    case BottomSheetBehavior.STATE_EXPANDED: {
+                        Log.i(TAG, "expanded...");
+                        break;
+                    }
                     case BottomSheetBehavior.STATE_SETTLING: {
+                        Log.i(TAG, "settling...");
                         if (!contactSelected) {
                             bottomNavigationView.setVisibility(View.VISIBLE);
                             fab.setVisibility(View.VISIBLE);
                         }
                         break;
                     }
-                    case BottomSheetBehavior.STATE_COLLAPSED:
-                        break;
                     case BottomSheetBehavior.STATE_DRAGGING:
+                        Log.i(TAG, "dragging...");
                         break;
                     case BottomSheetBehavior.STATE_HALF_EXPANDED:
+                        Log.i(TAG, "half expanded...");
                         break;
                     case BottomSheetBehavior.STATE_HIDDEN:
+                        Log.i(TAG, "hidden...");
                         break;
                 }
             }
@@ -296,7 +305,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         });
 
         bottomSheetDelete.setOnClickListener(v -> {
-            contactsViewModel.deleteContact(selectedContact.getId());
+            contactsViewModel.deleteContact(selectedContact.getContactId());
 
         });
 

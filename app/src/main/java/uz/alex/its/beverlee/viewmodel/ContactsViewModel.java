@@ -87,7 +87,7 @@ public class ContactsViewModel extends ViewModel {
                     final List<Contact> contactList = new ArrayList<>();
 
                     for (final ContactData contact : customizableObject.getContactData()) {
-                        contactList.add(new Contact(contact.getContact().getId(), contact.getContact().getFio(), false));
+                        contactList.add(new Contact(contact.getContact().getId(), contact.getId(), contact.getContact().getFio(), false));
                     }
                     new Thread(() -> contactsRepository.saveContactList(contactList)).start();
                 }

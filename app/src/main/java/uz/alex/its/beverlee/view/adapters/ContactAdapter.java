@@ -135,7 +135,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         }
 
         @Override
-        public void bind(Contact contact, ContactCallback contactCallback) {
+        public void bind(final Contact contact, ContactCallback contactCallback) {
             itemView.setOnClickListener(v -> contactCallback.onContactSelected(contact, this));
         }
     }

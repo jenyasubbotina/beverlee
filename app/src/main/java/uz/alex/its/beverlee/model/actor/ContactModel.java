@@ -89,6 +89,9 @@ public class ContactModel {
         @ColumnInfo(name = "id")
         private final long id;
 
+        @ColumnInfo(name = "contact_id", index = true)
+        private final long contactId;
+
         @Expose
         @SerializedName("fio")
         @ColumnInfo(name = "full_name")
@@ -97,8 +100,9 @@ public class ContactModel {
         @ColumnInfo(name = "is_fav", defaultValue = "false")
         private final boolean isFav;
 
-        public Contact(final long id, final String fio, final boolean isFav) {
+        public Contact(final long id, final long contactId, final String fio, final boolean isFav) {
             this.id = id;
+            this.contactId = contactId;
             this.fio = fio;
             this.isFav = isFav;
         }
@@ -115,11 +119,16 @@ public class ContactModel {
             return isFav;
         }
 
+        public long getContactId() {
+            return contactId;
+        }
+
         @NonNull
         @Override
         public String toString() {
             return "Contact{" +
                     "id=" + id +
+                    ", contactId='" + contactId +
                     ", fio='" + fio + '\'' +
                     ", isFav=" + isFav +
                     '}';
