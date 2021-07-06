@@ -436,9 +436,9 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             final TextView selectedNameTextView = selectedHolder.contactNameTextView;
             final ImageView selectedCheckImageView = selectedHolder.checkImageView;
 
-            final RelativeLayout.LayoutParams avatarParams = (RelativeLayout.LayoutParams) selectedAvatarImageView.getLayoutParams();
-            final RelativeLayout.LayoutParams nameParams = (RelativeLayout.LayoutParams) selectedNameTextView.getLayoutParams();
-            final RelativeLayout.LayoutParams checkParams = (RelativeLayout.LayoutParams) selectedCheckImageView.getLayoutParams();
+            final ConstraintLayout.LayoutParams avatarParams = (ConstraintLayout.LayoutParams) selectedAvatarImageView.getLayoutParams();
+            final ConstraintLayout.LayoutParams nameParams = (ConstraintLayout.LayoutParams) selectedNameTextView.getLayoutParams();
+            final ConstraintLayout.LayoutParams checkParams = (ConstraintLayout.LayoutParams) selectedCheckImageView.getLayoutParams();
 
             avatarParams.leftMargin = avatarParams.leftMargin - 32;
             nameParams.leftMargin = nameParams.leftMargin - 32;
