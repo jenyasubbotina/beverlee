@@ -307,6 +307,7 @@ public class ContactsFragment extends Fragment implements ContactCallback {
                 progressBar.setVisibility(View.GONE);
                 bottomSheetAddToFavs.setEnabled(true);
                 deselectContact();
+                adapter.notifyDataSetChanged();
                 return;
             }
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
@@ -326,6 +327,7 @@ public class ContactsFragment extends Fragment implements ContactCallback {
                 progressBar.setVisibility(View.GONE);
                 bottomSheetRemoveFromFav.setEnabled(true);
                 deselectContact();
+                adapter.notifyDataSetChanged();
                 return;
             }
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
