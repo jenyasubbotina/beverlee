@@ -63,7 +63,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/transaction_type_text_view"
         app:layout_constraintStart_toStartOf="@id/transaction_type_text_view"
-        app:layout_constraintEnd_toStartOf="@id/transaction_amount_text_view"
         android:layout_marginBottom="2dp"
         android:textColor="#3B3A38"
         android:fontFamily="@font/geometria_medium"

@@ -283,4 +283,5 @@
     <string name="date">Дата</string>
     <string name="transaction_type">Тип транзакции</string>
     <string name="input_first_name_last_name_or_id">Введите имя, фамилию или ID</string>
+    <string name="unknown">Неизвестно</string>
 </resources>

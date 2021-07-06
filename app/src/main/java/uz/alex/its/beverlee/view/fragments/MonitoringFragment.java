@@ -75,9 +75,6 @@ public class MonitoringFragment extends Fragment {
     private PieChart pieChart;
     private ImageView prevChartImageView;
     private ImageView nextChartImageView;
-
-    private ImageView minimizeChartImageView;
-
     private TextView receiptOrtransferTextView;
     private TextView replenishedOrWithdrawalTextView;
     private TextView bonusOrPurchaseTextView;
@@ -162,7 +159,6 @@ public class MonitoringFragment extends Fragment {
         monthlyBalanceTextView = root.findViewById(R.id.monthly_balance_text_view);
         prevChartImageView = root.findViewById(R.id.prev_chart_image_view);
         nextChartImageView = root.findViewById(R.id.next_chart_image_view);
-        minimizeChartImageView = root.findViewById(R.id.minimize_chart_image_view);
         receiptOrtransferTextView = root.findViewById(R.id.received_text_view);
         replenishedOrWithdrawalTextView = root.findViewById(R.id.debited_text_view);
         bonusOrPurchaseTextView = root.findViewById(R.id.bonus_text_view);
@@ -211,9 +207,6 @@ public class MonitoringFragment extends Fragment {
         bonusOrPurchaseTextView.setText(getString(R.string.monthly_balance, "Бонусы", 0.0));
         receiptOrtransferTextView.setText(getString(R.string.monthly_balance, "Получено", 0.0));
         replenishedOrWithdrawalTextView.setText(getString(R.string.monthly_balance, "Пополнение", 0.0));
-
-        //currentMonthTextView.setText(getString(R.string.month_name, getString(transactionViewModel.getMonthName(MonitoringFragmentArgs.fromBundle(getArguments()).getMonth()))));
-        //currentYearTextView.
 
         return root;
     }
@@ -306,42 +299,6 @@ public class MonitoringFragment extends Fragment {
 
         pieChart.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_monitoringFragment_to_transactionSearchFragment));
 
-        final ObjectAnimator minimizeCardAnimator = ObjectAnimator.ofInt(transactionsCard, "top",1600, 850);
-        final ObjectAnimator maximizeCardAnimator = ObjectAnimator.ofInt(transactionsCard, "top",870, 1670);
-        final ObjectAnimator minimizeRecyclerViewAnimator = ObjectAnimator.ofInt(transactionRecyclerView, "top",1600, 850);
-        final ObjectAnimator maximizeRecyclerAnimator = ObjectAnimator.ofInt(transactionRecyclerView, "top",870, 1670);
-
-        minimizeCardAnimator.setDuration(200);
-        minimizeCardAnimator.setInterpolator(new LinearInterpolator());
-        maximizeCardAnimator.setDuration(200);
-        maximizeCardAnimator.setInterpolator(new LinearInterpolator());
-        minimizeRecyclerViewAnimator.setDuration(200);
-        minimizeRecyclerViewAnimator.setInterpolator(new LinearInterpolator());
-        maximizeRecyclerAnimator.setDuration(200);
-        maximizeRecyclerAnimator.setInterpolator(new LinearInterpolator());
-
-        minimizeChartImageView.setOnClickListener(v -> {
-            if (chartHidden) {
-                chartHidden = false;
-                maximizeCardAnimator.start();
-                maximizeRecyclerAnimator.start();
-                pieChart.setVisibility(View.VISIBLE);
-                prevChartImageView.setVisibility(View.VISIBLE);
-                nextChartImageView.setVisibility(View.VISIBLE);
-
-                bonusOrPurchaseTextView.setVisibility(View.VISIBLE);
-                receiptOrtransferTextView.setVisibility(View.VISIBLE);
-                replenishedOrWithdrawalTextView.setVisibility(View.VISIBLE);
-
-                minimizeChartImageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_minimize, null));
-                return;
-            }
-            chartHidden = true;
-            minimizeCardAnimator.start();
-            minimizeRecyclerViewAnimator.start();
-            minimizeChartImageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_maximize, null));
-        });
-
         swipeRefreshLayout.setOnRefreshListener(() -> {
             transactionViewModel.fetchMonthlyBalance();
             transactionViewModel.fetchTransactionList();
@@ -375,6 +332,7 @@ public class MonitoringFragment extends Fragment {
 
         transactionViewModel.getTransactionList().observe(getViewLifecycleOwner(), transactionList -> {
             transactionAdapter.setTransactionList(transactionList);
+            transactionAdapter.notifyDataSetChanged();
         });
 
         transactionViewModel.getMonthlyBalance().observe(getViewLifecycleOwner(), monthlyBalance -> {

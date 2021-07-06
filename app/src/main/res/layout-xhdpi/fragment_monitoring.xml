@@ -122,7 +122,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-
             <View
                 android:id="@+id/transactions_card"
                 android:layout_width="0dp"

@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.view.adapters;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,10 +44,10 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void setTransactionList(final List<Transaction> newTransactionList) {
-        final TransactionDiffUtil diffUtil = new TransactionDiffUtil(transactionList, newTransactionList);
-        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtil);
+//        final TransactionDiffUtil diffUtil = new TransactionDiffUtil(transactionList, newTransactionList);
+//        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtil);
         this.transactionList = newTransactionList;
-        diffResult.dispatchUpdatesTo(this);
+//        diffResult.dispatchUpdatesTo(this);
     }
 
     @Override
@@ -112,10 +113,20 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         }
         if (transactionList.get(position).getTypeId() == 1) {
-            holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getUserFullName(), ""));
+            if (transactionList.get(position).getUserFullName() == null || TextUtils.isEmpty(transactionList.get(position).getUserFullName())) {
+                holder.transactionFromTextView.setText(context.getString(R.string.unknown));
+            }
+            else {
+                holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getUserFullName(), ""));
+            }
         }
         else if (transactionList.get(position).getTypeId() == 2) {
-            holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getPurchase().getDescription(), ""));
+            if (transactionList.get(position).getPurchase().getDescription() == null || TextUtils.isEmpty(transactionList.get(position).getPurchase().getDescription())) {
+                holder.transactionFromTextView.setText(context.getString(R.string.unknown));
+            }
+            else {
+                holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getPurchase().getDescription(), ""));
+            }
         }
         else if (transactionList.get(position).getTypeId() == 3) {
             holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getTransfer().getSender().getFirstName(), transactionList.get(position).getTransfer().getSender().getLastName()));
