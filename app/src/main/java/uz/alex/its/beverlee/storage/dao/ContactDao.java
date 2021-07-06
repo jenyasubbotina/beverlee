@@ -17,8 +17,8 @@ public interface ContactDao {
     @Query("UPDATE contact_list SET is_fav = :isFav WHERE id == :id")
     int updateContact(final long id, final boolean isFav);
 
-    @Delete
-    int deleteContact(final Contact contact);
+//    @Delete
+//    int deleteContact(final Contact contact);
 
     @Query("SELECT * FROM contact_list WHERE is_fav == :isFav ORDER BY full_name ASC")
     LiveData<List<Contact>> selectFavContactList(final boolean isFav);

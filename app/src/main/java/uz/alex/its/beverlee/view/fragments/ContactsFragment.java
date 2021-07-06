@@ -223,8 +223,13 @@ public class ContactsFragment extends Fragment implements ContactCallback {
         contactsSheetBehavior.addBottomSheetCallback(callback);
         favsSheetBehavior.addBottomSheetCallback(callback);
 
-        bottomSheetContactsTransfer.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(
-                ContactsFragmentDirections.actionContactsFragmentToTransferFragment().setContactId(selectedContact.getId())));
+        bottomSheetContactsTransfer.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(
+                    ContactsFragmentDirections.actionContactsFragmentToTransferFragment().setContactId(selectedContact.getId()));
+            contactSelected = false;
+            selectedHolder = null;
+            selectedContact = null;
+        });
 
         bottomSheetAddToFavs.setOnClickListener(v -> contactsViewModel.addToFavs(selectedContact));
 
@@ -232,8 +237,13 @@ public class ContactsFragment extends Fragment implements ContactCallback {
 
         bottomSheetRemoveFromFav.setOnClickListener(v -> contactsViewModel.removeFromFavs(selectedContact));
 
-        bottomSheetFavContactsTransfer.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(
-                ContactsFragmentDirections.actionContactsFragmentToTransferFragment().setContactId(selectedContact.getId())));
+        bottomSheetFavContactsTransfer.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(
+                    ContactsFragmentDirections.actionContactsFragmentToTransferFragment().setContactId(selectedContact.getId()));
+            contactSelected = false;
+            selectedHolder = null;
+            selectedContact = null;
+        });
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             if (radioGroup.getCheckedRadioButtonId() == favoritesRadioBtn.getId()) {
@@ -371,12 +381,12 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             selectedHolder.checkImageView.setLayoutParams(checkParams);
             selectedHolder.checkImageView.setVisibility(View.VISIBLE);
 
-            if (radioGroup.getCheckedRadioButtonId() == allRadioBtn.getId()) {
-                contactsSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            if (selectedContact.isFav()) {
+                favsSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 return;
             }
-            if (radioGroup.getCheckedRadioButtonId() == favoritesRadioBtn.getId()) {
-                favsSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            if (!selectedContact.isFav()) {
+                contactsSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
             return;
         }
@@ -384,7 +394,6 @@ public class ContactsFragment extends Fragment implements ContactCallback {
     }
 
     private void revertItems() {
-        contactSelected = false;
         if (selectedHolder != null) {
             final ImageView selectedAvatarImageView = selectedHolder.avatarImageView;
             final TextView selectedNameTextView = selectedHolder.contactNameTextView;
@@ -401,25 +410,18 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             selectedNameTextView.setLayoutParams(nameParams);
             selectedCheckImageView.setLayoutParams(checkParams);
             selectedCheckImageView.setVisibility(View.INVISIBLE);
-            selectedHolder = null;
         }
         fab.setVisibility(View.VISIBLE);
         bottomNavigationView.setVisibility(View.VISIBLE);
-
-        if (radioGroup.getCheckedRadioButtonId() == allRadioBtn.getId()) {
-            Log.i(TAG, "revertItems: all" );
-            contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-            return;
-        }
-        if (radioGroup.getCheckedRadioButtonId() == favoritesRadioBtn.getId()) {
-            Log.i(TAG, "revertItems: favs");
-            favsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        }
+        contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        favsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        contactSelected = false;
+        selectedHolder = null;
+        selectedContact = null;
     }
 
     private void deselectContact() {
         if (contactSelected) {
-            selectedContact = null;
             final ImageView selectedAvatarImageView = selectedHolder.avatarImageView;
             final TextView selectedNameTextView = selectedHolder.contactNameTextView;
             final ImageView selectedCheckImageView = selectedHolder.checkImageView;
@@ -436,16 +438,15 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             selectedCheckImageView.setLayoutParams(checkParams);
             selectedCheckImageView.setVisibility(View.INVISIBLE);
 
-            contactSelected = false;
-            selectedHolder = null;
-
-            if (radioGroup.getCheckedRadioButtonId() == allRadioBtn.getId()) {
-                contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                return;
-            }
-            if (radioGroup.getCheckedRadioButtonId() == favoritesRadioBtn.getId()) {
+            if (selectedContact.isFav()) {
                 favsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             }
+            else {
+                contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            }
+            contactSelected = false;
+            selectedHolder = null;
+            selectedContact = null;
         }
     }
 
