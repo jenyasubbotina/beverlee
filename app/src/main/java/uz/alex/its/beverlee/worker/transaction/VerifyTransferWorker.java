@@ -1,6 +1,7 @@
 package uz.alex.its.beverlee.worker.transaction;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -63,11 +64,20 @@ public class VerifyTransferWorker extends Worker {
             if (response.code() == 422) {
                 final Type transferErrorType = new TypeToken<TransferErrorModel>() {}.getType();
                 final TransferErrorModel transferError = new GsonBuilder().setLenient().create().fromJson(error.string(), transferErrorType);
+
+                if (transferError.getTransferError().getAmount() == null) {
+                    return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, Constants.UNKNOWN_ERROR).build());
+                }
+
+                String parsedError = transferError.getTransferError().getAmount().get(0);
+
+                Log.i(TAG, "parsedError=" + parsedError);
+
                 return Result.failure(outputDataBuilder
-                        .putString(Constants.REQUEST_ERROR, transferError.getTransferError().toString())
+                        .putString(Constants.REQUEST_ERROR, parsedError)
                         .build());
             }
-            return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, error.string()).build());
+            return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, Constants.UNKNOWN_ERROR).build());
         }
         catch (IOException e) {
             Log.e(TAG, "doWork(): ", e);

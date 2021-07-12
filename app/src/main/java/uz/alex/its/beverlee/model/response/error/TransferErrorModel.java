@@ -9,13 +9,13 @@ import java.util.List;
 public class TransferErrorModel {
     @Expose
     @SerializedName("errors")
-    private final Object transferError;
+    private final TransferError transferError;
 
-    public TransferErrorModel(final Object transferError) {
+    public TransferErrorModel(final TransferError transferError) {
         this.transferError = transferError;
     }
 
-    public Object getTransferError() {
+    public TransferError getTransferError() {
         return transferError;
     }
 
@@ -25,5 +25,37 @@ public class TransferErrorModel {
         return "TransferErrorModel{" +
                 "transferError=" + transferError +
                 '}';
+    }
+
+    public static class TransferError {
+        @Expose
+        @SerializedName("amount")
+        private final List<String> amount;
+
+        @Expose
+        @SerializedName("pin")
+        private final List<String> pin;
+
+        public TransferError(final List<String> amount, final List<String> pin) {
+            this.amount = amount;
+            this.pin = pin;
+        }
+
+        public List<String> getAmount() {
+            return amount;
+        }
+
+        public List<String> getPin() {
+            return pin;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "LoginError{" +
+                    "amount='" + amount + '\'' +
+                    ", pin='" + pin + '\'' +
+                    '}';
+        }
     }
 }

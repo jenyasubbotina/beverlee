@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.view.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -259,8 +260,6 @@ public class TransferFragment extends Fragment implements ContactCallback {
                         amountEditText.getWidth());
                 dialog.setTargetFragment(this, Constants.REQUEST_CODE_VERIFY_TRANSFER);
                 dialog.show(getParentFragmentManager().beginTransaction(), TAG);
-                transferBtn.revertAnimation();
-                transferBtn.setBackgroundResource(R.drawable.btn_purple);
                 recipientEditText.setEnabled(true);
                 amountEditText.setEnabled(true);
                 return;
@@ -268,7 +267,6 @@ public class TransferFragment extends Fragment implements ContactCallback {
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
                 Toast.makeText(requireContext(), workInfo.getOutputData().getString(Constants.REQUEST_ERROR), Toast.LENGTH_SHORT).show();
                 transferBtn.revertAnimation();
-                transferBtn.setBackgroundResource(R.drawable.btn_purple);
                 recipientEditText.setEnabled(true);
                 amountEditText.setEnabled(true);
                 return;
@@ -280,7 +278,6 @@ public class TransferFragment extends Fragment implements ContactCallback {
         transactionViewModel.getTransferResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 transferBtn.revertAnimation();
-                transferBtn.setBackgroundResource(R.drawable.btn_purple);
                 NavHostFragment.findNavController(this).navigate(
                         TransferFragmentDirections.actionTransferFragmentToTransactionResultFragment().setResult(true).setType("transfer"));
                 recipientEditText.setEnabled(true);
@@ -294,7 +291,6 @@ public class TransferFragment extends Fragment implements ContactCallback {
                                 .setResult(false)
                                 .setType(Constants.RESULT_TYPE_TRANSFER));
                 transferBtn.revertAnimation();
-                transferBtn.setBackgroundResource(R.drawable.btn_purple);
                 recipientEditText.setEnabled(true);
                 amountEditText.setEnabled(true);
                 return;
@@ -314,7 +310,6 @@ public class TransferFragment extends Fragment implements ContactCallback {
 
         if (requestCode == Constants.REQUEST_CODE_VERIFY_TRANSFER) {
             if (resultCode == Activity.RESULT_OK && data != null) {
-                transferBtn.setBackgroundResource(R.drawable.btn_purple);
                 transferBtn.startAnimation();
                 transactionViewModel.transferFunds(
                         data.getLongExtra(Constants.RECIPIENT_ID, 0L),
