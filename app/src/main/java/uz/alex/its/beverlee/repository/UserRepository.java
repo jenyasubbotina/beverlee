@@ -15,6 +15,7 @@ import uz.alex.its.beverlee.api.RetrofitClient;
 import uz.alex.its.beverlee.model.requestParams.AvatarParams;
 import uz.alex.its.beverlee.model.notification.NotificationSettingsModel;
 import uz.alex.its.beverlee.model.actor.UserModel;
+import uz.alex.its.beverlee.storage.LocalDatabase;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.worker.personal.ChangePasswordWorker;
 import uz.alex.its.beverlee.worker.personal.DeleteAvatarWorker;
@@ -156,5 +157,9 @@ public class UserRepository {
                 .build();
         WorkManager.getInstance(context).enqueue(changePasswordWorker);
         return changePasswordWorker.getId();
+    }
+
+    public void clearDatabaseData() {
+        new Thread(() -> LocalDatabase.getInstance(context).clearAllTables()).start();
     }
 }

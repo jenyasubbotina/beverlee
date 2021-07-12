@@ -170,5 +170,9 @@ public class UserViewModel extends ViewModel {
         return Transformations.switchMap(saveNotificationSettingsUUID, input -> WorkManager.getInstance(context).getWorkInfoByIdLiveData(input));
     }
 
+    public void clearDatabaseData() {
+        userRepository.clearDatabaseData();
+    }
+
     private static final String TAG = UserViewModel.class.toString();
 }

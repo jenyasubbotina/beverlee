@@ -7,6 +7,7 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
@@ -65,19 +66,21 @@ public class LoginWorker extends Worker {
             }
             if (response.code() == 422) {
                 final Type loginErrorType = new TypeToken<LoginErrorModel>() {}.getType();
-                final LoginErrorModel phoneNotVerified = new GsonBuilder().setLenient().create().fromJson(error.string(), loginErrorType);
+                final LoginErrorModel parsedError = new GsonBuilder().setLenient().create().fromJson(error.string(), loginErrorType);
 
-                if (phoneNotVerified.getLoginError().getPhone().equals(context.getString(R.string.error_phone_not_verified)))
-                return Result.failure(outputDataBuilder
-                        .putString(Constants.REQUEST_ERROR, context.getString(R.string.error_phone_not_verified))
-                        .build());
+                if (parsedError.getLoginError().getPhone().equals(context.getString(R.string.error_phone_not_verified))) {
+                    return Result.failure(outputDataBuilder
+                            .putString(Constants.REQUEST_ERROR, context.getString(R.string.error_phone_not_verified))
+                            .build());
+                }
+                return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, parsedError.getLoginError().getPhone()).build());
             }
-            return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, error.string()).build());
         }
         catch (IOException e) {
             Log.e(TAG, "doWork(): ", e);
             return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, e.getMessage()).build());
         }
+        return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, Constants.UNKNOWN_ERROR).build());
     }
 
     private static final String TAG = LoginWorker.class.toString();

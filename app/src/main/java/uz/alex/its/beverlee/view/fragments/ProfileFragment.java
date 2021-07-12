@@ -126,6 +126,8 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         logoutBtn.setOnClickListener(v -> {
+            userViewModel.clearDatabaseData();
+
             SharedPrefs.getInstance(requireContext()).logout(requireContext());
             Intent intent = requireContext().getPackageManager().getLaunchIntentForPackage(requireContext().getPackageName());
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
