@@ -143,7 +143,7 @@
         android:textColor="@color/colorWhite"
         android:textSize="12sp"
         android:text="@string/monthly_balance"
-        android:background="@drawable/text_wrap_grey"/>
+        android:background="@drawable/text_wrap_green"/>
 
     <TextView
         android:id="@+id/bonus_text_view"
