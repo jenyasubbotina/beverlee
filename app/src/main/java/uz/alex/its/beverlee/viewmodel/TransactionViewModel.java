@@ -11,13 +11,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;

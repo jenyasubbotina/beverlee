@@ -329,6 +329,14 @@ public class MonitoringFragment extends Fragment {
         });
 
         transactionViewModel.getTransactionParams().observe(getViewLifecycleOwner(), transactionParams -> {
+            if (transactionParams.getMonth() >= LocalDateTime.now().getMonthValue()
+                    && transactionParams.getYear() >= LocalDateTime.now().getYear()) {
+                nextChartImageView.setVisibility(View.INVISIBLE);
+            }
+            else {
+                nextChartImageView.setVisibility(View.VISIBLE);
+            }
+
             currentMonthAndYearTextView.setText(getString(R.string.month_year,
                     getString(transactionViewModel.getMonthName(transactionParams.getMonth())),
                     String.valueOf(transactionParams.getYear())));
