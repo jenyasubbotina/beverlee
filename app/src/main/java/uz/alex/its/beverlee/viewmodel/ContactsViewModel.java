@@ -28,9 +28,9 @@ public class ContactsViewModel extends ViewModel {
 
     private final MutableLiveData<Boolean> isFavorite;
 
-    private final MutableLiveData<UUID> deleteContactUUID;
-    private final MutableLiveData<UUID> addToFavsUUID;
-    private final MutableLiveData<UUID> removeFromFavsUUID;
+    private MutableLiveData<UUID> deleteContactUUID;
+    private MutableLiveData<UUID> addToFavsUUID;
+    private MutableLiveData<UUID> removeFromFavsUUID;
 
     private final MutableLiveData<Boolean> isLoading;
 
@@ -123,6 +123,12 @@ public class ContactsViewModel extends ViewModel {
 
     public LiveData<WorkInfo> getRemoveFromFavsResult(final Context context) {
         return Transformations.switchMap(removeFromFavsUUID, input -> WorkManager.getInstance(context).getWorkInfoByIdLiveData(input));
+    }
+
+    public void clearObservers() {
+        this.addToFavsUUID = new MutableLiveData<>();
+        this.removeFromFavsUUID = new MutableLiveData<>();
+        this.deleteContactUUID = new MutableLiveData<>();
     }
 
     public void setIsFavorite(final boolean b) {

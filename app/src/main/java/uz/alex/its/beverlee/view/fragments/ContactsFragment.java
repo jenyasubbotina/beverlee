@@ -312,6 +312,8 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             swipeRefreshLayout.setRefreshing(false);
         });
 
+        contactsViewModel.clearObservers();
+
         contactsViewModel.getAddToFavsResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 Toast.makeText(requireContext(), "Добавлено в Избранное", Toast.LENGTH_SHORT).show();
