@@ -44,10 +44,10 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void setTransactionList(final List<Transaction> newTransactionList) {
-//        final TransactionDiffUtil diffUtil = new TransactionDiffUtil(transactionList, newTransactionList);
-//        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtil);
+        final TransactionDiffUtil diffUtil = new TransactionDiffUtil(transactionList, newTransactionList);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtil);
         this.transactionList = newTransactionList;
-//        diffResult.dispatchUpdatesTo(this);
+        diffResult.dispatchUpdatesTo(this);
     }
 
     @Override

@@ -22,40 +22,41 @@
         android:id="@+id/pin_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="227dp"
         android:fontFamily="@font/geometria_medium"
         android:gravity="center"
         android:textColor="#fff"
-        android:textSize="19sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="19sp" />
 
     <TextView
         android:id="@+id/pin_error_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pin_text_view"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/geometria_medium"
         android:gravity="center"
         android:text="@string/error_wrong_pin"
         android:textColor="@color/colorRed"
         android:textSize="16sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pin_text_view" />
+        android:visibility="invisible" />
 
     <RelativeLayout
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/card_top_radius_light"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pin_error_text_view">
+        app:layout_constraintTop_toBottomOf="@id/pin_error_text_view"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/card_top_radius_light"
+        android:orientation="vertical">
 
         <ProgressBar
             android:id="@+id/progress_bar"

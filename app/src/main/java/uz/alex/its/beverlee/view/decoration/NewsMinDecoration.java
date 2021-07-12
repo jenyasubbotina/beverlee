@@ -28,7 +28,7 @@ public class NewsMinDecoration extends RecyclerView.ItemDecoration {
         if (parent.getChildAdapterPosition(view) == 0) {
             left = biggerMargin;
         }
-        right = biggerMargin;
+        right = margin;
         top =  margin;
         bottom = margin;
         outRect.set(left, top, right, bottom);

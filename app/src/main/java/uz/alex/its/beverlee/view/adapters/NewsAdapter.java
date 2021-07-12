@@ -6,17 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.shape.CornerFamily;
-import com.google.android.material.shape.ShapeAppearanceModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -62,13 +59,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TYPE_BANNER) {
-            return new NewsBannerViewHolder(LayoutInflater.from(context).inflate(R.layout.view_holder_news_banner, parent, false));
-        }
-        if (viewType == TYPE_MIN) {
-            return new NewsMinViewHolder(LayoutInflater.from(context).inflate(R.layout.view_holder_news_min, parent, false));
-        }
-        throw new IllegalStateException("unknown view holder type");
+        return new NewsViewHolder(LayoutInflater.from(context).inflate(R.layout.view_holder_news, parent, false));
     }
 
     @Override
@@ -82,19 +73,20 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 .fit()
                 .error(R.color.colorDarkGrey)
                 .into(holder.coverImageView);
+        holder.coverImageView.setShapeAppearanceModel(holder.coverImageView.getShapeAppearanceModel()
+                .toBuilder()
+                .setAllCorners(CornerFamily.ROUNDED, context.getResources().getDimension(R.dimen.news_corner_margin))
+                .build());
 
-        holder.bindItem(callback, position, newsList.get(position));
-
-        if (getItemViewType(position) == TYPE_MIN) {
-            final NewsMinViewHolder minViewHolder = (NewsMinViewHolder) holder;
-            final ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) minViewHolder.cardView.getLayoutParams();
+        if (type == TYPE_BANNER) {
+            holder.dateTextView.setText(DateFormatter.timestampToStringDate(newsList.get(position).getCreatedAt()));
+        }
+        if (minNewsWidth > 0) {
+            final RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.cardView.getLayoutParams();
             params.width = minNewsWidth;
-            minViewHolder.cardView.setLayoutParams(params);
+            holder.cardView.setLayoutParams(params);
         }
-        if (getItemViewType(position) == TYPE_BANNER) {
-            final NewsBannerViewHolder viewHolder = (NewsBannerViewHolder) holder;
-            viewHolder.dateTextView.setText(DateFormatter.timestampToStringDate(newsList.get(position).getCreatedAt()));
-        }
+        holder.bindItem(callback, position, newsList.get(position));
     }
 
     @Override
@@ -107,57 +99,31 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         return type;
     }
 
-    static abstract class NewsViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView coverImageView;
-        protected TextView titleTextView;
-
-        protected NewsViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            coverImageView = itemView.findViewById(R.id.news_header);
-            titleTextView = itemView.findViewById(R.id.news_title_text_view);
-        }
-
-        protected abstract void bindItem(final NewsCallback callback, final int position, final News news);
-    }
-
-    static class NewsBannerViewHolder extends NewsViewHolder {
-        TextView dateTextView;
+    static class NewsViewHolder extends RecyclerView.ViewHolder {
+        ConstraintLayout cardView;
+        ShapeableImageView coverImageView;
+        TextView titleTextView;
         TextView descriptionTextView;
+        TextView dateTextView;
 
-        public NewsBannerViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            dateTextView = itemView.findViewById(R.id.news_date_text_view);
-            descriptionTextView = itemView.findViewById(R.id.news_description_text_view);
-        }
-
-        public void bindItem(final NewsCallback callback, final int position, final News news) {
-            itemView.setOnClickListener(v -> {
-                callback.onNewsSelected(position, news);
-            });
-        }
-
-    }
-
-    static class NewsMinViewHolder extends NewsViewHolder {
-        private CardView cardView;
-
-        public NewsMinViewHolder(@NonNull View itemView) {
+        NewsViewHolder(@NonNull View itemView) {
             super(itemView);
 
             cardView = itemView.findViewById(R.id.news_min_card_view);
+            coverImageView = itemView.findViewById(R.id.news_header);
+            titleTextView = itemView.findViewById(R.id.news_title_text_view);
+            descriptionTextView = itemView.findViewById(R.id.news_description_text_view);
+            dateTextView = itemView.findViewById(R.id.news_date_text_view);
         }
 
-        public void bindItem(final NewsCallback callback, final int position, final News news) {
+        void bindItem(final NewsCallback callback, final int position, final News news) {
             itemView.setOnClickListener(v -> {
                 callback.onNewsSelected(position, news);
             });
         }
     }
 
-    public static final int TYPE_BANNER = 0;
     public static final int TYPE_MIN = 1;
-
+    public static final int TYPE_BANNER = 2;
     private static final String TAG = NewsAdapter.class.toString();
 }

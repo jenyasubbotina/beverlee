@@ -337,7 +337,6 @@ public class MonitoringFragment extends Fragment {
 
         transactionViewModel.getTransactionList().observe(getViewLifecycleOwner(), transactionList -> {
             transactionAdapter.setTransactionList(transactionList);
-            transactionAdapter.notifyDataSetChanged();
         });
 
         transactionViewModel.getMonthlyBalance().observe(getViewLifecycleOwner(), monthlyBalance -> {

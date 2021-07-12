@@ -36,9 +36,9 @@
     </style>
 
     <!--ImageView with rounded corners-->
-    <style name="roundedCorners" parent="AppTheme">
-        <item name="cornerFamily"> rounded </item>
-        <item name="cornerSize"> 12dp </item>
+    <style name="roundedCorners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
     <style name="CustomCorners" parent="@style/Widget.MaterialComponents.CardView">

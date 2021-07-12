@@ -33,6 +33,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import uz.alex.its.beverlee.R;
+import uz.alex.its.beverlee.model.DeviceDisplay;
 import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.chart.LineChartItem;
 import uz.alex.its.beverlee.model.news.NewsModel.News;
@@ -179,12 +180,15 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         newsMinRecyclerView.addItemDecoration(new NewsMinDecoration(
                 ((ConstraintLayout.LayoutParams) cardProfit.getLayoutParams()).leftMargin,
                 (int) getResources().getDimension(R.dimen.m_margin)));
+        final int screenWidth = DeviceDisplay.getInstance(requireActivity()).getScreenWidth();
+        final int viewWidth = screenWidth - ((ConstraintLayout.LayoutParams) cardProfit.getLayoutParams()).leftMargin
+                - ((ConstraintLayout.LayoutParams) cardProfit.getLayoutParams()).rightMargin;
 
         /* news */
         final LinearLayoutManager newsLayoutManager = new LinearLayoutManager(requireContext());
         newsLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
 
-        newsAdapter = new NewsAdapter(requireContext(), this, NewsAdapter.TYPE_MIN, cardProfit.getWidth());
+        newsAdapter = new NewsAdapter(requireContext(), this, NewsAdapter.TYPE_MIN, viewWidth);
         newsMinRecyclerView.setLayoutManager(newsLayoutManager);
         newsMinRecyclerView.setAdapter(newsAdapter);
         newsMinRecyclerView.setNestedScrollingEnabled(false);
