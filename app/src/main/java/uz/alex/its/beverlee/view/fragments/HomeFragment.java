@@ -138,8 +138,6 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
 
         transactionViewModel.fetchTransactionList();
 
-        transactionViewModel.fetchMonthlyBalance();
-
         contactsViewModel.fetchContactList(null, null);
 
         newsViewModel.fetchNews(null, null);
@@ -321,7 +319,6 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         swipeRefreshLayout.setOnRefreshListener(() -> {
             transactionViewModel.fetchCurrentBalance();
             transactionViewModel.fetchTransactionList();
-            transactionViewModel.fetchMonthlyBalance();
             contactsViewModel.fetchContactList(null, null);
             newsViewModel.fetchNews(null, null);
         });

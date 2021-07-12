@@ -49,10 +49,10 @@ public class TransactionRepository {
     }
 
     /* Поступления/списания за месяц */
-    public void getMonthlyBalance(final int month, final Callback<MonthBalance> callback) {
-        RetrofitClient.getInstance(context).setAuthorizationHeader(context);
-        RetrofitClient.getInstance(context).getMonthlyBalanceHistory(month, callback);
-    }
+//    public void getMonthlyBalance(final int month, final Callback<MonthBalance> callback) {
+//        RetrofitClient.getInstance(context).setAuthorizationHeader(context);
+//        RetrofitClient.getInstance(context).getMonthlyBalanceHistory(month, callback);
+//    }
 
     /* Поступления/списания за месяц по дням */
     public void getMonthlyBalanceByDays(final int month, final Callback<DaysBalance> callback) {

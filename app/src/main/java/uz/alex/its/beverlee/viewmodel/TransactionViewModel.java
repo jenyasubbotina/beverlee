@@ -297,6 +297,17 @@ public class TransactionViewModel extends ViewModel {
                     monthlyTransferAmount.setValue(transferAmount);
                     monthlyReplenishAmount.setValue(replenishAmount);
                     monthlyWithdrawalAmount.setValue(withdrawalAmount);
+                    /* monthly balance */
+                    final double balanceIncrease = bonusAmount + receiptAmount + replenishAmount;
+                    final double balanceDecrease = purchaseAmount + transferAmount + withdrawalAmount;
+                    monthlyBalanceIncrease.setValue(balanceIncrease);
+                    monthlyBalanceDecrease.setValue(balanceDecrease);
+
+                    if (balanceIncrease >= balanceDecrease) {
+                        monthlyTurnover.setValue(balanceIncrease);
+                        return;
+                    }
+                    monthlyTurnover.setValue(-balanceDecrease);
                 }
             }
 
@@ -405,38 +416,6 @@ public class TransactionViewModel extends ViewModel {
     public void setIncrease(final boolean increase) {
         this.transactionParams.setIncrease(increase);
         this.params.setValue(transactionParams);
-    }
-
-    public void fetchMonthlyBalance() {
-        isLoading.setValue(true);
-        repository.getMonthlyBalance(transactionParams.getMonth(), new Callback<MonthBalance>() {
-            @Override
-            public void onResponse(@NonNull Call<MonthBalance> call, @NonNull Response<MonthBalance> response) {
-                isLoading.setValue(false);
-                if (response.code() == 200 && response.isSuccessful()) {
-                    final MonthBalance monthBalance = response.body();
-
-                    if (monthBalance == null) {
-                        Log.e(TAG, "onResponse(): monthlyBalance=null");
-                        return;
-                    }
-                    monthlyBalanceIncrease.setValue(monthBalance.getIncrease());
-                    monthlyBalanceDecrease.setValue(monthBalance.getDecrease());
-
-                    if (monthBalance.getIncrease() >= monthBalance.getDecrease()) {
-                        monthlyTurnover.setValue(monthBalance.getIncrease());
-                        return;
-                    }
-                    monthlyTurnover.setValue(-monthBalance.getDecrease());
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<MonthBalance> call, @NonNull Throwable t) {
-                isLoading.setValue(false);
-                Log.e(TAG, "onFailure(): ", t);
-            }
-        });
     }
 
     /* visual graphs */

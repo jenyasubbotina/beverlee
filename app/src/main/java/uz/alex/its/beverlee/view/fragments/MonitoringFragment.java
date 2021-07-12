@@ -130,7 +130,6 @@ public class MonitoringFragment extends Fragment {
         }
         transactionViewModel.setTransactionParams(params);
         transactionViewModel.fetchTransactionList();
-        transactionViewModel.fetchMonthlyBalance();
     }
 
     @Override
@@ -288,13 +287,11 @@ public class MonitoringFragment extends Fragment {
         nextChartImageView.setOnClickListener(v -> {
             transactionViewModel.nextMonth();
             transactionViewModel.fetchTransactionList();
-            transactionViewModel.fetchMonthlyBalance();
         });
 
         prevChartImageView.setOnClickListener(v -> {
             transactionViewModel.prevMonth();
             transactionViewModel.fetchTransactionList();
-            transactionViewModel.fetchMonthlyBalance();
         });
 
         pieChart.setOnClickListener(v -> {
@@ -304,7 +301,6 @@ public class MonitoringFragment extends Fragment {
         });
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            transactionViewModel.fetchMonthlyBalance();
             transactionViewModel.fetchTransactionList();
         });
 
