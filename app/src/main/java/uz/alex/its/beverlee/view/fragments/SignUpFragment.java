@@ -210,6 +210,8 @@ public class SignUpFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        authViewModel.clearObservables();
+
         authViewModel.getCountryList().observe(getViewLifecycleOwner(), countryList -> {
             if (countryList != null && !countryList.isEmpty()) {
                 final List<Country> tempList = new ArrayList<>();
@@ -243,10 +245,12 @@ public class SignUpFragment extends Fragment {
                 signUpBtn.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.btn_purple, null));
 
                 SharedPrefs.getInstance(requireContext()).putString(Constants.BEARER_TOKEN, workInfo.getOutputData().getString(Constants.BEARER_TOKEN));
-
-                final SignUpFragmentDirections.ActionSignUpFragmentToInputSmsFragment action = SignUpFragmentDirections.actionSignUpFragmentToInputSmsFragment();
-                action.setPhone(workInfo.getOutputData().getString(Constants.PHONE));
-                NavHostFragment.findNavController(SignUpFragment.this).navigate(action);
+                NavHostFragment.findNavController(SignUpFragment.this).navigate(
+                        SignUpFragmentDirections.actionSignUpFragmentToInputSmsFragment()
+                                .setPhone(workInfo.getOutputData().getString(Constants.PHONE))
+                                .setFirstName(workInfo.getOutputData().getString(Constants.FIRST_NAME))
+                                .setLastName(workInfo.getOutputData().getString(Constants.LAST_NAME))
+                                .setSignUp(true));
 
                 return;
             }

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activities.SplashActivity"
+    tools:context=".view.fragments.SplashFragment"
     android:background="@drawable/background">
 
     <ImageView
@@ -41,7 +41,6 @@
         app:layout_constraintStart_toStartOf="@id/welcomeTextView"
         app:layout_constraintEnd_toEndOf="@id/welcomeTextView"
         android:layout_marginTop="3dp"
-        android:text="@string/firstname_text"
         android:fontFamily="@font/geometria_medium"
         android:textSize="13sp"
         android:textColor="#fff"

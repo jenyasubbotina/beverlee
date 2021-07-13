@@ -50,7 +50,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustNothing"/>
         <activity
-            android:name=".view.activities.SplashActivity"
+            android:name=".view.fragments.SplashFragment"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service

@@ -120,4 +120,5 @@ public class Constants {
     public static final String MAKE_PURCHASE_PARAMS = "make_purchase_params";
     public static final String REPLENISH_URL = "replenish_url";
     public static final String PIN_DIALOG_WIDTH = "pin_dialog_width";
+    public static final String IS_SIGN_UP = "is_sign_up";
 }

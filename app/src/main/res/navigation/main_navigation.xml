@@ -5,11 +5,20 @@
     android:id="@+id/home_navigation"
     app:startDestination="@id/pinFragment">
 
-    <activity
-        android:id="@+id/splashActivity"
-        android:name="uz.alex.its.beverlee.view.activities.SplashActivity"
-        android:label="activity_splash"
-        tools:layout="@layout/activity_splash" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="uz.alex.its.beverlee.view.fragments.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="full_name"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="uz.alex.its.beverlee.view.fragments.HomeFragment"
@@ -279,6 +288,9 @@
         <action
             android:id="@+id/action_pinFragment_to_changePinFragment2"
             app:destination="@id/changePinFragment2" />
+        <action
+            android:id="@+id/action_pinFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
     </fragment>
     <fragment
         android:id="@+id/purchaseFragment"

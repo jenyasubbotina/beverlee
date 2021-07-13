@@ -57,6 +57,8 @@ public class RegisterWorker extends Worker {
                 return Result.success(outputDataBuilder
                         .putString(Constants.BEARER_TOKEN, bearerToken != null ? bearerToken.getToken() : null)
                         .putString(Constants.PHONE, registerParams.getPhone())
+                        .putString(Constants.FIRST_NAME, registerParams.getFirstName())
+                        .putString(Constants.LAST_NAME, registerParams.getLastName())
                         .build());
             }
             final ResponseBody error = response.errorBody();

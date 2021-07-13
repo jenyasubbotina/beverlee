@@ -31,7 +31,7 @@ public class AuthViewModel extends ViewModel {
 
     private final MutableLiveData<UUID> loginUUID;
     private final MutableLiveData<UUID> signUpUUID;
-    private final MutableLiveData<UUID> submitVerificationUUID;
+    private MutableLiveData<UUID> submitVerificationUUID;
 
     public AuthViewModel(final Context context) {
         this.countryRepository = new CountryRepository(context);
@@ -109,4 +109,8 @@ public class AuthViewModel extends ViewModel {
     }
 
     private static final String TAG = AuthViewModel.class.toString();
+
+    public void clearObservables() {
+        submitVerificationUUID = new MutableLiveData<>();
+    }
 }

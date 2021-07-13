@@ -136,15 +136,6 @@ public class PersonalDataFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         backArrowImageView.setOnClickListener(v -> {
-//            if (getActivity() != null) {
-//                if (getActivity().getCurrentFocus() == null) {
-//                    NavHostFragment.findNavController(this).popBackStack();
-//                    return;
-//                }
-//                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-//                getActivity().getCurrentFocus().clearFocus();
-//            }
             NavHostFragment.findNavController(this).popBackStack();
         });
 

@@ -32,6 +32,8 @@ public class PinFragment extends Fragment {
     View v;
 
     private static volatile boolean pinAssigned;
+    private static volatile boolean isSignUp;
+    private String firstName, lastName;
 
     private PinViewModel pinViewModel;
     private NetworkConnectivity networkConnectivity;
@@ -47,11 +49,16 @@ public class PinFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (requireActivity().getIntent() != null) {
             pinAssigned = requireActivity().getIntent().getBooleanExtra(Constants.PIN_ASSIGNED, false);
+            isSignUp = requireActivity().getIntent().getBooleanExtra(Constants.IS_SIGN_UP, false);
+            firstName = requireActivity().getIntent().getStringExtra(Constants.FIRST_NAME);
+            lastName = requireActivity().getIntent().getStringExtra(Constants.LAST_NAME);
         }
         else {
             pinAssigned = true;
+            isSignUp = false;
         }
 
         /*init ViewModel */
@@ -158,7 +165,16 @@ public class PinFragment extends Fragment {
         pinViewModel.getVerifyPinResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 progressBar.setVisibility(View.GONE);
-                NavHostFragment.findNavController(this).navigate(PinFragmentDirections.actionPinFragmentToHomeFragment());
+
+                if (isSignUp) {
+                    NavHostFragment.findNavController(this).navigate(
+                            PinFragmentDirections.actionPinFragmentToSplashFragment()
+                                    .setFullName(firstName));
+                }
+                else {
+                    NavHostFragment.findNavController(this).navigate(PinFragmentDirections.actionPinFragmentToHomeFragment());
+                }
+
                 pinErrorTextView.setVisibility(View.INVISIBLE);
                 return;
             }

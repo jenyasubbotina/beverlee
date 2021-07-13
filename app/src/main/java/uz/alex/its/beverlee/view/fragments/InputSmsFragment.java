@@ -48,7 +48,8 @@ public class InputSmsFragment extends Fragment {
 
     private VerifyPhoneCounterTask verifyPhoneCounterTask;
 
-    private String phone;
+    private String phone, firstName, lastName;
+    private boolean isSignUp;
 
     public InputSmsFragment() { }
 
@@ -58,6 +59,9 @@ public class InputSmsFragment extends Fragment {
 
         if (getArguments() != null) {
             this.phone = InputSmsFragmentArgs.fromBundle(getArguments()).getPhone();
+            this.firstName = InputSmsFragmentArgs.fromBundle(getArguments()).getFirstName();
+            this.lastName = InputSmsFragmentArgs.fromBundle(getArguments()).getLastName();
+            this.isSignUp = InputSmsFragmentArgs.fromBundle(getArguments()).getSignUp();
         }
         if (requireActivity().getCurrentFocus() != null) {
                 InputMethodManager imm = (InputMethodManager)requireActivity().getSystemService(INPUT_METHOD_SERVICE);
@@ -181,7 +185,11 @@ public class InputSmsFragment extends Fragment {
                 SharedPrefs.getInstance(requireContext()).putString(Constants.PHONE, phone);
                 SharedPrefs.getInstance(requireContext()).putBoolean(Constants.PHONE_VERIFIED, true);
 
-                startActivity(new Intent(requireActivity(), MainActivity.class).putExtra(Constants.PIN_ASSIGNED, false));
+                startActivity(new Intent(requireActivity(), MainActivity.class)
+                        .putExtra(Constants.PIN_ASSIGNED, false)
+                        .putExtra(Constants.FIRST_NAME, firstName)
+                        .putExtra(Constants.LAST_NAME, lastName)
+                        .putExtra(Constants.IS_SIGN_UP, isSignUp));
                 requireActivity().finish();
             }
         });

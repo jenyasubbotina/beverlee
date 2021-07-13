@@ -44,6 +44,11 @@
         android:label="fragment_input_sms"
         tools:layout="@layout/fragment_input_sms" >
         <argument
+            android:name="sign_up"
+            app:argType="boolean"
+            app:nullable="false"
+            android:defaultValue="false"/>
+        <argument
             android:name="first_name"
             app:argType="string"
             app:nullable="true"
