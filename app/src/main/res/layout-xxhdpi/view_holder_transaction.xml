@@ -7,15 +7,14 @@
 
     <ImageView
         android:id="@+id/transaction_image_view"
-        android:layout_width="40dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        android:layout_marginTop="24dp"
         android:padding="12dp"
         android:layout_marginStart="28dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/grey_circle"
         android:contentDescription="@string/monitoring"/>
 
@@ -26,7 +25,6 @@
         app:layout_constraintTop_toTopOf="@id/transaction_image_view"
         app:layout_constraintStart_toEndOf="@id/transaction_image_view"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="2dp"
         android:textColor="#BCBECD"
         android:fontFamily="@font/geometria_medium"
         android:textSize="13sp"/>
@@ -37,7 +35,10 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/transaction_type_text_view"
         app:layout_constraintStart_toStartOf="@id/transaction_type_text_view"
+        app:layout_constraintEnd_toStartOf="@id/transaction_amount_text_view"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="2dp"
+        android:layout_marginEnd="8dp"
         android:textColor="#3B3A38"
         android:fontFamily="@font/geometria_medium"
         android:textStyle="bold"

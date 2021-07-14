@@ -105,7 +105,6 @@ public class PurchaseFragment extends Fragment implements PurchaseCallback {
 
         purchaseViewModel.getPurchaseList().observe(getViewLifecycleOwner(), purchaseList -> {
             swipeRefreshLayout.setRefreshing(false);
-            Log.i(TAG, "onActivityCreated(): purchaseList=" + purchaseList);
             purchaseAdapter.setPurchaseList(purchaseList);
         });
 

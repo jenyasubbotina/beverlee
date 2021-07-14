@@ -11,6 +11,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.UUID;
 
+import uz.alex.its.beverlee.storage.SharedPrefs;
+import uz.alex.its.beverlee.utils.Constants;
+
 public class TokenReceiver {
     private final Context context;
 
@@ -37,7 +40,7 @@ public class TokenReceiver {
     }
 
     public void onNewToken(final String token) {
-        //todo: refresh subscription with the server
+        SharedPrefs.getInstance(context).putString(Constants.FCM_TOKEN, token);
     }
 
     private boolean googleServicesAvailable(final Context context) {

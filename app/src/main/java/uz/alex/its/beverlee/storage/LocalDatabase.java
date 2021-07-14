@@ -15,6 +15,8 @@ import uz.alex.its.beverlee.model.notification.Push;
 import uz.alex.its.beverlee.model.actor.ContactModel.Contact;
 import uz.alex.its.beverlee.model.transaction.TransactionModel;
 import uz.alex.its.beverlee.storage.converters.DateConverter;
+import uz.alex.its.beverlee.storage.converters.ProductConverter;
+import uz.alex.its.beverlee.storage.converters.RequestConverter;
 import uz.alex.its.beverlee.storage.converters.TransactionParticipantConverter;
 import uz.alex.its.beverlee.storage.dao.ContactDao;
 import uz.alex.its.beverlee.storage.dao.NewsDao;
@@ -26,8 +28,8 @@ import uz.alex.its.beverlee.utils.Constants;
         Contact.class,
         Push.class,
         NewsModel.News.class,
-        TransactionModel.Transaction.class}, version = 12, exportSchema = false)
-@TypeConverters({ DateConverter.class, TransactionParticipantConverter.class})
+        TransactionModel.Transaction.class}, version = 14, exportSchema = false)
+@TypeConverters({ DateConverter.class, TransactionParticipantConverter.class, RequestConverter.class, ProductConverter.class})
 public abstract class LocalDatabase extends RoomDatabase {
     /* Declare dao objects here */
     public abstract PushDao pushDao();

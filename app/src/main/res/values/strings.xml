@@ -113,6 +113,7 @@
     <string name="accessible">Доступно</string>
     <string name="replenishment">Пополнение</string>
     <string name="withdrawal">Вывод</string>
+    <string name="dispatch">Отправление</string>
     <string name="choose_a_card">Выберите карту</string>
     <string name="card_name">Название карты</string>
     <string name="successful_transaction">Операция успешна!</string>

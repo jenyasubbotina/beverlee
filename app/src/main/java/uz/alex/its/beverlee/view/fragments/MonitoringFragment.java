@@ -304,8 +304,8 @@ public class MonitoringFragment extends Fragment {
             transactionViewModel.fetchTransactionList();
         });
 
-        if (transactionViewModel.getParams().getTransactionTypeId() == 4
-                || transactionViewModel.getParams().getTransactionTypeId() == 5
+        if (transactionViewModel.getParams().getTransactionTypeId() == 2
+                || transactionViewModel.getParams().getTransactionTypeId() == 4
                 || transactionViewModel.getParams().getTransactionTypeId() == 6
                 || (transactionViewModel.getParams().getTransactionTypeId() == 0 && !MonitoringFragmentArgs.fromBundle(getArguments()).getIsIncome())) {
             expenditureRadioBtn.setChecked(true);
@@ -341,12 +341,6 @@ public class MonitoringFragment extends Fragment {
 
         transactionViewModel.getTransactionList().observe(getViewLifecycleOwner(), transactionList -> {
             transactionAdapter.setTransactionList(transactionList);
-
-            for (final TransactionModel.Transaction transaction : transactionList) {
-                if (transaction.getTypeId() == 6) {
-                    Log.i(TAG, "-> " + transaction);
-                }
-            }
         });
 
         transactionViewModel.getMonthlyBalance().observe(getViewLifecycleOwner(), monthlyBalance -> {

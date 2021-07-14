@@ -66,6 +66,12 @@ public class TransactionDiffUtil extends DiffUtil.Callback {
             }
             return oldList.get(oldItemPosition).getPurchase().equals(newList.get(newItemPosition).getPurchase());
         }
+        if (oldList.get(oldItemPosition).getWithdrawal() != null) {
+            if (newList.get(newItemPosition).getWithdrawal() == null) {
+                return false;
+            }
+            return oldList.get(oldItemPosition).getWithdrawal().equals(newList.get(newItemPosition).getWithdrawal());
+        }
         return false;
     }
 }

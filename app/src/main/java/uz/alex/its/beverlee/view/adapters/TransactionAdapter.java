@@ -87,8 +87,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
         TransactionViewHolder holder = (TransactionViewHolder) viewHolder;
 
-        holder.transactionTypeTextView.setText(transactionList.get(position).getTypeTitle());
-
+        if (transactionList.get(position).getTypeId() == 4) {
+            holder.transactionTypeTextView.setText(context.getString(R.string.dispatch));
+        }
+        else {
+            holder.transactionTypeTextView.setText(transactionList.get(position).getTypeTitle());
+        }
         switch (transactionList.get(position).getTypeId()) {
             case 1: {
                 holder.transactionImageView.setImageResource(R.drawable.ic_bonus);
@@ -113,7 +117,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         }
         if (transactionList.get(position).getTypeId() == 1) {
-            if (transactionList.get(position).getUserFullName() == null || TextUtils.isEmpty(transactionList.get(position).getUserFullName())) {
+            if (transactionList.get(position).getUserFullName() == null
+                    || TextUtils.isEmpty(transactionList.get(position).getUserFullName())) {
                 holder.transactionFromTextView.setText(context.getString(R.string.unknown));
             }
             else {
@@ -121,18 +126,28 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         }
         else if (transactionList.get(position).getTypeId() == 2) {
-            if (transactionList.get(position).getPurchase().getDescription() == null || TextUtils.isEmpty(transactionList.get(position).getPurchase().getDescription())) {
+            if (transactionList.get(position).getPurchase() == null
+                    || transactionList.get(position).getPurchase().getProduct() == null
+                    || transactionList.get(position).getPurchase().getProduct().getTitle() == null
+                    || TextUtils.isEmpty(transactionList.get(position).getPurchase().getProduct().getTitle())) {
                 holder.transactionFromTextView.setText(context.getString(R.string.unknown));
             }
             else {
-                holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getPurchase().getDescription(), ""));
+                holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getPurchase().getProduct().getTitle(), ""));
             }
         }
         else if (transactionList.get(position).getTypeId() == 3) {
-            holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getTransfer().getSender().getFirstName(), transactionList.get(position).getTransfer().getSender().getLastName()));
+            holder.transactionFromTextView.setText(context.getString(R.string.transaction_from,
+                    transactionList.get(position).getTransfer().getSender().getFirstName(),
+                    transactionList.get(position).getTransfer().getSender().getLastName()));
         }
         else if (transactionList.get(position).getTypeId() == 4) {
-            holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getTransfer().getRecipient().getFirstName(), transactionList.get(position).getTransfer().getRecipient().getLastName()));
+            holder.transactionFromTextView.setText(context.getString(R.string.transaction_from,
+                    transactionList.get(position).getTransfer().getRecipient().getFirstName(),
+                    transactionList.get(position).getTransfer().getRecipient().getLastName()));
+        }
+        else if (transactionList.get(position).getTypeId() == 6) {
+            holder.transactionFromTextView.setText(context.getString(R.string.transaction_from, transactionList.get(position).getWithdrawal().getRequest().getMethodLabel(), ""));
         }
         if (transactionList.get(position).isBalanceIncrease()) {
             holder.transactionAmountTextView.setText(context.getString(R.string.transaction_amount, "+", transactionList.get(position).getAmount()));

@@ -110,12 +110,17 @@ public class TransactionModel {
         @Expose
         @SerializedName("buy")
         @Embedded
-        private final Purchase purchase;
+        private final PurchaseModel.PurchaseTransaction purchase;
 
         @Expose
         @SerializedName("transfer")
         @Embedded
         private final Transfer transfer;
+
+        @Expose
+        @SerializedName("withdrawal")
+        @Embedded
+        private final Withdrawal withdrawal;
 
         public Transaction(final long id,
                            final int typeId,
@@ -124,8 +129,9 @@ public class TransactionModel {
                            final String userFullName,
                            final double amount,
                            final boolean isBalanceIncrease,
-                           final Purchase purchase,
+                           final PurchaseModel.PurchaseTransaction purchase,
                            final Transfer transfer,
+                           final Withdrawal withdrawal,
                            final long createdAt) {
             this.id = id;
             this.typeId = typeId;
@@ -136,6 +142,7 @@ public class TransactionModel {
             this.isBalanceIncrease = isBalanceIncrease;
             this.purchase = purchase;
             this.transfer = transfer;
+            this.withdrawal = withdrawal;
             this.createdAt = createdAt;
         }
 
@@ -171,12 +178,16 @@ public class TransactionModel {
             return createdAt;
         }
 
-        public Purchase getPurchase() {
+        public PurchaseModel.PurchaseTransaction getPurchase() {
             return purchase;
         }
 
         public Transfer getTransfer() {
             return transfer;
+        }
+
+        public Withdrawal getWithdrawal() {
+            return withdrawal;
         }
 
         @NonNull
@@ -193,6 +204,7 @@ public class TransactionModel {
                     ", createdAt=" + createdAt +
                     ", purchase=" + purchase +
                     ", transfer=" + transfer +
+                    ", withdrawal=" + withdrawal +
                     '}';
         }
     }

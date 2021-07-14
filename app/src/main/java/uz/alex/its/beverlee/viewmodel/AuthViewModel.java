@@ -29,8 +29,8 @@ public class AuthViewModel extends ViewModel {
     private final PinRepository pinRepository;
     private final MutableLiveData<List<Country>> countryList;
 
-    private final MutableLiveData<UUID> loginUUID;
-    private final MutableLiveData<UUID> signUpUUID;
+    private MutableLiveData<UUID> loginUUID;
+    private MutableLiveData<UUID> signUpUUID;
     private MutableLiveData<UUID> submitVerificationUUID;
 
     public AuthViewModel(final Context context) {
@@ -111,6 +111,8 @@ public class AuthViewModel extends ViewModel {
     private static final String TAG = AuthViewModel.class.toString();
 
     public void clearObservables() {
+        loginUUID = new MutableLiveData<>();
+        signUpUUID = new MutableLiveData<>();
         submitVerificationUUID = new MutableLiveData<>();
     }
 }

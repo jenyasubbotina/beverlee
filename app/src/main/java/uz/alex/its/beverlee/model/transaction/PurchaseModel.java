@@ -90,6 +90,85 @@ public class PurchaseModel {
                     '}';
         }
     }
+
+    public static class PurchaseTransaction {
+        @Expose
+        @SerializedName("product")
+        private final Product product;
+
+        @Expose
+        @SerializedName("amount")
+        @ColumnInfo(name = "purchase_amount")
+        private final double amount;
+
+        public PurchaseTransaction(final Product product, final double amount) {
+            this.product = product;
+            this.amount = amount;
+        }
+
+        public Product getProduct() {
+            return product;
+        }
+
+        public double getAmount() {
+            return amount;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "PurchaseTransaction{" +
+                    "product=" + product +
+                    ", amount=" + amount +
+                    '}';
+        }
+    }
+
+    public static class Product {
+        @Expose
+        @SerializedName("id")
+        @ColumnInfo(name = "product_id")
+        private final long id;
+
+        @Expose
+        @SerializedName("order_id")
+        @ColumnInfo(name = "order_id")
+        private final long orderId;
+
+        @Expose
+        @SerializedName("title")
+        @ColumnInfo(name = "title")
+        private final String title;
+
+        public Product(final long id, final long orderId, final String title) {
+            this.id = id;
+            this.orderId = orderId;
+            this.title = title;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public long getOrderId() {
+            return orderId;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return "Product{" +
+                    "id=" + id +
+                    ", orderId=" + orderId +
+                    ", title='" + title + '\'' +
+                    '}';
+        }
+    }
+
     public static class Purchase {
         @Expose
         @SerializedName("id")

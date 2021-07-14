@@ -33,6 +33,27 @@ public class PushProcessor {
     public Push parsePush(@NonNull final RemoteMessage remoteMessage) {
         final Map<String, String> data = remoteMessage.getData();
 
+        Log.i(TAG, "messageId=" + remoteMessage.getMessageId());
+        Log.i(TAG, "dataPayload=" + data);
+
+        if (remoteMessage.getNotification() != null) {
+            Log.i(TAG, "notificationCount=" + remoteMessage.getNotification().getNotificationCount());
+            Log.i(TAG, "notificationBody=" + remoteMessage.getNotification().getBody());
+            Log.i(TAG, "notificationBodyLocalizationKey=" + remoteMessage.getNotification().getBodyLocalizationKey());
+            Log.i(TAG, "notificationChannelId=" + remoteMessage.getNotification().getChannelId());
+            Log.i(TAG, "notificationClickAction=" + remoteMessage.getNotification().getClickAction());
+            Log.i(TAG, "notificationColor=" + remoteMessage.getNotification().getColor());
+            Log.i(TAG, "notificationIcon=" + remoteMessage.getNotification().getIcon());
+            Log.i(TAG, "notificationSound=" + remoteMessage.getNotification().getSound());
+            Log.i(TAG, "notificationTag=" + remoteMessage.getNotification().getTag());
+            Log.i(TAG, "notificationTicker=" + remoteMessage.getNotification().getTicker());
+            Log.i(TAG, "notificationTitle=" + remoteMessage.getNotification().getTitle());
+            Log.i(TAG, "notificationLink=" + remoteMessage.getNotification().getLink());
+            Log.i(TAG, "notificationImageUrl=" + remoteMessage.getNotification().getImageUrl());
+            Log.i(TAG, "notificationPriority=" + remoteMessage.getNotification().getNotificationPriority());
+        }
+
+
         if (data.isEmpty()) {
             Log.e(TAG, "processMessage(): dataPayload is NULL");
             return null;
