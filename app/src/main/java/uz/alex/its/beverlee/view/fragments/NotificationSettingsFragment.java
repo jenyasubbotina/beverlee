@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.WorkInfo;
@@ -156,7 +157,8 @@ public class NotificationSettingsFragment extends Fragment {
                             NotificationSettingsFragmentDirections.actionNotificationSettingsFragmentToTransactionResultFragment()
                                     .setResult(false)
                                     .setType(Constants.RESULT_TYPE_PROFILE)
-                                    .setErrorMessage(Constants.NO_INTERNET));
+                                    .setErrorMessage(Constants.NO_INTERNET),
+                            new NavOptions.Builder().setPopUpTo(R.id.transferFragment, false).build());
                     return;
                 }
                 userViewModel.saveNotificationSettings(

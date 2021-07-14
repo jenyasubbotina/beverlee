@@ -34,6 +34,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         currentNavItem = R.id.navigation_home;
     }
 
+    public static void setCurrentNavItem(final int resourceId) {
+        currentNavItem = resourceId;
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -43,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onPause() {
         super.onPause();
-//        overridePendingTransition(0, 0);
     }
 
     @Override

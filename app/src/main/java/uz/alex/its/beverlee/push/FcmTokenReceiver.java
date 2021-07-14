@@ -32,7 +32,7 @@ public class FcmTokenReceiver extends ListenableWorker {
                     }
                     else {
                         final String token = task.getResult();
-
+                        Log.i(TAG, "token=" + token);
                         final Data outputData = new Data.Builder()
                                 .putString(Constants.FCM_TOKEN, token)
                                 .build();

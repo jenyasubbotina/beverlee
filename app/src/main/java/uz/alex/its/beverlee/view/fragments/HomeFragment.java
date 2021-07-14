@@ -1,5 +1,6 @@
 package uz.alex.its.beverlee.view.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.WorkInfo;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,8 @@ import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.chart.LineChartItem;
 import uz.alex.its.beverlee.model.news.NewsModel.News;
 import uz.alex.its.beverlee.model.transaction.TransactionParams;
+import uz.alex.its.beverlee.push.FcmTokenReceiver;
+import uz.alex.its.beverlee.push.TokenReceiver;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.utils.DateFormatter;
 import uz.alex.its.beverlee.view.LineChart;
@@ -142,6 +146,8 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
 
         newsViewModel.fetchNews(null, null);
 
+        final TokenReceiver tokenReceiver = new TokenReceiver(requireContext());
+        tokenReceiver.obtainFcmToken();
     }
 
     @Override
@@ -474,6 +480,10 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
             selectedCheckImageView.setVisibility(View.INVISIBLE);
             contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
+    }
+
+    public static int dpToPx(float dp, final Context context) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
     private static final String TAG = HomeFragment.class.toString();

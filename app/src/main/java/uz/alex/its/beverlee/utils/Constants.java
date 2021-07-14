@@ -1,5 +1,7 @@
 package uz.alex.its.beverlee.utils;
 
+import android.util.TypedValue;
+
 public class Constants {
     /* application constants */
     public static final String MD5 = "MD5";
@@ -105,7 +107,6 @@ public class Constants {
     public static final String CURRENT_BALANCE = "current_balance";
     public static final String VERIFY_TRANSFER_PARAMS = "verify_transfer_params";
 
-
     public static final String RESULT_TYPE_TRANSFER = "transfer";
     public static final String RESULT_TYPE_REPLENISH = "replenish";
     public static final String RESULT_TYPE_WITHDRAWAL = "withdrawal";
@@ -121,4 +122,5 @@ public class Constants {
     public static final String REPLENISH_URL = "replenish_url";
     public static final String PIN_DIALOG_WIDTH = "pin_dialog_width";
     public static final String IS_SIGN_UP = "is_sign_up";
+    public static final String SET_DEFAULT_MENU = "set_default_menu";
 }

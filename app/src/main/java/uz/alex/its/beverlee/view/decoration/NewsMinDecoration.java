@@ -25,12 +25,18 @@ public class NewsMinDecoration extends RecyclerView.ItemDecoration {
         super.getItemOffsets(outRect, view, parent, state);
         int left = 0, right = 0, top = 0, bottom = 0;
 
-        if (parent.getChildAdapterPosition(view) == 0) {
-            left = biggerMargin;
+        if (parent.getAdapter() != null) {
+            top =  margin;
+            bottom = margin;
+            right = margin;
+
+            if (parent.getChildAdapterPosition(view) == 0) {
+                left = biggerMargin;
+            }
+            else if (parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1) {
+                right = biggerMargin;
+            }
+            outRect.set(left, top, right, bottom);
         }
-        right = margin;
-        top =  margin;
-        bottom = margin;
-        outRect.set(left, top, right, bottom);
     }
 }

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.work.WorkInfo;
 
@@ -102,7 +103,8 @@ public class ReplenishFragment extends Fragment {
                             ReplenishFragmentDirections.actionDebitFragmentToTransactionResultFragment()
                                     .setResult(false)
                                     .setType(Constants.RESULT_TYPE_TRANSFER)
-                                    .setErrorMessage(Constants.NO_INTERNET));
+                                    .setErrorMessage(Constants.NO_INTERNET),
+                            new NavOptions.Builder().setPopUpTo(R.id.transferFragment, false).build());
                     return;
                 }
                 final String amount = amountEditText.getText().toString().trim();

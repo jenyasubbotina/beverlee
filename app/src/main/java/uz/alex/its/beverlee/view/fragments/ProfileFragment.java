@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -278,6 +279,9 @@ public class ProfileFragment extends Fragment {
                         .fit()
                         .centerCrop()
                         .into(avatarImageView);
+            }
+            else {
+                avatarImageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_crown_big, null));
             }
             swipeRefreshLayout.setRefreshing(false);
         });

@@ -104,11 +104,11 @@ public class TransactionSearchFragment extends Fragment {
         transactionTypeSpinner = root.findViewById(R.id.transaction_type_spinner);
         searchBtn = root.findViewById(R.id.search_btn);
 
-        final DayArrayAdapter yearAdapter = new DayArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, yearList);
-        final ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.month_array));
-        final ArrayAdapter<String> transactionTypeAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.transaction_type_array));
-        firstDayAdapter = new DayArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item);
-        lastDayAdapter = new DayArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item);
+        final DayArrayAdapter yearAdapter = new DayArrayAdapter(requireContext(), R.layout.view_holder_date, R.id.date_text_view, yearList);
+        final ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(requireContext(), R.layout.view_holder_date, R.id.date_text_view, getResources().getStringArray(R.array.month_array));
+        final ArrayAdapter<String> transactionTypeAdapter = new ArrayAdapter<>(requireContext(), R.layout.view_holder_date, R.id.date_text_view, getResources().getStringArray(R.array.transaction_type_array));
+        firstDayAdapter = new DayArrayAdapter(requireContext(), R.layout.view_holder_date, R.id.date_text_view);
+        lastDayAdapter = new DayArrayAdapter(requireContext(), R.layout.view_holder_date, R.id.date_text_view);
 
         yearSpinner.setAdapter(yearAdapter);
         monthSpinner.setAdapter(monthAdapter);

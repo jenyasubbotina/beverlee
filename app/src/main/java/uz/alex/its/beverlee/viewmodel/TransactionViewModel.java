@@ -246,6 +246,10 @@ public class TransactionViewModel extends ViewModel {
                     double replenishAmount = 0;
                     double withdrawalAmount = 0;
 
+                    for (final TransactionModel.Transaction transaction : fetchedTransactionList) {
+                        Log.i(TAG, "-> " + transaction);
+                    }
+
                     bonusAmount = fetchedTransactionList.stream()
                             .filter(i -> i.getTypeId() == 1)
                             .mapToDouble(Transaction::getAmount)

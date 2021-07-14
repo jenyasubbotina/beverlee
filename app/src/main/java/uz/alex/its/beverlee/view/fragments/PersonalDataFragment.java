@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.work.WorkInfo;
 
@@ -195,7 +196,8 @@ public class PersonalDataFragment extends Fragment {
                             PersonalDataFragmentDirections.actionPersonalDataFragmentToTransactionResultFragment()
                                     .setResult(false)
                                     .setType(Constants.RESULT_TYPE_PROFILE)
-                                    .setErrorMessage(Constants.NO_INTERNET));
+                                    .setErrorMessage(Constants.NO_INTERNET),
+                            new NavOptions.Builder().setPopUpTo(R.id.transferFragment, false).build());
                     return;
                 }
                 userViewModel.saveUserData(firstName, lastName, middleName, email, city, address);

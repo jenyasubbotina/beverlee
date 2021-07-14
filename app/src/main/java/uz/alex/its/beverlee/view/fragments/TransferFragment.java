@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -161,7 +163,7 @@ public class TransferFragment extends Fragment implements ContactCallback {
         saveContactTextView.setOnClickListener(v -> saveContactCheckBox.setChecked(!saveContactCheckBox.isChecked()));
 
         transferBtn.setOnClickListener(v -> {
-            transferBtn.startAnimation();
+            transferBtn.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.bubble));
 
             String recipientIdText = recipientEditText.getText().toString().trim();
             final String amountText = amountEditText.getText().toString().trim();
@@ -260,17 +262,22 @@ public class TransferFragment extends Fragment implements ContactCallback {
                         amountEditText.getWidth());
                 dialog.setTargetFragment(this, Constants.REQUEST_CODE_VERIFY_TRANSFER);
                 dialog.show(getParentFragmentManager().beginTransaction(), TAG);
+                backArrowImageView.setEnabled(true);
+                recipientImageView.setEnabled(true);
                 recipientEditText.setEnabled(true);
                 amountEditText.setEnabled(true);
                 return;
             }
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
                 Toast.makeText(requireContext(), workInfo.getOutputData().getString(Constants.REQUEST_ERROR), Toast.LENGTH_SHORT).show();
-                transferBtn.revertAnimation();
+                backArrowImageView.setEnabled(true);
+                recipientImageView.setEnabled(true);
                 recipientEditText.setEnabled(true);
                 amountEditText.setEnabled(true);
                 return;
             }
+            backArrowImageView.setEnabled(false);
+            recipientImageView.setEnabled(false);
             recipientEditText.setEnabled(false);
             amountEditText.setEnabled(false);
         });
@@ -279,7 +286,10 @@ public class TransferFragment extends Fragment implements ContactCallback {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 transferBtn.revertAnimation();
                 NavHostFragment.findNavController(this).navigate(
-                        TransferFragmentDirections.actionTransferFragmentToTransactionResultFragment().setResult(true).setType("transfer"));
+                        TransferFragmentDirections.actionTransferFragmentToTransactionResultFragment()
+                                .setResult(true).setType("transfer"));
+                backArrowImageView.setEnabled(true);
+                recipientImageView.setEnabled(true);
                 recipientEditText.setEnabled(true);
                 amountEditText.setEnabled(true);
                 return;
@@ -291,10 +301,14 @@ public class TransferFragment extends Fragment implements ContactCallback {
                                 .setResult(false)
                                 .setType(Constants.RESULT_TYPE_TRANSFER));
                 transferBtn.revertAnimation();
+                backArrowImageView.setEnabled(true);
+                recipientImageView.setEnabled(true);
                 recipientEditText.setEnabled(true);
                 amountEditText.setEnabled(true);
                 return;
             }
+            backArrowImageView.setEnabled(false);
+            recipientImageView.setEnabled(false);
             recipientEditText.setEnabled(false);
             amountEditText.setEnabled(false);
         });

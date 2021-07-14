@@ -341,6 +341,12 @@ public class MonitoringFragment extends Fragment {
 
         transactionViewModel.getTransactionList().observe(getViewLifecycleOwner(), transactionList -> {
             transactionAdapter.setTransactionList(transactionList);
+
+            for (final TransactionModel.Transaction transaction : transactionList) {
+                if (transaction.getTypeId() == 6) {
+                    Log.i(TAG, "-> " + transaction);
+                }
+            }
         });
 
         transactionViewModel.getMonthlyBalance().observe(getViewLifecycleOwner(), monthlyBalance -> {

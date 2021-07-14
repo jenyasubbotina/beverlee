@@ -116,6 +116,7 @@
     <string name="choose_a_card">Выберите карту</string>
     <string name="card_name">Название карты</string>
     <string name="successful_transaction">Операция успешна!</string>
+    <string name="successful_withdrawal_request">Запрос на вывод средств успешно отправлен!</string>
     <string name="failed_transaction">Что-то пошло не так!</string>
     <string name="send">Отправить</string>
     <string name="card_number_">Номер на карте</string>
@@ -133,7 +134,7 @@
     <string name="first_name_hint">Введите имя</string>
     <string name="last_name_hint">Введите фамилию</string>
     <string name="email_hint">Введите почту</string>
-    <string name="verification_code">Код подтверждения</string>
+    <string name="verification_code">Введите pin код</string>
     <string name="enter_code">Введите код</string>
     <string name="search">Поиск</string>
     <string name="zero">0</string>

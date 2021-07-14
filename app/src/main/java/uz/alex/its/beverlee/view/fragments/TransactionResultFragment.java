@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.utils.AppExecutors;
@@ -42,6 +45,8 @@ public class TransactionResultFragment extends Fragment {
 
     private NetworkConnectivity networkConnectivity;
 
+    private BottomNavigationView bottomNavigationView;
+
     public TransactionResultFragment() {
         // Required empty public constructor
     }
@@ -63,7 +68,7 @@ public class TransactionResultFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                NavHostFragment.findNavController(TransactionResultFragment.this).popBackStack();
+                return;
             }
         });
     }
@@ -71,6 +76,8 @@ public class TransactionResultFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_transaction_result, container, false);
+
+        bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav);
 
         transactionResultHeadingTextView = root.findViewById(R.id.transaction_result_heading_text_view);
         transactionResultTextView = root.findViewById(R.id.transaction_result_text_view);
@@ -88,21 +95,25 @@ public class TransactionResultFragment extends Fragment {
 
         if (type.equalsIgnoreCase(Constants.RESULT_TYPE_TRANSFER)) {
             transactionResultHeadingTextView.setText(R.string.transfer);
+            transactionResultTextView.setText(R.string.successful_transaction);
         }
         else if (type.equalsIgnoreCase(Constants.RESULT_TYPE_WITHDRAWAL)) {
             transactionResultHeadingTextView.setText(R.string.withdrawal);
+            transactionResultTextView.setText(R.string.successful_withdrawal_request);
         }
         else if (type.equalsIgnoreCase(Constants.RESULT_TYPE_REPLENISH)) {
             transactionResultHeadingTextView.setText(R.string.replenish);
+            transactionResultTextView.setText(R.string.successful_transaction);
         }
         else if (type.equalsIgnoreCase(Constants.RESULT_TYPE_PROFILE)) {
             transactionResultHeadingTextView.setText(R.string.profile);
+            transactionResultTextView.setText(R.string.successful_transaction);
         }
         else if (type.equalsIgnoreCase(Constants.RESULT_TYPE_CONTACTS)) {
             transactionResultHeadingTextView.setText(R.string.contacts);
+            transactionResultTextView.setText(R.string.successful_transaction);
         }
         if (result) {
-            transactionResultTextView.setText(R.string.successful_transaction);
             transactionResultTextView.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorGreen, null));
             transactionResultImageView.setImageResource(R.drawable.ic_check);
             returnBtn.setOnClickListener(v -> toMain());
@@ -126,6 +137,7 @@ public class TransactionResultFragment extends Fragment {
     private void toMain() {
         returnBtn.startAnimation(bubbleAnimation);
         NavHostFragment.findNavController(this).navigate(R.id.action_transactionResultFragment_to_homeFragment);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
     }
 
     private void reloadApp() {

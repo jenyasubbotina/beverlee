@@ -51,6 +51,11 @@
         <action
             android:id="@+id/action_homeFragment_to_purchaseFragment"
             app:destination="@id/purchaseFragment" />
+        <argument
+            android:name="clear_task"
+            app:argType="boolean"
+            android:defaultValue="false"
+            app:nullable="false"/>
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

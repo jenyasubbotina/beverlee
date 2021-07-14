@@ -9,12 +9,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.work.WorkInfo;
 
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -227,18 +229,58 @@ public class WithdrawalFragment extends Fragment {
         });
 
         withdrawBtn.setOnClickListener(v -> {
+            final String amountStr = amountEditText.getText().toString().trim();
+            final String cardNumber = cardWalletNumberEditText.getText().toString().trim();
+            final String recipientFullName = fullNameEditText.getText().toString().trim();
+            final String phone = phoneEditText.getText().toString().trim();
+            final String city = cityEditText.getText().toString().trim();
+            final Country country = (Country) countrySpinner.getSelectedItem();
+
+            if (currentWithdrawalType.getType().equalsIgnoreCase(getString(R.string.withdrawal_type_transfer))) {
+                if (TextUtils.isEmpty(recipientFullName)) {
+                    Toast.makeText(requireContext(), "Укажите Ф.И.О.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(phone)) {
+                    Toast.makeText(requireContext(), "Укажите номер телефона", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!Patterns.PHONE.matcher(phone).matches()) {
+                    Toast.makeText(requireContext(), "Неверный формат номера телефона", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(city)) {
+                    Toast.makeText(requireContext(), "Укажите город", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            else if (currentWithdrawalType.getType().equalsIgnoreCase(getString(R.string.withdrawal_type_card))) {
+                if (TextUtils.isEmpty(cardNumber)) {
+                    Toast.makeText(requireContext(), "Укажите номер карты получателя", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            else if (currentWithdrawalType.getType().equalsIgnoreCase(getString(R.string.withdrawal_type_wallet))) {
+                if (TextUtils.isEmpty(cardNumber)) {
+                    Toast.makeText(requireContext(), "Укажите номер кошелька получателя", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            if (TextUtils.isEmpty(amountStr)) {
+                Toast.makeText(requireContext(), "Укажите сумму", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             withdrawBtn.startAnimation();
 
             if (TextUtils.isEmpty(amountEditText.getText().toString().trim())) {
                 Toast.makeText(requireContext(), "Введите сумму для вывода", Toast.LENGTH_SHORT).show();
                 return;
             }
-            final double amount = Double.parseDouble(amountEditText.getText().toString().trim());
-            final String cardNumber = cardWalletNumberEditText.getText().toString().trim();
-            final String recipientFullName = fullNameEditText.getText().toString().trim();
-            final String phone = phoneEditText.getText().toString().trim();
-            final String city = cityEditText.getText().toString().trim();
-            final Country country = (Country) countrySpinner.getSelectedItem();
+            if (!TextUtils.isDigitsOnly(amountStr)) {
+                Toast.makeText(requireContext(), "Неверный формат суммы", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             networkConnectivity.checkInternetConnection(isConnected -> {
                 if (!isConnected) {
@@ -246,13 +288,14 @@ public class WithdrawalFragment extends Fragment {
                             WithdrawalFragmentDirections.actionWithdrawalFragmentToTransactionResultFragment()
                                     .setResult(false)
                                     .setType(Constants.RESULT_TYPE_WITHDRAWAL)
-                                    .setErrorMessage(Constants.NO_INTERNET));
+                                    .setErrorMessage(Constants.NO_INTERNET),
+                            new NavOptions.Builder().setPopUpTo(R.id.transferFragment, false).build());
                     return;
                 }
                 transactionViewModel.withdrawFinds(
                         currentWithdrawalType.getType(),
                         currentWithdrawalType.getMethod(),
-                        amount,
+                        Double.parseDouble(amountStr),
                         TextUtils.isEmpty(cardNumber) ? null : cardNumber,
                         TextUtils.isEmpty(recipientFullName) ? null : recipientFullName,
                         TextUtils.isEmpty(phone) ? null : phone,
@@ -288,7 +331,10 @@ public class WithdrawalFragment extends Fragment {
         transactionViewModel.getWithdrawalResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 NavHostFragment.findNavController(this).navigate(
-                        WithdrawalFragmentDirections.actionWithdrawalFragmentToTransactionResultFragment().setResult(true).setType("withdrawal"));
+                        WithdrawalFragmentDirections.actionWithdrawalFragmentToTransactionResultFragment()
+                                .setResult(true)
+                                .setType("withdrawal"),
+                        new NavOptions.Builder().setPopUpTo(R.id.transferFragment, false).build());
 
                 cardWalletNumberEditText.setEnabled(true);
                 amountEditText.setEnabled(true);
@@ -304,7 +350,8 @@ public class WithdrawalFragment extends Fragment {
                 NavHostFragment.findNavController(this).navigate(
                         WithdrawalFragmentDirections.actionWithdrawalFragmentToTransactionResultFragment()
                                 .setResult(false)
-                                .setType("withdrawal"));
+                                .setType("withdrawal"),
+                        new NavOptions.Builder().setPopUpTo(R.id.transferFragment, false).build());
 
                 cardWalletNumberEditText.setEnabled(true);
                 amountEditText.setEnabled(true);

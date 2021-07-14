@@ -6,6 +6,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class DayArrayAdapter extends ArrayAdapter<Integer> {
@@ -18,6 +21,15 @@ public class DayArrayAdapter extends ArrayAdapter<Integer> {
     public DayArrayAdapter(@NonNull Context context, int resource, final List<Integer> items) {
         super(context, resource, items);
         this.dayList = items;
+    }
+
+    public DayArrayAdapter(@NonNull @NotNull Context context, int resource, int textViewResourceId, List<Integer> dayList) {
+        super(context, resource, textViewResourceId);
+        this.dayList = dayList;
+    }
+
+    public DayArrayAdapter(@NonNull @NotNull Context context, int resource, int textViewResourceId) {
+        super(context, resource, textViewResourceId);
     }
 
     public void setDayList(final List<Integer> dayList) {
