@@ -19,6 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import uz.alex.its.beverlee.model.Country;
 import uz.alex.its.beverlee.model.CountryModel;
+import uz.alex.its.beverlee.push.TokenReceiver;
 import uz.alex.its.beverlee.repository.AuthRepository;
 import uz.alex.its.beverlee.repository.CountryRepository;
 import uz.alex.its.beverlee.repository.PinRepository;
@@ -26,21 +27,25 @@ import uz.alex.its.beverlee.repository.PinRepository;
 public class AuthViewModel extends ViewModel {
     private final CountryRepository countryRepository;
     private final AuthRepository authRepository;
-    private final PinRepository pinRepository;
+    private final TokenReceiver tokenReceiver;
+
     private final MutableLiveData<List<Country>> countryList;
 
     private MutableLiveData<UUID> loginUUID;
     private MutableLiveData<UUID> signUpUUID;
     private MutableLiveData<UUID> submitVerificationUUID;
+    private MutableLiveData<UUID> obtainFcmTokenUUID;
 
     public AuthViewModel(final Context context) {
         this.countryRepository = new CountryRepository(context);
         this.authRepository = new AuthRepository(context);
-        this.pinRepository = new PinRepository(context);
+        this.tokenReceiver = new TokenReceiver(context);
+
         this.countryList = new MutableLiveData<>();
         this.loginUUID = new MutableLiveData<>();
         this.signUpUUID = new MutableLiveData<>();
         this.submitVerificationUUID = new MutableLiveData<>();
+        this.obtainFcmTokenUUID = new MutableLiveData<>();
     }
 
     public void signUp(final String firstName,
@@ -50,12 +55,13 @@ public class AuthViewModel extends ViewModel {
                        final long countryId,
                        final String city,
                        final String password,
-                       final String passwordConfirmation) {
-        signUpUUID.setValue(authRepository.register(firstName, lastName, phone, email, countryId, city, password, passwordConfirmation));
+                       final String passwordConfirmation,
+                       final String googleToken) {
+        signUpUUID.setValue(authRepository.register(firstName, lastName, phone, email, countryId, city, password, passwordConfirmation, googleToken));
     }
 
-    public void login(final String phone, final String password) {
-        loginUUID.setValue(authRepository.login(phone, password));
+    public void login(final String phone, final String password, final String googleToken) {
+        loginUUID.setValue(authRepository.login(phone, password, googleToken));
     }
 
     public void verifyPhoneBySms() {
@@ -92,6 +98,14 @@ public class AuthViewModel extends ViewModel {
         });
     }
 
+    public boolean isGoogleServiceAvailable(final Context context) {
+        return tokenReceiver.googleServicesAvailable(context);
+    }
+
+    public void obtainFcmToken() {
+        obtainFcmTokenUUID.setValue(tokenReceiver.obtainFcmToken());
+    }
+
     public LiveData<List<Country>> getCountryList() {
         return countryList;
     }
@@ -108,11 +122,16 @@ public class AuthViewModel extends ViewModel {
         return Transformations.switchMap(submitVerificationUUID, input -> WorkManager.getInstance(context).getWorkInfoByIdLiveData(input));
     }
 
-    private static final String TAG = AuthViewModel.class.toString();
+    public LiveData<WorkInfo> obtainFcmTokenResult(final Context context) {
+        return Transformations.switchMap(obtainFcmTokenUUID, input -> WorkManager.getInstance(context).getWorkInfoByIdLiveData(input));
+    }
 
     public void clearObservables() {
         loginUUID = new MutableLiveData<>();
         signUpUUID = new MutableLiveData<>();
         submitVerificationUUID = new MutableLiveData<>();
+        obtainFcmTokenUUID = new MutableLiveData<>();
     }
+
+    private static final String TAG = AuthViewModel.class.toString();
 }

@@ -28,7 +28,6 @@
         android:name="uz.alex.its.beverlee.view.fragments.InputPhoneFragment"
         android:label="@string/input_phone_fragment"
         tools:layout="@layout/fragment_input_phone">
-
         <action
             android:id="@+id/action_inputPhoneFragment_to_inputSmsFragment"
             app:destination="@id/inputSmsFragment"
@@ -36,6 +35,11 @@
             app:exitAnim="@animator/slide_out_right"
             app:popUpTo="@id/init_fragment"
             app:popUpToInclusive="true"/>
+        <argument
+            android:name="google_token"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
     </fragment>
 
     <fragment
@@ -87,5 +91,10 @@
         <action
             android:id="@+id/action_signUpFragment_to_inputSmsFragment"
             app:destination="@id/inputSmsFragment" />
+        <argument
+            android:name="google_token"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
     </fragment>
 </navigation>

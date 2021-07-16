@@ -40,7 +40,6 @@ import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.chart.LineChartItem;
 import uz.alex.its.beverlee.model.news.NewsModel.News;
 import uz.alex.its.beverlee.model.transaction.TransactionParams;
-import uz.alex.its.beverlee.push.FcmTokenReceiver;
 import uz.alex.its.beverlee.push.TokenReceiver;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.utils.DateFormatter;
@@ -49,7 +48,10 @@ import uz.alex.its.beverlee.view.activities.ProfileActivity;
 import uz.alex.its.beverlee.view.adapters.ContactAdapter;
 import uz.alex.its.beverlee.view.adapters.NewsAdapter;
 import uz.alex.its.beverlee.view.decoration.NewsMinDecoration;
+import uz.alex.its.beverlee.view.dialog.ContactsBottomSheet;
+import uz.alex.its.beverlee.view.dialog.FavContactsBottomSheet;
 import uz.alex.its.beverlee.view.interfaces.ContactCallback;
+import uz.alex.its.beverlee.view.interfaces.DialogCallback;
 import uz.alex.its.beverlee.view.interfaces.NewsCallback;
 import uz.alex.its.beverlee.viewmodel.ContactsViewModel;
 import uz.alex.its.beverlee.viewmodel.NewsViewModel;
@@ -58,7 +60,7 @@ import uz.alex.its.beverlee.viewmodel.factory.ContactsViewModelFactory;
 import uz.alex.its.beverlee.viewmodel.factory.NewsViewModelFactory;
 import uz.alex.its.beverlee.viewmodel.factory.TransactionViewModelFactory;
 
-public class HomeFragment extends Fragment implements ContactCallback, NewsCallback {
+public class HomeFragment extends Fragment implements ContactCallback, NewsCallback, DialogCallback {
     /* pull to refresh */
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -82,17 +84,14 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
     private View cardProfit;
 
     private FloatingActionButton fab;
+    private BottomNavigationView bottomNavigationView;
 
     /* bottomSheet for contactList */
-    private BottomNavigationView bottomNavigationView;
-    private LinearLayout bottomSheetContacts;
-    private TextView bottomSheetContactsTransfer;
-    private TextView bottomSheetAddToFavs;
-    private TextView bottomSheetDelete;
-    private BottomSheetBehavior contactsSheetBehavior;
+    private ContactsBottomSheet contactsBottomSheet;
 
-    /* contact list */
-    private RecyclerView contactListRecyclerView;
+    /* bottomSheet for favContactList */
+    private FavContactsBottomSheet favContactsBottomSheet;
+
     private ContactAdapter contactsAdapter;
     private TextView contactListEmptyTextView;
 
@@ -100,8 +99,6 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
     private ContactAdapter.ContactHorizontalViewHolder selectedHolder = null;
     private boolean contactSelected = false;
 
-    /* news */
-    private RecyclerView newsMinRecyclerView;
     private NewsAdapter newsAdapter;
 
     /* viewModels */
@@ -145,9 +142,6 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         contactsViewModel.fetchContactList(null, null);
 
         newsViewModel.fetchNews(null, null);
-
-        final TokenReceiver tokenReceiver = new TokenReceiver(requireContext());
-        tokenReceiver.obtainFcmToken();
     }
 
     @Override
@@ -175,12 +169,12 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         lineChart = root.findViewById(R.id.line_chart);
         cardProfit = root.findViewById(R.id.card_profit);
 
-        /* contacts */
-        contactListRecyclerView = root.findViewById(R.id.contact_recycler_view);
+        /* contact list */
+        final RecyclerView contactListRecyclerView = root.findViewById(R.id.contact_recycler_view);
         contactListEmptyTextView = root.findViewById(R.id.contact_list_empty_text_view);
 
         /* news */
-        newsMinRecyclerView = root.findViewById(R.id.news_min_recycler_view);
+        final RecyclerView newsMinRecyclerView = root.findViewById(R.id.news_min_recycler_view);
         newsMinRecyclerView.addItemDecoration(new NewsMinDecoration(
                 ((ConstraintLayout.LayoutParams) cardProfit.getLayoutParams()).leftMargin,
                 (int) getResources().getDimension(R.dimen.m_margin)));
@@ -211,15 +205,6 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         fab = requireActivity().findViewById(R.id.floating_btn);
         bottomNavigationView.setVisibility(View.VISIBLE);
         fab.setVisibility(View.VISIBLE);
-
-        /* bottom sheet */
-        bottomSheetContacts = requireActivity().findViewById(R.id.bottom_sheet_contacts);
-        bottomSheetContactsTransfer = requireActivity().findViewById(R.id.contacts_transfer);
-        bottomSheetAddToFavs = requireActivity().findViewById(R.id.add_to_favorites);
-        bottomSheetDelete = requireActivity().findViewById(R.id.delete_contact);
-
-        contactsSheetBehavior = BottomSheetBehavior.from(bottomSheetContacts);
-        contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         currentBalanceTextView.setText(getString(R.string.current_balance, String.valueOf(0.0)));
         monthlyBalanceTextView.setText(getString(R.string.monthly_balance, "+", 0.0));
@@ -262,66 +247,6 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
             NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_withdrawalTypesFragment);
         });
 
-        BottomSheetBehavior.BottomSheetCallback callback = new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch (newState) {
-                    case BottomSheetBehavior.STATE_COLLAPSED: {
-                        Log.i(TAG, "collapsed...");
-                        bottomNavigationView.setVisibility(View.INVISIBLE);
-                        fab.setVisibility(View.INVISIBLE);
-                        break;
-                    }
-                    case BottomSheetBehavior.STATE_EXPANDED: {
-                        Log.i(TAG, "expanded...");
-                        break;
-                    }
-                    case BottomSheetBehavior.STATE_SETTLING: {
-                        Log.i(TAG, "settling...");
-                        if (!contactSelected) {
-                            bottomNavigationView.setVisibility(View.VISIBLE);
-                            fab.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    }
-                    case BottomSheetBehavior.STATE_DRAGGING:
-                        Log.i(TAG, "dragging...");
-                        break;
-                    case BottomSheetBehavior.STATE_HALF_EXPANDED:
-                        Log.i(TAG, "half expanded...");
-                        break;
-                    case BottomSheetBehavior.STATE_HIDDEN:
-                        Log.i(TAG, "hidden...");
-                        break;
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                return;
-            }
-        };
-
-        contactsSheetBehavior.addBottomSheetCallback(callback);
-
-        bottomSheetContactsTransfer.setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).navigate(
-                    HomeFragmentDirections.actionHomeFragmentToTransferFragment()
-                            .setContactId(selectedContact.getId()));
-            if (contactSelected) {
-                deselectContact();
-            }
-        });
-
-        bottomSheetAddToFavs.setOnClickListener(v -> {
-            contactsViewModel.addToFavs(selectedContact);
-        });
-
-        bottomSheetDelete.setOnClickListener(v -> {
-            contactsViewModel.deleteContact(selectedContact.getContactId());
-
-        });
-
         swipeRefreshLayout.setOnRefreshListener(() -> {
             transactionViewModel.fetchCurrentBalance();
             transactionViewModel.fetchTransactionList();
@@ -335,6 +260,12 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        contactsBottomSheet = ContactsBottomSheet.newInstance(this);
+        contactsBottomSheet.setTargetFragment(this, Constants.REQUEST_CODE_BOTTOM_SHEET_CONTACTS);
+
+        favContactsBottomSheet = FavContactsBottomSheet.newInstance(this);
+        favContactsBottomSheet.setTargetFragment(this, Constants.REQUEST_CODE_BOTTOM_SHEET_FAVORITES);
 
         transactionViewModel.getBalance().observe(getViewLifecycleOwner(), balance -> {
             if (balance != null) {
@@ -358,42 +289,51 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
             newsAdapter.notifyDataSetChanged();
         });
 
-        contactsViewModel.getAddToFavsResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
-            if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                Toast.makeText(requireContext(), "Добавлено в Избранное", Toast.LENGTH_SHORT).show();
-                bottomSheetAddToFavs.setEnabled(true);
-                deselectContact();
-                return;
-            }
-            if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
-                Toast.makeText(requireContext(), "Контакт уже в Избранных", Toast.LENGTH_SHORT).show();
-                bottomSheetAddToFavs.setEnabled(true);
-                deselectContact();
-                return;
-            }
-            bottomSheetAddToFavs.setEnabled(false);
-        });
+        contactsViewModel.clearObservers();
 
         contactsViewModel.getDeleteContactResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                contactsAdapter.getContactList().remove(selectedContact);
-                contactsAdapter.notifyDataSetChanged();
-
                 Toast.makeText(requireContext(), "Контакт удален", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
-                bottomSheetDelete.setEnabled(true);
-                deselectContact();
+                contactsAdapter.notifyDataSetChanged();
                 return;
             }
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
                 Toast.makeText(requireContext(), workInfo.getOutputData().getString(Constants.REQUEST_ERROR), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
-                bottomSheetDelete.setEnabled(true);
-                deselectContact();
                 return;
             }
             progressBar.setVisibility(View.VISIBLE);
-            bottomSheetDelete.setEnabled(false);
+        });
+
+        contactsViewModel.getAddToFavsResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
+            if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                Toast.makeText(requireContext(), "Добавлено в Избранное", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                contactsAdapter.notifyDataSetChanged();
+                return;
+            }
+            if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
+                Toast.makeText(requireContext(), "Контакт уже в Избранных", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                return;
+            }
+            progressBar.setVisibility(View.VISIBLE);
+        });
+
+        contactsViewModel.getRemoveFromFavsResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
+            if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                Toast.makeText(requireContext(), "Удалено из Избранных", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                contactsAdapter.notifyDataSetChanged();
+                return;
+            }
+            if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
+                Toast.makeText(requireContext(), "Контакт уже удален из Избранных", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                return;
+            }
+            progressBar.setVisibility(View.VISIBLE);
         });
 
         transactionViewModel.getMonthlyTurnover().observe(getViewLifecycleOwner(), monthlyBalance -> {
@@ -450,6 +390,35 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (resultCode) {
+            case Constants.RESULT_CODE_TRANSFER_TO_CONTACT:
+            case Constants.RESULT_CODE_TRANSFER_TO_FAVORITE: {
+                NavHostFragment.findNavController(this).navigate(
+                        HomeFragmentDirections.actionHomeFragmentToTransferFragment().setContactId(selectedContact.getId()));
+                contactSelected = false;
+                selectedHolder = null;
+                selectedContact = null;
+                break;
+            }
+            case Constants.RESULT_CODE_DELETE_CONTACT: {
+                contactsViewModel.deleteContact(selectedContact.getContactId());
+                break;
+            }
+            case Constants.RESULT_CODE_ADD_TO_FAVS: {
+                contactsViewModel.addToFavs(selectedContact);
+                break;
+            }
+            case Constants.RESULT_CODE_REMOVE_FROM_FAVS: {
+                contactsViewModel.removeFromFavs(selectedContact);
+                break;
+            }
+        }
+    }
+
+    @Override
     public void expandNewsItem(int position) {
 
     }
@@ -466,24 +435,31 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
             selectedContact = contact;
             selectedHolder = (ContactAdapter.ContactHorizontalViewHolder) holder;
             selectedHolder.checkImageView.setVisibility(View.VISIBLE);
-            contactsSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            return;
+
+            if (selectedContact.isFav()) {
+                favContactsBottomSheet.show(getParentFragmentManager().beginTransaction(), TAG);
+                return;
+            }
+            if (!selectedContact.isFav()) {
+                contactsBottomSheet.show(getParentFragmentManager().beginTransaction(), TAG);
+            }
         }
-        deselectContact();
     }
 
-    private void deselectContact() {
+    @Override
+    public void onDismiss() {
         if (contactSelected) {
+            if (selectedContact.isFav()) {
+                favContactsBottomSheet.dismiss();
+            }
+            else {
+                contactsBottomSheet.dismiss();
+            }
             contactSelected = false;
             selectedContact = null;
             final ImageView selectedCheckImageView = selectedHolder.checkImageView;
             selectedCheckImageView.setVisibility(View.INVISIBLE);
-            contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         }
-    }
-
-    public static int dpToPx(float dp, final Context context) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
     private static final String TAG = HomeFragment.class.toString();

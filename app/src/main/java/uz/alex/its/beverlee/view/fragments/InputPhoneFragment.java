@@ -46,6 +46,7 @@ public class InputPhoneFragment extends Fragment {
     private PinViewModel pinViewModel;
 
     private static boolean showPassword = false;
+    private String googleToken;
 
     public InputPhoneFragment() {
 
@@ -60,6 +61,10 @@ public class InputPhoneFragment extends Fragment {
 
         authViewModel = new ViewModelProvider(getViewModelStore(), authFactory).get(AuthViewModel.class);
         pinViewModel = new ViewModelProvider(getViewModelStore(), pinFactory).get(PinViewModel.class);
+
+        if (getArguments() != null) {
+            googleToken = InputPhoneFragmentArgs.fromBundle(getArguments()).getGoogleToken();
+        }
     }
 
     @Override
@@ -132,7 +137,7 @@ public class InputPhoneFragment extends Fragment {
                 Toast.makeText(requireContext(), "Введите минимум 5 символов", Toast.LENGTH_SHORT).show();
                 return;
             }
-            authViewModel.login(phone, password);
+            authViewModel.login(phone, password, googleToken);
         });
     }
 

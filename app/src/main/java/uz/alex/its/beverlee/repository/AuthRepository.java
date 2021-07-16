@@ -24,7 +24,7 @@ public class AuthRepository {
         this.context = context;
     }
 
-    public UUID login(final String phone, final String password) {
+    public UUID login(final String phone, final String password, final String googleToken) {
         final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresDeviceIdle(false)
@@ -35,6 +35,7 @@ public class AuthRepository {
         final Data inputData = new Data.Builder()
                 .putString(Constants.PHONE, phone)
                 .putString(Constants.PASSWORD, password)
+                .putString(Constants.FCM_TOKEN, googleToken)
                 .build();
         final OneTimeWorkRequest loginRequest = new OneTimeWorkRequest.Builder(LoginWorker.class)
                 .setConstraints(constraints)
@@ -72,21 +73,6 @@ public class AuthRepository {
         WorkManager.getInstance(context).enqueue(verifyPhoneByCallRequest);
     }
 
-//    public UUID checkVerified() {
-//        final Constraints constraints = new Constraints.Builder()
-//                .setRequiredNetworkType(NetworkType.CONNECTED)
-//                .setRequiresDeviceIdle(false)
-//                .setRequiresStorageNotLow(false)
-//                .setRequiresCharging(false)
-//                .setRequiresBatteryNotLow(false)
-//                .build();
-//        final OneTimeWorkRequest checkVerifiedRequest = new OneTimeWorkRequest.Builder(CheckVerifiedWorker.class)
-//                .setConstraints(constraints)
-//                .build();
-//        WorkManager.getInstance(context).enqueue(checkVerifiedRequest);
-//        return checkVerifiedRequest.getId();
-//    }
-
     public UUID submitVerification(final String code) {
         final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -113,7 +99,8 @@ public class AuthRepository {
                          final long countryId,
                          final String city,
                          final String password,
-                         final String passwordConfirmation) {
+                         final String passwordConfirmation,
+                         final String googleToken) {
         final Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresDeviceIdle(false)
@@ -130,6 +117,7 @@ public class AuthRepository {
                 .putString(Constants.CITY, city)
                 .putString(Constants.PASSWORD, password)
                 .putString(Constants.PASSWORD_CONFIRMATION, passwordConfirmation)
+                .putString(Constants.FCM_TOKEN, googleToken)
                 .build();
         final OneTimeWorkRequest registerRequest = new OneTimeWorkRequest.Builder(RegisterWorker.class)
                 .setConstraints(constraints)

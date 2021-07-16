@@ -49,13 +49,6 @@ public class Constants {
     public static final String PIN_ASSIGNED = "pin_assigned";
     public static final String FINGERPRINT_ON = "fingerprint_on";
 
-    /* request codes */
-    public static final int REQUEST_CODE_PICK_IMAGE = 0x101;
-    public static final int REQUEST_CODE_READ_CONTACTS = 0x102;
-    public static final int REQUEST_CODE_PROVIDE_AUTHENTICATOR = 0x103;
-    public static final int REQUEST_CODE_VERIFY_TRANSFER = 0x104;
-    public static final int REQUEST_CODE_VERIFY_PURCHASE = 0x105;
-
     /* local storage */
     public static final String DATABASE_NAME = "beverlee_local_database.db";
     public static final String SHARED_PREFS_NAME = "beverlee_shared_prefs";
@@ -123,4 +116,20 @@ public class Constants {
     public static final String PIN_DIALOG_WIDTH = "pin_dialog_width";
     public static final String IS_SIGN_UP = "is_sign_up";
     public static final String SET_DEFAULT_MENU = "set_default_menu";
+
+    /* request codes */
+    public static final int REQUEST_CODE_PICK_IMAGE = 0x101;
+    public static final int REQUEST_CODE_READ_CONTACTS = 0x102;
+    public static final int REQUEST_CODE_PROVIDE_AUTHENTICATOR = 0x103;
+    public static final int REQUEST_CODE_VERIFY_TRANSFER = 0x104;
+    public static final int REQUEST_CODE_VERIFY_PURCHASE = 0x105;
+    public static final int REQUEST_CODE_BOTTOM_SHEET_CONTACTS = 0x106;
+    public static final int REQUEST_CODE_BOTTOM_SHEET_FAVORITES = 0x107;
+
+    /* result codes */
+    public static final int RESULT_CODE_TRANSFER_TO_CONTACT = 0x200;
+    public static final int RESULT_CODE_TRANSFER_TO_FAVORITE = 0x201;
+    public static final int RESULT_CODE_DELETE_CONTACT = 0x202;
+    public static final int RESULT_CODE_ADD_TO_FAVS = 0x203;
+    public static final int RESULT_CODE_REMOVE_FROM_FAVS = 0x204;
 }

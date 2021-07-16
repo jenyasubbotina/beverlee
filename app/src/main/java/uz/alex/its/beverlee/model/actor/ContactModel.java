@@ -7,6 +7,8 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.List;
 
 public class ContactModel {
@@ -82,7 +84,7 @@ public class ContactModel {
     }
 
     @Entity(tableName = "contact_list")
-    public static class Contact {
+    public static class Contact implements Serializable {
         @Expose
         @SerializedName("id")
         @PrimaryKey(autoGenerate = false)

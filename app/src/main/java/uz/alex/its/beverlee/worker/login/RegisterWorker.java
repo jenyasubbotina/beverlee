@@ -39,7 +39,8 @@ public class RegisterWorker extends Worker {
                 getInputData().getLong(Constants.COUNTRY_ID, 0L),
                 getInputData().getString(Constants.CITY),
                 getInputData().getString(Constants.PASSWORD),
-                getInputData().getString(Constants.PASSWORD_CONFIRMATION));
+                getInputData().getString(Constants.PASSWORD_CONFIRMATION),
+                getInputData().getString(Constants.FCM_TOKEN));
     }
 
     @NonNull
@@ -70,10 +71,17 @@ public class RegisterWorker extends Worker {
                 final Type loginErrorType = new TypeToken<LoginErrorModel>() {}.getType();
                 final LoginErrorModel phoneNotVerified = new GsonBuilder().setLenient().create().fromJson(error.string(), loginErrorType);
 
-                if (phoneNotVerified.getLoginError().getPhone().equals(context.getString(R.string.error_phone_wrong_input)))
-                    return Result.failure(outputDataBuilder
-                            .putString(Constants.REQUEST_ERROR, context.getString(R.string.error_phone_wrong_input))
-                            .build());
+                String outputError = null;
+
+                if (phoneNotVerified.getLoginError().getPhone() != null) {
+                    outputError = phoneNotVerified.getLoginError().getPhone();
+                }
+                if (phoneNotVerified.getLoginError().getEmail() != null) {
+                    outputError = phoneNotVerified.getLoginError().getEmail().get(0);
+                }
+                return Result.failure(outputDataBuilder
+                        .putString(Constants.REQUEST_ERROR, outputError)
+                        .build());
             }
             return Result.failure(outputDataBuilder.putString(Constants.REQUEST_ERROR, error.string()).build());
         }

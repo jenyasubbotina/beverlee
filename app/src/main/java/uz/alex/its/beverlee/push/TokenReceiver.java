@@ -2,10 +2,14 @@ package uz.alex.its.beverlee.push;
 
 import android.content.Context;
 import android.util.Log;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.OverwritingInputMerger;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -30,11 +34,6 @@ public class TokenReceiver {
                 .setInputMerger(OverwritingInputMerger.class)
                 .setConstraints(getTokenConstraintsBuilder.build())
                 .build();
-
-        if (!googleServicesAvailable(context)) {
-            Log.w(TAG, "obtainFcmToken(): no google services available");
-            return null;
-        }
         WorkManager.getInstance(context).enqueue(getFcmTokenRequest);
         return getFcmTokenRequest.getId();
     }
@@ -43,7 +42,7 @@ public class TokenReceiver {
         SharedPrefs.getInstance(context).putString(Constants.FCM_TOKEN, token);
     }
 
-    private boolean googleServicesAvailable(final Context context) {
+    public boolean googleServicesAvailable(final Context context) {
         return GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS;
     }
 

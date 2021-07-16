@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.jetbrains.annotations.NonNls;
 
+import java.util.List;
+
 public class LoginErrorModel {
     @Expose
     @SerializedName("errors")
@@ -33,12 +35,21 @@ public class LoginErrorModel {
         @SerializedName("phone_number")
         private final String phone;
 
-        public LoginError(final String phone) {
+        @Expose
+        @SerializedName("email")
+        private final List<String> email;
+
+        public LoginError(final String phone, final List<String> email) {
             this.phone = phone;
+            this.email = email;
         }
 
         public String getPhone() {
             return phone;
+        }
+
+        public List<String> getEmail() {
+            return email;
         }
 
         @NonNull
@@ -46,6 +57,7 @@ public class LoginErrorModel {
         public String toString() {
             return "LoginError{" +
                     "phone='" + phone + '\'' +
+                    ", email='" + email + '\'' +
                     '}';
         }
     }

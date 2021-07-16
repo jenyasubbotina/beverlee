@@ -61,6 +61,7 @@ public class SignUpFragment extends Fragment {
 
     private static boolean showPassword = false;
     private static boolean showPasswordRepeated = false;
+    private String googleToken;
 
     private AuthViewModel authViewModel;
 
@@ -71,6 +72,10 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            googleToken = SignUpFragmentArgs.fromBundle(getArguments()).getGoogleToken();
+        }
 
         final AuthViewModelFactory authViewModelFactory = new AuthViewModelFactory(requireContext());
         authViewModel = new ViewModelProvider(getViewModelStore(), authViewModelFactory).get(AuthViewModel.class);
@@ -190,7 +195,7 @@ public class SignUpFragment extends Fragment {
 
             signUpBtn.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.bubble));
 
-            authViewModel.signUp(firstName, lastName, phone, email, countryId, city, password, passwordConfirmation);
+            authViewModel.signUp(firstName, lastName, phone, email, countryId, city, password, passwordConfirmation, googleToken);
         });
 
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

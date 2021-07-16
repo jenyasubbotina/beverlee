@@ -21,22 +21,6 @@
         android:layout_height="60dp"
         android:layout_gravity="bottom"/>
 
-    <include
-        layout="@layout/bottom_sheet_contacts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        app:behavior_hideable="true"/>
-
-    <include
-        layout="@layout/bottom_sheet_fav_contacts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        app:behavior_hideable="true"/>
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_btn"
         android:layout_width="wrap_content"

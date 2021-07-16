@@ -32,7 +32,10 @@ public class LoginWorker extends Worker {
         super(context, workerParams);
 
         this.context = getApplicationContext();
-        this.authParams = new AuthParams(getInputData().getString(Constants.PHONE), getInputData().getString(Constants.PASSWORD));
+        this.authParams = new AuthParams(
+                getInputData().getString(Constants.PHONE),
+                getInputData().getString(Constants.PASSWORD),
+                getInputData().getString(Constants.FCM_TOKEN));
     }
 
     @NonNull
@@ -52,7 +55,6 @@ public class LoginWorker extends Worker {
                     return Result.failure();
                 }
                 SharedPrefs.getInstance(context).putString(Constants.BEARER_TOKEN, bearerToken.getToken());
-                Log.i(TAG, "bearerToken=" + bearerToken.getToken());
                 return Result.success(outputDataBuilder
                         .putString(Constants.PHONE, authParams.getPhone())
                         .putString(Constants.PASSWORD, authParams.getPassword())

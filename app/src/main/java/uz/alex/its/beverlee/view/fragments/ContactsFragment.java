@@ -1,6 +1,10 @@
 package uz.alex.its.beverlee.view.fragments;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -43,11 +47,14 @@ import uz.alex.its.beverlee.storage.LocalDatabase;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.adapters.ContactAdapter;
+import uz.alex.its.beverlee.view.dialog.ContactsBottomSheet;
+import uz.alex.its.beverlee.view.dialog.FavContactsBottomSheet;
 import uz.alex.its.beverlee.view.interfaces.ContactCallback;
+import uz.alex.its.beverlee.view.interfaces.DialogCallback;
 import uz.alex.its.beverlee.viewmodel.ContactsViewModel;
 import uz.alex.its.beverlee.viewmodel.factory.ContactsViewModelFactory;
 
-public class ContactsFragment extends Fragment implements ContactCallback {
+public class ContactsFragment extends Fragment implements ContactCallback, DialogCallback {
     /* pull tor refresh */
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -59,18 +66,10 @@ public class ContactsFragment extends Fragment implements ContactCallback {
     private ProgressBar progressBar;
 
     /* bottomSheet for contactList */
-    private BottomNavigationView bottomNavigationView;
-    private LinearLayout bottomSheetContacts;
-    private TextView bottomSheetContactsTransfer;
-    private TextView bottomSheetAddToFavs;
-    private TextView bottomSheetDelete;
-    private BottomSheetBehavior<LinearLayout> contactsSheetBehavior;
+    private ContactsBottomSheet contactsBottomSheet;
 
     /* bottomSheet for favContactList */
-    private LinearLayout bottomSheetFavContacts;
-    private TextView bottomSheetFavContactsTransfer;
-    private TextView bottomSheetRemoveFromFav;
-    private BottomSheetBehavior<LinearLayout> favsSheetBehavior;
+    private FavContactsBottomSheet favContactsBottomSheet;
 
     /* select/deselect contactItem */
     private ContactAdapter.ContactVerticalViewHolder selectedHolder = null;
@@ -121,28 +120,10 @@ public class ContactsFragment extends Fragment implements ContactCallback {
         contactListRecyclerView.setLayoutManager(layoutManager);
         contactListRecyclerView.setAdapter(adapter);
 
-        fab = requireActivity().findViewById(R.id.floating_btn);
-        bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav);
         progressBar = root.findViewById(R.id.progress_bar);
 
-        //contacts bottom sheet
-        bottomSheetContacts = requireActivity().findViewById(R.id.bottom_sheet_contacts);
-        bottomSheetContactsTransfer = requireActivity().findViewById(R.id.contacts_transfer);
-        bottomSheetAddToFavs = requireActivity().findViewById(R.id.add_to_favorites);
-        bottomSheetDelete = requireActivity().findViewById(R.id.delete_contact);
-
-        //fav contacts bottom sheet
-        bottomSheetFavContacts = requireActivity().findViewById(R.id.bottom_sheet_fav_contacts);
-        bottomSheetFavContactsTransfer = requireActivity().findViewById(R.id.fav_contacts_transfer);
-        bottomSheetRemoveFromFav = requireActivity().findViewById(R.id.remove_from_favorites);
-
-        contactsSheetBehavior = BottomSheetBehavior.from(bottomSheetContacts);
-        favsSheetBehavior = BottomSheetBehavior.from(bottomSheetFavContacts);
-        contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        favsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
         /* bottom navigation */
-        bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav);
+        final BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottom_nav);
         fab = requireActivity().findViewById(R.id.floating_btn);
         bottomNavigationView.setVisibility(View.VISIBLE);
         fab.setVisibility(View.VISIBLE);
@@ -176,7 +157,6 @@ public class ContactsFragment extends Fragment implements ContactCallback {
                 allRadioBtn.setTextColor(getResources().getColor(R.color.colorWhite, null));
                 favoritesRadioBtn.setTextColor(getResources().getColor(R.color.colorDarkGrey, null));
                 contactsViewModel.setIsFavorite(false);
-                revertItems();
                 return;
             }
             if (checkedId == favoritesRadioBtn.getId()) {
@@ -184,76 +164,7 @@ public class ContactsFragment extends Fragment implements ContactCallback {
                 allRadioBtn.setTextColor(getResources().getColor(R.color.colorDarkGrey, null));
                 favoritesRadioBtn.setTextColor(getResources().getColor(R.color.colorWhite, null));
                 contactsViewModel.setIsFavorite(true);
-                revertItems();
             }
-        });
-
-        BottomSheetBehavior.BottomSheetCallback callback = new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch (newState) {
-                    case BottomSheetBehavior.STATE_COLLAPSED: {
-                        Log.i(TAG, "collapsed...");
-                        bottomNavigationView.setVisibility(View.INVISIBLE);
-                        fab.setVisibility(View.INVISIBLE);
-                        break;
-                    }
-                    case BottomSheetBehavior.STATE_EXPANDED: {
-                        Log.i(TAG, "expanded...");
-                        break;
-                    }
-                    case BottomSheetBehavior.STATE_SETTLING: {
-                        Log.i(TAG, "settling...");
-                        if (!contactSelected) {
-                            bottomNavigationView.setVisibility(View.VISIBLE);
-                            fab.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    }
-                    case BottomSheetBehavior.STATE_DRAGGING:
-                        Log.i(TAG, "dragging...");
-                        break;
-                    case BottomSheetBehavior.STATE_HALF_EXPANDED:
-                        Log.i(TAG, "half expanded...");
-                        break;
-                    case BottomSheetBehavior.STATE_HIDDEN:
-                        Log.i(TAG, "hidden...");
-                        break;
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                return;
-            }
-        };
-
-        contactsSheetBehavior.addBottomSheetCallback(callback);
-        favsSheetBehavior.addBottomSheetCallback(callback);
-
-        bottomSheetContactsTransfer.setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).navigate(
-                    ContactsFragmentDirections.actionContactsFragmentToTransferFragment().setContactId(selectedContact.getId()));
-            contactSelected = false;
-            selectedHolder = null;
-            selectedContact = null;
-        });
-
-        bottomSheetAddToFavs.setOnClickListener(v -> contactsViewModel.addToFavs(selectedContact));
-
-        bottomSheetDelete.setOnClickListener(v -> {
-            Log.i(TAG, "selectedContact: " + selectedContact);
-            contactsViewModel.deleteContact(selectedContact.getContactId());
-        });
-
-        bottomSheetRemoveFromFav.setOnClickListener(v -> contactsViewModel.removeFromFavs(selectedContact));
-
-        bottomSheetFavContactsTransfer.setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).navigate(
-                    ContactsFragmentDirections.actionContactsFragmentToTransferFragment().setContactId(selectedContact.getId()));
-            contactSelected = false;
-            selectedHolder = null;
-            selectedContact = null;
         });
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -293,6 +204,12 @@ public class ContactsFragment extends Fragment implements ContactCallback {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        contactsBottomSheet = ContactsBottomSheet.newInstance(this);
+        contactsBottomSheet.setTargetFragment(this, Constants.REQUEST_CODE_BOTTOM_SHEET_CONTACTS);
+
+        favContactsBottomSheet = FavContactsBottomSheet.newInstance(this);
+        favContactsBottomSheet.setTargetFragment(this, Constants.REQUEST_CODE_BOTTOM_SHEET_FAVORITES);
+
         contactsViewModel.isLoading().observe(getViewLifecycleOwner(), isInLoading -> {
             if (isInLoading) {
                 swipeRefreshLayout.setRefreshing(true);
@@ -318,61 +235,75 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 Toast.makeText(requireContext(), "Добавлено в Избранное", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
-                bottomSheetAddToFavs.setEnabled(true);
-                deselectContact();
                 adapter.notifyDataSetChanged();
                 return;
             }
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
                 Toast.makeText(requireContext(), "Контакт уже в Избранных", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
-                bottomSheetAddToFavs.setEnabled(true);
-                deselectContact();
                 return;
             }
             progressBar.setVisibility(View.VISIBLE);
-            bottomSheetAddToFavs.setEnabled(false);
-        });
-
-        contactsViewModel.getRemoveFromFavsResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
-            if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                Toast.makeText(requireContext(), "Удалено из Избранных", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
-                bottomSheetRemoveFromFav.setEnabled(true);
-                deselectContact();
-                adapter.notifyDataSetChanged();
-                return;
-            }
-            if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
-                Toast.makeText(requireContext(), "Контакт уже удален из Избранных", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
-                bottomSheetRemoveFromFav.setEnabled(true);
-                deselectContact();
-                return;
-            }
-            progressBar.setVisibility(View.VISIBLE);
-            bottomSheetRemoveFromFav.setEnabled(false);
         });
 
         contactsViewModel.getDeleteContactResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 Toast.makeText(requireContext(), "Контакт удален", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
-                bottomSheetDelete.setEnabled(true);
-                deselectContact();
                 adapter.notifyDataSetChanged();
                 return;
             }
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
                 Toast.makeText(requireContext(), workInfo.getOutputData().getString(Constants.REQUEST_ERROR), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
-                bottomSheetDelete.setEnabled(true);
-                deselectContact();
                 return;
             }
             progressBar.setVisibility(View.VISIBLE);
-            bottomSheetDelete.setEnabled(false);
         });
+
+        contactsViewModel.getRemoveFromFavsResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
+            if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                Toast.makeText(requireContext(), "Удалено из Избранных", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+                return;
+            }
+            if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
+                Toast.makeText(requireContext(), "Контакт уже удален из Избранных", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                return;
+            }
+            progressBar.setVisibility(View.VISIBLE);
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (resultCode) {
+            case Constants.RESULT_CODE_TRANSFER_TO_CONTACT:
+            case Constants.RESULT_CODE_TRANSFER_TO_FAVORITE: {
+                NavHostFragment.findNavController(this).navigate(
+                        ContactsFragmentDirections.actionContactsFragmentToTransferFragment().setContactId(selectedContact.getId()));
+                contactSelected = false;
+                selectedHolder = null;
+                selectedContact = null;
+                break;
+            }
+            case Constants.RESULT_CODE_DELETE_CONTACT: {
+                contactsViewModel.deleteContact(selectedContact.getContactId());
+                break;
+            }
+            case Constants.RESULT_CODE_ADD_TO_FAVS: {
+                contactsViewModel.addToFavs(selectedContact);
+                break;
+            }
+            case Constants.RESULT_CODE_REMOVE_FROM_FAVS: {
+                contactsViewModel.removeFromFavs(selectedContact);
+                break;
+            }
+        }
     }
 
     @Override
@@ -395,45 +326,17 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             selectedHolder.checkImageView.setVisibility(View.VISIBLE);
 
             if (selectedContact.isFav()) {
-                favsSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                favContactsBottomSheet.show(getParentFragmentManager().beginTransaction(), TAG);
                 return;
             }
             if (!selectedContact.isFav()) {
-                contactsSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                contactsBottomSheet.show(getParentFragmentManager().beginTransaction(), TAG);
             }
-            return;
         }
-        deselectContact();
     }
 
-    private void revertItems() {
-        if (selectedHolder != null) {
-            final ImageView selectedAvatarImageView = selectedHolder.avatarImageView;
-            final TextView selectedNameTextView = selectedHolder.contactNameTextView;
-            final ImageView selectedCheckImageView = selectedHolder.checkImageView;
-
-            final ConstraintLayout.LayoutParams avatarParams = (ConstraintLayout.LayoutParams) selectedAvatarImageView.getLayoutParams();
-            final ConstraintLayout.LayoutParams nameParams = (ConstraintLayout.LayoutParams) selectedNameTextView.getLayoutParams();
-            final ConstraintLayout.LayoutParams checkParams = (ConstraintLayout.LayoutParams) selectedCheckImageView.getLayoutParams();
-
-            avatarParams.leftMargin = avatarParams.leftMargin - 32;
-            nameParams.leftMargin = nameParams.leftMargin - 32;
-            checkParams.leftMargin = checkParams.leftMargin - 32;
-            selectedAvatarImageView.setLayoutParams(avatarParams);
-            selectedNameTextView.setLayoutParams(nameParams);
-            selectedCheckImageView.setLayoutParams(checkParams);
-            selectedCheckImageView.setVisibility(View.INVISIBLE);
-        }
-//        fab.setVisibility(View.VISIBLE);
-//        bottomNavigationView.setVisibility(View.VISIBLE);
-        contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        favsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        contactSelected = false;
-        selectedHolder = null;
-        selectedContact = null;
-    }
-
-    private void deselectContact() {
+    @Override
+    public void onDismiss() {
         if (contactSelected) {
             final ImageView selectedAvatarImageView = selectedHolder.avatarImageView;
             final TextView selectedNameTextView = selectedHolder.contactNameTextView;
@@ -452,10 +355,10 @@ public class ContactsFragment extends Fragment implements ContactCallback {
             selectedCheckImageView.setVisibility(View.INVISIBLE);
 
             if (selectedContact.isFav()) {
-                favsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                favContactsBottomSheet.dismiss();
             }
             else {
-                contactsSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                contactsBottomSheet.dismiss();
             }
             contactSelected = false;
             selectedHolder = null;

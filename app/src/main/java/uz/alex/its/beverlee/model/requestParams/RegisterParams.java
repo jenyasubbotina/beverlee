@@ -43,8 +43,8 @@ public class RegisterParams {
     private final String passwordConfirmation;
 
     @Expose
-    @SerializedName("device_name")
-    private final String deviceName;
+    @SerializedName("device_token")
+    private final String googleToken;
 
     public RegisterParams(final String firstName,
                           final String lastName,
@@ -53,7 +53,8 @@ public class RegisterParams {
                           final long countryId,
                           final String city,
                           final String password,
-                          final String passwordConfirmation) {
+                          final String passwordConfirmation,
+                          final String googleToken) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -62,7 +63,7 @@ public class RegisterParams {
         this.city = city;
         this.password = password;
         this.passwordConfirmation = passwordConfirmation;
-        this.deviceName = Cryptographic.md5(phone + Build.MANUFACTURER + Build.MODEL);;
+        this.googleToken = googleToken;
     }
 
     public String getFirstName() {
@@ -97,8 +98,8 @@ public class RegisterParams {
         return passwordConfirmation;
     }
 
-    public String getDeviceName() {
-        return deviceName;
+    public String getGoogleToken() {
+        return googleToken;
     }
 
     @NonNull
@@ -113,7 +114,7 @@ public class RegisterParams {
                 ", city='" + city + '\'' +
                 ", password='" + password + '\'' +
                 ", passwordConfirmation='" + passwordConfirmation + '\'' +
-                ", deviceName='" + deviceName + '\'' +
+                ", googleToken='" + googleToken + '\'' +
                 '}';
     }
 }
