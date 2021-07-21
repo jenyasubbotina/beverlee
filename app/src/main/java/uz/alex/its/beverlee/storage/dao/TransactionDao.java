@@ -21,10 +21,11 @@ public interface TransactionDao {
     @Query("SELECT * FROM transactions WHERE created_at >= :from AND created_at <= :to AND " +
             "is_balance_increase == :isIncrease AND " +
             "type_id == :transactionType AND " +
-            "user_id LIKE '%' || :searchQuery OR " +
-            "user_fio LIKE '%' || :searchQuery OR " +
-            "transfer_sender_id LIKE '%' || :searchQuery || '%' OR " +
-            "transfer_recipient_id LIKE '%' || :searchQuery || '%'" +
+            "sender LIKE '%' || :searchQuery || '%' OR " +
+            "recipient LIKE '%' || :searchQuery || '%' OR " +
+            "product LIKE '%' || :searchQuery || '%' OR " +
+            "request LIKE '%' || :searchQuery || '%' OR " +
+            "user_fio LIKE '%' || :searchQuery || '%'" +
             "ORDER BY created_at DESC")
     LiveData<List<TransactionModel.Transaction>> getTransactionListBySearchQuery(
             final boolean isIncrease,
@@ -35,10 +36,11 @@ public interface TransactionDao {
 
     @Query("SELECT * FROM transactions WHERE created_at >= :from AND created_at <= :to AND " +
             "is_balance_increase == :isIncrease AND " +
-            "user_id LIKE '%' || :searchQuery OR " +
-            "user_fio LIKE '%' || :searchQuery OR " +
-            "transfer_sender_id LIKE '%' || :searchQuery || '%' OR " +
-            "transfer_recipient_id LIKE '%' || :searchQuery || '%'" +
+            "sender LIKE '%' || :searchQuery || '%' OR " +
+            "recipient LIKE '%' || :searchQuery || '%' OR " +
+            "product LIKE '%' || :searchQuery || '%' OR " +
+            "request LIKE '%' || :searchQuery || '%' OR " +
+            "user_fio LIKE '%' || :searchQuery || '%'" +
             "ORDER BY created_at DESC")
     LiveData<List<TransactionModel.Transaction>> getTransactionListBySearchQuery(
             final boolean isIncrease,

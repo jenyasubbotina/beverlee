@@ -13,10 +13,12 @@ public class TransactionParticipant {
 
     @Expose
     @SerializedName("firstname")
+    @ColumnInfo(name = "first_name")
     private final String firstName;
 
     @Expose
     @SerializedName("lastname")
+    @ColumnInfo(name = "last_name")
     private final String lastName;
 
     public TransactionParticipant(final long id, final String firstName, final String lastName) {

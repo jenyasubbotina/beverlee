@@ -243,9 +243,6 @@ public class MonitoringFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() < 3) {
-                    return;
-                }
                 transactionViewModel.setSearchQuery(s.toString());
             }
         });
@@ -341,6 +338,10 @@ public class MonitoringFragment extends Fragment {
 
         transactionViewModel.getTransactionList().observe(getViewLifecycleOwner(), transactionList -> {
             transactionAdapter.setTransactionList(transactionList);
+
+            for (final TransactionModel.Transaction transaction : transactionList) {
+                Log.i(TAG, "-> " + transaction);
+            }
         });
 
         transactionViewModel.getMonthlyBalance().observe(getViewLifecycleOwner(), monthlyBalance -> {

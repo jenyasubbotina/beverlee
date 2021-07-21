@@ -411,6 +411,7 @@ public class TransactionViewModel extends ViewModel {
         this.transactionParams.setLastDay(DateFormatter.getLastDayOfMonthAndYear(transactionParams.getYear(), transactionParams.getMonth()));
         this.transactionParams.setSearchQuery(query);
         this.params.setValue(transactionParams);
+        Log.i(TAG, "setSearchQuery(): transactionParams=" + transactionParams);
     }
 
     public void setIncrease(final boolean increase) {
