@@ -86,8 +86,9 @@ public class LineChart extends AppCompatSeekBar {
                 if (i == itemList.size() - 1 && itemRight != lineChartWidth) {
                     itemRight = lineChartWidth;
                 }
-                rectFList.get(i).set(lastPosition, thumbOffset / 2, itemRight, lineChartHeight - thumbOffset / 2);
-                canvas.drawRect(rectFList.get(i), paintList.get(i));
+                rectFList.get(i).set(lastPosition, (float) thumbOffset / 2, itemRight, lineChartHeight - (float) thumbOffset / 2);
+//                canvas.drawRect(rectFList.get(i), paintList.get(i));
+                canvas.drawRoundRect(rectFList.get(i), 12, 16, paintList.get(i));
                 lastPosition = itemRight;
             }
             super.onDraw(canvas);

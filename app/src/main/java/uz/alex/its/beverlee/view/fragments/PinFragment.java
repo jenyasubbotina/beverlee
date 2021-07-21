@@ -167,16 +167,9 @@ public class PinFragment extends Fragment {
         pinViewModel.getVerifyPinResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 progressBar.setVisibility(View.GONE);
+                pinErrorTextView.setVisibility(View.INVISIBLE);
 
                 NavHostFragment.findNavController(this).navigate(PinFragmentDirections.actionPinFragmentToHomeFragment());
-//                if (isSignUp) {
-//                    NavHostFragment.findNavController(this).navigate(
-//                            PinFragmentDirections.actionPinFragmentToSplashFragment()
-//                                    .setFullName(firstName));
-//                }
-//                else {
-//                }
-                pinErrorTextView.setVisibility(View.INVISIBLE);
                 return;
             }
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {

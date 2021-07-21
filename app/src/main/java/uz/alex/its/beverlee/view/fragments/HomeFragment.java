@@ -383,7 +383,6 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
             if (statisticsData.getWithdrawalAmount() > 0 && !Float.isNaN(statisticsData.getWithdrawalAmount())) {
                 entryList.add(new LineChartItem(ResourcesCompat.getColor(getResources(), R.color.colorDarkGrey, null), statisticsData.getWithdrawalAmount()*100));
             }
-
             lineChart.initData(entryList);
             lineChart.invalidate();
         });
