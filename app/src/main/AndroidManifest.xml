@@ -9,7 +9,7 @@
 
     <supports-screens
         android:largeScreens="true"
-        android:xlargeScreens="false"
+        android:xlargeScreens="true"
         android:normalScreens="true"
         android:smallScreens="false"/>
     <compatible-screens>
@@ -29,7 +29,6 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.fragments.PinFragment"/>
         <activity
             android:name=".view.activities.SignActivity"
             android:label="@string/app_name"
@@ -49,10 +48,6 @@
             android:name=".view.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustNothing"/>
-        <activity
-            android:name=".view.fragments.SplashFragment"
-            android:theme="@style/AppTheme.NoActionBar" />
-
         <service
             android:name=".push.FcmMessagingService"
             android:exported="false">

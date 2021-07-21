@@ -12,7 +12,8 @@ import androidx.work.OverwritingInputMerger;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GoogleApiAvailabilityLight;
+
 import java.util.UUID;
 
 import uz.alex.its.beverlee.storage.SharedPrefs;
@@ -43,7 +44,7 @@ public class TokenReceiver {
     }
 
     public boolean googleServicesAvailable(final Context context) {
-        return GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS;
+        return GoogleApiAvailabilityLight.getInstance().isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS;
     }
 
     private static final String TAG = TokenReceiver.class.toString();

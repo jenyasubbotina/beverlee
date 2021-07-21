@@ -22,41 +22,40 @@
         android:id="@+id/pin_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="227dp"
         android:fontFamily="@font/geometria_medium"
         android:gravity="center"
         android:textColor="#fff"
-        android:textSize="19sp" />
+        android:textSize="19sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/pin_error_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pin_text_view"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/geometria_medium"
         android:gravity="center"
         android:text="@string/error_wrong_pin"
         android:textColor="@color/colorRed"
         android:textSize="16sp"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pin_text_view" />
 
     <RelativeLayout
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/card_top_radius_light"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pin_error_text_view"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/card_top_radius_light"
-        android:orientation="vertical">
+        app:layout_constraintTop_toBottomOf="@id/pin_error_text_view">
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -108,7 +107,124 @@
             android:fontFamily="@font/geometria_medium"
             android:textColor="@color/black"
             android:textSize="17sp" />
-
     </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.constraintlayout.widget.ConstraintLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:background="@drawable/background">-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/lock_image_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="32dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/pin_text_view"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintDimensionRatio="1:1"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginBottom="@dimen/l_margin"-->
+<!--        android:contentDescription="@string/create_pin"-->
+<!--        android:src="@drawable/ic_locker" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/pin_text_view"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:layout_marginTop="180dp"-->
+<!--        android:fontFamily="@font/geometria_medium"-->
+<!--        android:gravity="center"-->
+<!--        android:textColor="#fff"-->
+<!--        android:textSize="17sp" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/pin_error_text_view"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/pin_text_view"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:fontFamily="@font/geometria_medium"-->
+<!--        android:gravity="center"-->
+<!--        android:text="@string/error_wrong_pin"-->
+<!--        android:textColor="@color/colorRed"-->
+<!--        android:textSize="15sp"-->
+<!--        android:visibility="invisible" />-->
+
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progress_bar"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/lock_image_view"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:indeterminateTint="@color/colorPurple"-->
+<!--        android:visibility="gone"/>-->
+
+<!--    <View-->
+<!--        android:id="@+id/card_layout"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/pin_error_text_view"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:background="@drawable/card_top_radius_light"-->
+<!--        android:orientation="vertical"/>-->
+
+<!--    <com.andrognito.pinlockview.IndicatorDots-->
+<!--        android:id="@+id/indicator_dots"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toTopOf="@id/card_layout"-->
+<!--        app:layout_constraintStart_toStartOf="@id/card_layout"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/card_layout"-->
+<!--        android:layout_marginTop="@dimen/xl_margin"-->
+<!--        app:dotDiameter="@dimen/pin_dot_diameter"-->
+<!--        app:dotEmptyBackground="@drawable/ic_star_grey"-->
+<!--        app:dotFilledBackground="@drawable/ic_star_purple" />-->
+
+<!--    <com.andrognito.pinlockview.PinLockView-->
+<!--        android:id="@+id/pin_lock_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="@dimen/pin_margin"-->
+<!--        android:layout_marginTop="@dimen/xxl_margin"-->
+<!--        android:layout_marginEnd="@dimen/pin_margin"-->
+<!--        android:layout_marginBottom="@dimen/m_margin"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/indicator_dots"-->
+<!--        app:layout_constraintStart_toStartOf="@id/card_layout"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/card_layout"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/change_pin_text_view"-->
+<!--        app:keypadDeleteButtonDrawable="@drawable/ic_erase"-->
+<!--        app:keypadDeleteButtonSize="@dimen/erase_button_size"-->
+<!--        app:keypadHorizontalSpacing="@dimen/xxl_margin"-->
+<!--        app:keypadTextColor="@color/colorPinText"-->
+<!--        app:keypadTextSize="@dimen/pin_text_size"-->
+<!--        app:keypadVerticalSpacing="@dimen/xl_margin" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/change_pin_text_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="@id/card_layout"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/card_layout"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/card_layout"-->
+<!--        android:padding="@dimen/s_margin"-->
+<!--        android:layout_marginBottom="@dimen/m_margin"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:text="@string/change_pin"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:fontFamily="@font/geometria_medium"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="16sp" />-->
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

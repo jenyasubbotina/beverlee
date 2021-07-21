@@ -13,9 +13,11 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.work.WorkInfo;
 
+import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +38,7 @@ import uz.alex.its.beverlee.model.transaction.WithdrawalTypeModel.WithdrawalType
 import uz.alex.its.beverlee.utils.AppExecutors;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.utils.NetworkConnectivity;
+import uz.alex.its.beverlee.utils.Regex;
 import uz.alex.its.beverlee.view.UiUtils;
 import uz.alex.its.beverlee.view.adapters.CountryAdapter;
 import uz.alex.its.beverlee.viewmodel.AuthViewModel;
@@ -245,7 +248,7 @@ public class WithdrawalFragment extends Fragment {
                     Toast.makeText(requireContext(), "Укажите номер телефона", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!Patterns.PHONE.matcher(phone).matches()) {
+                if (!Regex.isPhoneNumber(phone)) {
                     Toast.makeText(requireContext(), "Неверный формат номера телефона", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -270,9 +273,6 @@ public class WithdrawalFragment extends Fragment {
                 Toast.makeText(requireContext(), "Укажите сумму", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            withdrawBtn.startAnimation();
-
             if (TextUtils.isEmpty(amountEditText.getText().toString().trim())) {
                 Toast.makeText(requireContext(), "Введите сумму для вывода", Toast.LENGTH_SHORT).show();
                 return;
@@ -281,6 +281,8 @@ public class WithdrawalFragment extends Fragment {
                 Toast.makeText(requireContext(), "Неверный формат суммы", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            withdrawBtn.startAnimation();
 
             networkConnectivity.checkInternetConnection(isConnected -> {
                 if (!isConnected) {

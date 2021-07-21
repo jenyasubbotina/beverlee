@@ -283,7 +283,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:overScrollMode="never"
                 android:orientation="horizontal"
-                tools:listitem="@layout/view_holder_news_min"/>
+                tools:listitem="@layout/view_holder_news"/>
 
             <ProgressBar
                 android:id="@+id/progress_bar"
