@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.work.WorkInfo;
 
 import uz.alex.its.beverlee.R;
@@ -33,9 +34,6 @@ import uz.alex.its.beverlee.viewmodel.factory.AuthViewModelFactory;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class InputSmsFragment extends Fragment {
-
-    private AuthViewModel authViewModel;
-
     private TextView openInstructionTextView;
     private TextView instructionTextView;
     private TextView counterTextView;
@@ -47,6 +45,8 @@ public class InputSmsFragment extends Fragment {
     private Animation bubbleAnimation;
 
     private VerifyPhoneCounterTask verifyPhoneCounterTask;
+
+    private AuthViewModel authViewModel;
 
     private String phone, firstName, lastName;
     private boolean isSignUp;
@@ -164,17 +164,6 @@ public class InputSmsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         authViewModel.getSubmitVerificationResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
-            if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
-                Toast.makeText(requireContext(), workInfo.getOutputData().getString(Constants.REQUEST_ERROR), Toast.LENGTH_SHORT).show();
-
-                if (verifyPhoneCounterTask != null) {
-                    if (!verifyPhoneCounterTask.isCancelled()) {
-                        verifyPhoneCounterTask.cancel(true);
-                    }
-                    verifyPhoneCounterTask = null;
-                }
-                return;
-            }
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 if (verifyPhoneCounterTask != null) {
                     if (!verifyPhoneCounterTask.isCancelled()) {
@@ -185,12 +174,23 @@ public class InputSmsFragment extends Fragment {
                 SharedPrefs.getInstance(requireContext()).putString(Constants.PHONE, phone);
                 SharedPrefs.getInstance(requireContext()).putBoolean(Constants.PHONE_VERIFIED, true);
 
-                startActivity(new Intent(requireActivity(), MainActivity.class)
-                        .putExtra(Constants.PIN_ASSIGNED, false)
-                        .putExtra(Constants.FIRST_NAME, firstName)
-                        .putExtra(Constants.LAST_NAME, lastName)
-                        .putExtra(Constants.IS_SIGN_UP, isSignUp));
-                requireActivity().finish();
+                NavHostFragment.findNavController(InputSmsFragment.this).navigate(InputSmsFragmentDirections
+                        .actionInputSmsFragmentToSplashFragment()
+                        .setFirstName(firstName)
+                        .setLastName(lastName)
+                        .setIsSignUp(isSignUp)
+                        .setPinAssigned(false));
+                return;
+            }
+            if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
+                Toast.makeText(requireContext(), workInfo.getOutputData().getString(Constants.REQUEST_ERROR), Toast.LENGTH_SHORT).show();
+
+                if (verifyPhoneCounterTask != null) {
+                    if (!verifyPhoneCounterTask.isCancelled()) {
+                        verifyPhoneCounterTask.cancel(true);
+                    }
+                    verifyPhoneCounterTask = null;
+                }
             }
         });
     }

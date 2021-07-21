@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,20 +14,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import uz.alex.its.beverlee.R;
+import uz.alex.its.beverlee.utils.Constants;
+import uz.alex.its.beverlee.view.activities.MainActivity;
 
 public class SplashFragment extends Fragment {
     private final Handler handler = new Handler();
 
     private TextView firstNameTextView;
 
-    private String fullName;
+    private String firstName;
+    private String lastName;
+    private boolean isSignUp;
+    private boolean pinAssigned;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            fullName = SplashFragmentArgs.fromBundle(getArguments()).getFullName();
+            firstName = SplashFragmentArgs.fromBundle(getArguments()).getFirstName();
+            lastName = SplashFragmentArgs.fromBundle(getArguments()).getLastName();
+            isSignUp = SplashFragmentArgs.fromBundle(getArguments()).getIsSignUp();
+            pinAssigned = SplashFragmentArgs.fromBundle(getArguments()).getPinAssigned();
         }
     }
 
@@ -44,7 +53,7 @@ public class SplashFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        firstNameTextView.setText(fullName);
+        firstNameTextView.setText(firstName);
     }
 
     @Override
@@ -52,7 +61,13 @@ public class SplashFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         handler.postDelayed(() -> {
-            NavHostFragment.findNavController(this).navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment());
+            startActivity(new Intent(requireContext(), MainActivity.class)
+                    .putExtra(Constants.PIN_ASSIGNED, pinAssigned)
+                    .putExtra(Constants.FIRST_NAME, firstName)
+                    .putExtra(Constants.LAST_NAME, lastName)
+                    .putExtra(Constants.IS_SIGN_UP, isSignUp));
+            requireActivity().overridePendingTransition(0, 0);
+            requireActivity().finish();
         }, 1000);
     }
 }

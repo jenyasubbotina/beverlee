@@ -146,13 +146,6 @@ public class InputPhoneFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         authViewModel.getLoginResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
-            if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
-                progressBar.setVisibility(View.GONE);
-                signInBtn.setEnabled(true);
-                signInBtn.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.btn_purple, null));
-                Toast.makeText(requireContext(), workInfo.getOutputData().getString(Constants.REQUEST_ERROR), Toast.LENGTH_SHORT).show();
-                return;
-            }
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 final boolean phoneVerified = workInfo.getOutputData().getBoolean(Constants.PHONE_VERIFIED, false);
                 final String phone = workInfo.getOutputData().getString(Constants.PHONE);
@@ -161,6 +154,13 @@ public class InputPhoneFragment extends Fragment {
                 SharedPrefs.getInstance(requireContext()).putBoolean(Constants.PHONE_VERIFIED, phoneVerified);
 
                 pinViewModel.checkPinAssigned();
+                return;
+            }
+            if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
+                progressBar.setVisibility(View.GONE);
+                signInBtn.setEnabled(true);
+                signInBtn.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.btn_purple, null));
+                Toast.makeText(requireContext(), workInfo.getOutputData().getString(Constants.REQUEST_ERROR), Toast.LENGTH_SHORT).show();
                 return;
             }
             progressBar.setVisibility(View.VISIBLE);

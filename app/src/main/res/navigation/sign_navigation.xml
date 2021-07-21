@@ -20,9 +20,33 @@
         <action
             android:id="@+id/action_init_fragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
-
     </fragment>
-
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="uz.alex.its.beverlee.view.fragments.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <argument
+            android:name="first_name"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
+        <argument
+            android:name="last_name"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null"/>
+        <argument
+            android:name="is_sign_up"
+            app:argType="boolean"
+            app:nullable="false"
+            android:defaultValue="false"/>
+        <argument
+            android:name="pin_assigned"
+            app:argType="boolean"
+            app:nullable="false"
+            android:defaultValue="false"/>
+    </fragment>
     <fragment
         android:id="@+id/input_phone_fragment"
         android:name="uz.alex.its.beverlee.view.fragments.InputPhoneFragment"
@@ -40,6 +64,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="null"/>
+        <action
+            android:id="@+id/action_input_phone_fragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
     </fragment>
 
     <fragment
@@ -81,6 +108,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="null"/>
+        <action
+            android:id="@+id/action_inputSmsFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
     </fragment>
 
     <fragment

@@ -168,15 +168,14 @@ public class PinFragment extends Fragment {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 progressBar.setVisibility(View.GONE);
 
-                if (isSignUp) {
-                    NavHostFragment.findNavController(this).navigate(
-                            PinFragmentDirections.actionPinFragmentToSplashFragment()
-                                    .setFullName(firstName));
-                }
-                else {
-                    NavHostFragment.findNavController(this).navigate(PinFragmentDirections.actionPinFragmentToHomeFragment());
-                }
-
+                NavHostFragment.findNavController(this).navigate(PinFragmentDirections.actionPinFragmentToHomeFragment());
+//                if (isSignUp) {
+//                    NavHostFragment.findNavController(this).navigate(
+//                            PinFragmentDirections.actionPinFragmentToSplashFragment()
+//                                    .setFullName(firstName));
+//                }
+//                else {
+//                }
                 pinErrorTextView.setVisibility(View.INVISIBLE);
                 return;
             }
