@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
@@ -11,7 +12,8 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#F2F4F8">
@@ -20,225 +22,263 @@
                 android:id="@+id/header_card"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/header"
-                app:layout_constraintBottom_toBottomOf="@id/text_image_view"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/text_image_view"
+                android:background="@drawable/header" />
 
             <ImageView
                 android:id="@+id/crown_image_view"
                 android:layout_width="35dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="22dp"
-                android:background="@drawable/square_purple"
-                android:clickable="true"
-                android:contentDescription="@string/logo_content_desc"
-                android:focusable="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_crown"
-                app:layout_constraintBottom_toBottomOf="@id/text_image_view"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toStartOf="@id/text_image_view"
+                android:scaleType="fitCenter"
+                app:layout_constraintTop_toTopOf="@id/text_image_view"
+                app:layout_constraintBottom_toBottomOf="@id/text_image_view"
                 app:layout_constraintStart_toStartOf="@id/header_card"
-                app:layout_constraintTop_toTopOf="@id/text_image_view" />
+                app:layout_constraintEnd_toStartOf="@id/text_image_view"
+                android:layout_marginStart="22dp"
+                android:src="@drawable/ic_crown"
+                android:background="@drawable/square_purple"
+                android:contentDescription="@string/logo_content_desc"
+                android:clickable="true"
+                android:focusable="true"/>
 
             <ImageView
                 android:id="@+id/text_image_view"
                 android:layout_width="0dp"
                 android:layout_height="16dp"
-                android:layout_marginVertical="48dp"
-                android:contentDescription="@string/text_content_desc"
                 android:src="@drawable/beverlee_text"
+                app:layout_constraintTop_toTopOf="@id/header_card"
                 app:layout_constraintBottom_toBottomOf="@id/header_card"
-                app:layout_constraintEnd_toStartOf="@id/bell_image_view"
                 app:layout_constraintStart_toEndOf="@id/crown_image_view"
-                app:layout_constraintTop_toTopOf="@id/header_card" />
+                app:layout_constraintEnd_toStartOf="@id/cart_image_view"
+                android:layout_marginVertical="48dp"
+                android:contentDescription="@string/text_content_desc" />
 
             <ImageView
-                android:id="@+id/bell_image_view"
-                android:layout_width="32dp"
+                android:id="@+id/cart_image_view"
+                android:layout_width="36dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="22dp"
-                android:clickable="true"
-                android:contentDescription="@string/text_content_desc"
-                android:focusable="true"
-                android:padding="6dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_bell"
-                app:layout_constraintBottom_toBottomOf="@id/text_image_view"
                 app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toEndOf="@id/header_card"
-                app:layout_constraintTop_toTopOf="@id/text_image_view" />
+                app:layout_constraintTop_toTopOf="@id/text_image_view"
+                app:layout_constraintBottom_toBottomOf="@id/text_image_view"
+                app:layout_constraintEnd_toStartOf="@id/notification_badge"
+                android:layout_marginEnd="4dp"
+                android:padding="6dp"
+                android:src="@drawable/cart_36"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/text_content_desc"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <FrameLayout
+                android:id="@+id/notification_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/text_image_view"
+                app:layout_constraintBottom_toBottomOf="@id/text_image_view"
+                app:layout_constraintEnd_toEndOf="@id/header_card">
+
+                <ImageView
+                    android:id="@+id/bell_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintDimensionRatio="1:1"
+                    android:layout_marginEnd="12dp"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_bell"
+                    android:scaleType="fitCenter"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    android:contentDescription="@string/text_content_desc"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <TextView
+                    android:id="@+id/notification_count_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/circle_white"
+                    android:fontFamily="@font/geometria_medium"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="12sp"
+                    android:padding="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="top|start"
+                    android:visibility="gone"/>
+            </FrameLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/contact_recycler_view"
                 android:layout_width="0dp"
                 android:layout_height="136dp"
-                android:backgroundTint="#F2F4F8"
                 app:layout_constrainedHeight="true"
-                app:layout_constraintBottom_toTopOf="@id/main_card"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header_card"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/header_card" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/main_card"
+                android:backgroundTint="#F2F4F8"/>
 
             <TextView
                 android:id="@+id/contact_list_empty_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/geometria_actual"
+                app:layout_constraintTop_toTopOf="@id/contact_recycler_view"
+                app:layout_constraintBottom_toBottomOf="@id/contact_recycler_view"
+                app:layout_constraintStart_toStartOf="@id/contact_recycler_view"
+                app:layout_constraintEnd_toEndOf="@id/contact_recycler_view"
                 android:gravity="center"
                 android:text="@string/contact_list_empty"
-                android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="italic"
-                app:layout_constraintBottom_toBottomOf="@id/contact_recycler_view"
-                app:layout_constraintEnd_toEndOf="@id/contact_recycler_view"
-                app:layout_constraintStart_toStartOf="@id/contact_recycler_view"
-                app:layout_constraintTop_toTopOf="@id/contact_recycler_view" />
+                android:textColor="@color/black"
+                android:fontFamily="@font/geometria_actual"
+                android:textStyle="italic"/>
 
             <ImageView
                 android:id="@+id/main_card"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/circles_inside"
-                android:contentDescription="@string/cards"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_circles_dark"
+                app:layout_constraintTop_toBottomOf="@id/contact_recycler_view"
                 app:layout_constraintBottom_toTopOf="@id/news_min_recycler_view"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/contact_recycler_view" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_circles_dark"
+                android:scaleType="centerCrop"
+                android:background="@drawable/circles_inside"
+                android:contentDescription="@string/cards" />
 
             <TextView
                 android:id="@+id/balance_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
-                android:layout_marginTop="31dp"
-                android:fontFamily="@font/geometria_bold"
-                android:text="@string/balance"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toTopOf="@id/current_balance_text_view"
                 app:layout_constraintStart_toStartOf="@id/main_card"
-                app:layout_constraintTop_toTopOf="@id/main_card" />
+                app:layout_constraintTop_toTopOf="@id/main_card"
+                app:layout_constraintBottom_toTopOf="@id/current_balance_text_view"
+                android:layout_marginTop="31dp"
+                android:layout_marginStart="44dp"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/geometria_bold"
+                android:textSize="13sp"
+                android:text="@string/balance"/>
 
             <TextView
                 android:id="@+id/current_balance_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/main_card"
+                app:layout_constraintTop_toBottomOf="@id/balance_text_view"
                 android:layout_marginStart="44dp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="@font/geometria_bold"
-                android:text="@string/current_balance"
                 android:textColor="#FFFFFF"
+                android:fontFamily="@font/geometria_bold"
                 android:textSize="27sp"
-                app:layout_constraintStart_toStartOf="@id/main_card"
-                app:layout_constraintTop_toBottomOf="@id/balance_text_view" />
+                android:text="@string/current_balance"/>
 
             <ImageView
                 android:id="@+id/credit_card_image_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="84dp"
-                android:layout_marginEnd="15dp"
-                android:contentDescription="@string/cards"
-                android:elevation="8dp"
-                android:scaleType="fitEnd"
                 android:src="@drawable/ic_card"
+                app:layout_constraintStart_toStartOf="@id/withdraw_btn"
+                app:layout_constraintTop_toTopOf="@id/balance_text_view"
                 app:layout_constraintBottom_toBottomOf="@id/current_balance_text_view"
                 app:layout_constraintEnd_toEndOf="@id/withdraw_btn"
-                app:layout_constraintStart_toStartOf="@id/withdraw_btn"
-                app:layout_constraintTop_toTopOf="@id/balance_text_view" />
+                android:scaleType="fitEnd"
+                android:layout_marginStart="84dp"
+                android:layout_marginEnd="15dp"
+                android:elevation="8dp"
+                android:contentDescription="@string/cards"/>
 
             <Button
                 android:id="@+id/replenish_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/current_balance_text_view"
+                app:layout_constraintStart_toStartOf="@id/main_card"
+                app:layout_constraintEnd_toStartOf="@id/withdraw_btn"
                 android:layout_marginStart="28dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="29dp"
                 android:background="@drawable/btn_orange"
-                android:clickable="true"
-                android:focusable="true"
+                android:textColor="#FFFFFF"
                 android:fontFamily="@font/geometria_medium"
+                android:textSize="14sp"
                 android:text="@string/replenish"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@id/withdraw_btn"
-                app:layout_constraintStart_toStartOf="@id/main_card"
-                app:layout_constraintTop_toBottomOf="@id/current_balance_text_view" />
+                android:clickable="true"
+                android:focusable="true"/>
 
             <Button
                 android:id="@+id/withdraw_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                app:layout_constraintEnd_toEndOf="@id/main_card"
+                app:layout_constraintTop_toTopOf="@id/replenish_btn"
+                app:layout_constraintBottom_toBottomOf="@id/replenish_btn"
+                app:layout_constraintStart_toEndOf="@id/replenish_btn"
                 android:layout_marginEnd="28dp"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/btn_grey"
-                android:clickable="true"
-                android:focusable="true"
+                android:textColor="#FFFFFF"
                 android:fontFamily="@font/geometria_medium"
+                android:textSize="14sp"
                 android:text="@string/withdraw"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/replenish_btn"
-                app:layout_constraintEnd_toEndOf="@id/main_card"
-                app:layout_constraintStart_toEndOf="@id/replenish_btn"
-                app:layout_constraintTop_toTopOf="@id/replenish_btn" />
+                android:clickable="true"
+                android:focusable="true"/>
 
             <View
                 android:id="@+id/card_profit"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginVertical="24dp"
-                android:background="@drawable/card_both_radius_dark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/replenish_btn"
                 app:layout_constraintBottom_toBottomOf="@id/main_card"
-                app:layout_constraintEnd_toEndOf="@id/withdraw_btn"
-                app:layout_constraintStart_toStartOf="@id/replenish_btn"
-                app:layout_constraintTop_toBottomOf="@id/replenish_btn" />
+                android:layout_marginVertical="24dp"
+                android:layout_marginHorizontal="28dp"
+                android:background="@drawable/card_both_radius_dark" />
 
             <TextView
                 android:id="@+id/income_or_expenditure_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/m_margin"
-                android:fontFamily="@font/geometria_medium"
-                android:text="@string/income_or_expenditure"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp"
+                app:layout_constraintTop_toTopOf="@id/card_profit"
                 app:layout_constraintStart_toStartOf="@id/line_chart"
-                app:layout_constraintTop_toTopOf="@id/card_profit" />
+                android:layout_marginTop="@dimen/m_margin"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/geometria_medium"
+                android:textSize="13sp"
+                android:text="@string/income_or_expenditure"/>
 
             <TextView
                 android:id="@+id/month_and_year_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:fontFamily="@font/geometria_medium"
-                android:gravity="start"
-                android:text="@string/month_year"
-                android:textColor="@color/colorOrange"
-                android:textSize="13sp"
-                app:layout_constraintEnd_toStartOf="@id/monthly_balance_text_view"
+                app:layout_constraintTop_toTopOf="@id/income_or_expenditure_text_view"
                 app:layout_constraintStart_toEndOf="@id/income_or_expenditure_text_view"
-                app:layout_constraintTop_toTopOf="@id/income_or_expenditure_text_view" />
+                app:layout_constraintEnd_toStartOf="@id/monthly_balance_text_view"
+                android:gravity="start"
+                android:layout_marginStart="4dp"
+                android:textSize="13sp"
+                android:fontFamily="@font/geometria_medium"
+                android:textColor="@color/colorOrange"
+                android:text="@string/month_year"/>
 
             <TextView
                 android:id="@+id/monthly_balance_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/geometria_medium"
-                android:gravity="end"
-                android:text="@string/monthly_summary"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp"
+                app:layout_constraintTop_toTopOf="@id/income_or_expenditure_text_view"
                 app:layout_constraintEnd_toEndOf="@id/line_chart"
-                app:layout_constraintTop_toTopOf="@id/income_or_expenditure_text_view" />
+                android:gravity="end"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/geometria_medium"
+                android:textSize="13sp"
+                android:text="@string/monthly_summary"/>
 
             <uz.alex.its.beverlee.view.LineChart
                 android:id="@+id/line_chart"
@@ -249,28 +289,32 @@
                 app:layout_constraintTop_toBottomOf="@id/income_or_expenditure_text_view"
                 app:layout_constraintBottom_toBottomOf="@id/card_profit"
                 app:layout_constraintEnd_toEndOf="@id/card_profit"
-                app:layout_constraintStart_toStartOf="@id/card_profit" />
+                app:layout_constraintStart_toStartOf="@id/card_profit"
+                android:progressDrawable="@color/colorTransparent"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/news_min_recycler_view"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/bottom_nav_height"
                 app:layout_constraintTop_toBottomOf="@id/main_card"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:overScrollMode="never"/>
+                android:overScrollMode="never"
+                android:orientation="horizontal"
+                tools:listitem="@layout/view_holder_news"/>
 
             <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:indeterminateTint="@color/colorPurple"
-                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:indeterminateTint="@color/colorPurple"
+                android:visibility="gone"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

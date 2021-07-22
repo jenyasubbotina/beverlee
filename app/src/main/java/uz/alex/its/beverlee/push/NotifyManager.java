@@ -21,8 +21,10 @@ import androidx.core.app.NotificationManagerCompat;
 import com.google.firebase.messaging.RemoteMessage;
 
 import uz.alex.its.beverlee.R;
+import uz.alex.its.beverlee.model.notification.Push;
 import uz.alex.its.beverlee.storage.SharedPrefs;
 import uz.alex.its.beverlee.utils.Constants;
+import uz.alex.its.beverlee.view.activities.MainActivity;
 
 public class NotifyManager {
     private final Context context;
@@ -47,37 +49,33 @@ public class NotifyManager {
         manager.createNotificationChannel(notificationChannel);
     }
 
-    public void showPush(@NonNull final String packageName,
-                         @NonNull final String intentClass,
-                         @NonNull final String keyMessage,
-                         @Nullable final RemoteMessage remoteMessage,
-                         final int notificationId,
-                         @NonNull final String channelId) {
-        if (remoteMessage == null) {
+    public void showPush(final Push push, final String channelId) {
+        if (push == null) {
             return;
         }
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, channelId);
+
         final Intent notifyIntent = new Intent();
-        notifyIntent.setComponent(new ComponentName(packageName, packageName + intentClass));
-        notifyIntent.putExtra(keyMessage, notificationId);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        final String cls = context.getPackageName() + MainActivity.class.getName();
+        notifyIntent.setComponent(new ComponentName(context.getPackageName(), cls));
+        notifyIntent.putExtra(Push.NOTIFICATION_ID, push.getNotificationId());
+        notifyIntent.putExtra(Push.TYPE, push.getType());
+        notifyIntent.putExtra(Push.NEWS_ID, push.getNewsId());
+
+        final TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addNextIntentWithParentStack(notifyIntent);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        final PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         notificationBuilder.setContentIntent(pendingIntent);
 
-        final String title = remoteMessage.getData().get(Constants.PUSH_TITLE);
-        final String body = remoteMessage.getData().get(Constants.PUSH_BODY);
-
-        if (title != null) {
-            notificationBuilder.setContentTitle(title);
-        }
-        notificationBuilder.setContentText(body);
+        notificationBuilder.setContentTitle(push.getTitle());
+        notificationBuilder.setContentText(push.getBody());
         notificationBuilder.setPriority(NotificationCompat.PRIORITY_HIGH);
         notificationBuilder.setOnlyAlertOnce(true);
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setSmallIcon(R.drawable.ic_push);
         notificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        NotificationManagerCompat.from(context).notify(notificationId, notificationBuilder.build());
+        NotificationManagerCompat.from(context).notify((int) push.getNotificationId(), notificationBuilder.build());
     }
 
     private static final String TAG = NotifyManager.class.toString();

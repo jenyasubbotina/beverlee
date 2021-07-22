@@ -53,26 +53,12 @@ public class Constants {
     public static final String DATABASE_NAME = "beverlee_local_database.db";
     public static final String SHARED_PREFS_NAME = "beverlee_shared_prefs";
 
-    /* push */
-    public static final String PACKAGE_NAME = "package_name";
-    public static final String PUSH_INTENT = "push_intent";
-    public static final String PUSH = "push";
-    public static final String PUSH_ID = "id";
-    public static final String PUSH_TITLE = "title";
-    public static final String PUSH_BODY = "body";
-
-    /* push status */
-    public static final String PUSH_STATUS = "push_status";
-    public static final int NOT_DELIVERED = 0;
-    public static final int DELIVERED = 1;
-    public static final int READ = 2;
-
     /* notifications */
     public static final String PUSH_CHANNEL_ID = "channel_id";
     public static final String DEFAULT_CHANNEL_ID = "101";
     public static final String NEWS_CHANNEL_ID = "102";
     public static final String BONUS_CHANNEL_ID = "103";
-    public static final String INCOME_CHANNEL_ID = "104";
+    public static final String TRANSFER_CHANNEL_ID = "104";
     public static final String PURCHASE_CHANNEL_ID = "105";
     public static final String REPLENISH_CHANNEL_ID = "106";
     public static final String WITHDRAWAL_CHANNEL_ID = "107";

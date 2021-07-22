@@ -31,7 +31,7 @@ public class SignActivity extends AppCompatActivity {
         notifyManager.createNotificationChannel(Constants.DEFAULT_CHANNEL_ID, Constants.DEFAULT_CHANNEL_NAME);
         notifyManager.createNotificationChannel(Constants.NEWS_CHANNEL_ID, Constants.NEWS_CHANNEL_NAME);
         notifyManager.createNotificationChannel(Constants.BONUS_CHANNEL_ID, Constants.BONUS_CHANNEL_NAME);
-        notifyManager.createNotificationChannel(Constants.INCOME_CHANNEL_ID, Constants.INCOME_CHANNEL_NAME);
+        notifyManager.createNotificationChannel(Constants.TRANSFER_CHANNEL_ID, Constants.INCOME_CHANNEL_NAME);
         notifyManager.createNotificationChannel(Constants.PURCHASE_CHANNEL_ID, Constants.PURCHASE_CHANNEL_NAME);
         notifyManager.createNotificationChannel(Constants.REPLENISH_CHANNEL_ID, Constants.REPLENISH_CHANNEL_NAME);
         notifyManager.createNotificationChannel(Constants.WITHDRAWAL_CHANNEL_ID, Constants.WITHDRAWAL_CHANNEL_NAME);

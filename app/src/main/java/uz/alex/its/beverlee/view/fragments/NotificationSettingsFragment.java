@@ -60,8 +60,6 @@ public class NotificationSettingsFragment extends Fragment {
 
     private Animation bubbleAnimation;
 
-    private NotifyManager notifyManager;
-
     private UserViewModel userViewModel;
 
     private NetworkConnectivity networkConnectivity;
@@ -73,8 +71,6 @@ public class NotificationSettingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        notifyManager = new NotifyManager(requireContext());
 
         networkConnectivity = new NetworkConnectivity(requireContext(), AppExecutors.getInstance());
 
@@ -136,15 +132,6 @@ public class NotificationSettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         backArrowImageView.setOnClickListener(v -> {
-//            if (getActivity() != null) {
-//                if (getActivity().getCurrentFocus() == null) {
-//                    NavHostFragment.findNavController(this).popBackStack();
-//                    return;
-//                }
-//                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-//                getActivity().getCurrentFocus().clearFocus();
-//            }
             NavHostFragment.findNavController(this).popBackStack();
         });
 

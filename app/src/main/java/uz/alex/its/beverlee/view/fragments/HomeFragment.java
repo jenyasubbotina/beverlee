@@ -41,6 +41,7 @@ import uz.alex.its.beverlee.model.chart.LineChartItem;
 import uz.alex.its.beverlee.model.news.NewsModel.News;
 import uz.alex.its.beverlee.model.transaction.TransactionParams;
 import uz.alex.its.beverlee.push.TokenReceiver;
+import uz.alex.its.beverlee.storage.SharedPrefs;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.utils.DateFormatter;
 import uz.alex.its.beverlee.view.LineChart;
@@ -55,9 +56,11 @@ import uz.alex.its.beverlee.view.interfaces.DialogCallback;
 import uz.alex.its.beverlee.view.interfaces.NewsCallback;
 import uz.alex.its.beverlee.viewmodel.ContactsViewModel;
 import uz.alex.its.beverlee.viewmodel.NewsViewModel;
+import uz.alex.its.beverlee.viewmodel.NotificationViewModel;
 import uz.alex.its.beverlee.viewmodel.TransactionViewModel;
 import uz.alex.its.beverlee.viewmodel.factory.ContactsViewModelFactory;
 import uz.alex.its.beverlee.viewmodel.factory.NewsViewModelFactory;
+import uz.alex.its.beverlee.viewmodel.factory.NotificationViewModelFactory;
 import uz.alex.its.beverlee.viewmodel.factory.TransactionViewModelFactory;
 
 public class HomeFragment extends Fragment implements ContactCallback, NewsCallback, DialogCallback {
@@ -68,6 +71,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
     private ImageView crownImageView;
     private ImageView cartImageView;
     private ImageView bellImageView;
+    private TextView notificationCountTextView;
 
     /* body */
     private TextView currentBalanceTextView;
@@ -105,6 +109,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
     private TransactionViewModel transactionViewModel;
     private ContactsViewModel contactsViewModel;
     private NewsViewModel newsViewModel;
+    private NotificationViewModel notificationViewModel;
 
     private static volatile ContactModel.Contact selectedContact;
 
@@ -121,12 +126,14 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         final TransactionViewModelFactory transactionFactory = new TransactionViewModelFactory(requireContext());
         final ContactsViewModelFactory contactsFactory = new ContactsViewModelFactory(requireContext());
         final NewsViewModelFactory newsFactory = new NewsViewModelFactory(requireContext());
+        final NotificationViewModelFactory notificationFactory = new NotificationViewModelFactory(requireContext());
 
         transactionViewModel = new ViewModelProvider(getViewModelStore(), transactionFactory).get(TransactionViewModel.class);
         contactsViewModel = new ViewModelProvider(getViewModelStore(), contactsFactory).get(ContactsViewModel.class);
         newsViewModel = new ViewModelProvider(getViewModelStore(), newsFactory).get(NewsViewModel.class);
+        notificationViewModel = new ViewModelProvider(getViewModelStore(), notificationFactory).get(NotificationViewModel.class);
 
-        transactionViewModel.setTransactionParams(new TransactionParams(
+                transactionViewModel.setTransactionParams(new TransactionParams(
                 true,
                 LocalDateTime.now().getYear(),
                 LocalDateTime.now().getMonthValue(),
@@ -142,6 +149,8 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         contactsViewModel.fetchContactList(null, null);
 
         newsViewModel.fetchNews(null, null);
+
+        Log.i(TAG, "fcmToken=" + SharedPrefs.getInstance(requireContext()).getString(Constants.FCM_TOKEN));
     }
 
     @Override
@@ -155,6 +164,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
         crownImageView = root.findViewById(R.id.crown_image_view);
         cartImageView = root.findViewById(R.id.cart_image_view);
         bellImageView = root.findViewById(R.id.bell_image_view);
+        notificationCountTextView = root.findViewById(R.id.notification_count_text_view);
 
         /* body */
         currentBalanceTextView = root.findViewById(R.id.current_balance_text_view);
@@ -385,6 +395,16 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
             }
             lineChart.initData(entryList);
             lineChart.invalidate();
+        });
+
+        notificationViewModel.getNotificationCount().observe(getViewLifecycleOwner(), count -> {
+            if (count > 0) {
+                notificationCountTextView.setText(count);
+                notificationCountTextView.setVisibility(View.VISIBLE);
+            }
+            else {
+                notificationCountTextView.setVisibility(View.GONE);
+            }
         });
     }
 

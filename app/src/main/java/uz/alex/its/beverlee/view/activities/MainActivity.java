@@ -7,17 +7,24 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import uz.alex.its.beverlee.R;
+import uz.alex.its.beverlee.model.notification.Push;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.utils.PermissionManager;
+import uz.alex.its.beverlee.viewmodel.NotificationViewModel;
+import uz.alex.its.beverlee.viewmodel.factory.NotificationViewModelFactory;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener {
     private BottomNavigationView bottomNavigationView;
     private static int currentNavItem;
+
+    private NotificationViewModel notificationViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,10 +35,32 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setItemIconTintList(null);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        if (!PermissionManager.getInstance().permissionsGranted(this, permissionArray, Constants.REQUEST_CODE_READ_CONTACTS)) {
-            PermissionManager.getInstance().requestPermissions(this, permissionArray, Constants.REQUEST_CODE_READ_CONTACTS);
-        }
         currentNavItem = R.id.navigation_home;
+
+        final NotificationViewModelFactory notificationFactory = new NotificationViewModelFactory(this);
+        notificationViewModel = new ViewModelProvider(this, notificationFactory).get(NotificationViewModel.class);
+
+        if (getIntent() != null) {
+            final long notificationId = getIntent().getLongExtra(Push.NOTIFICATION_ID, 0L);
+            final String type = getIntent().getStringExtra(Push.TYPE);
+            final long newsId = getIntent().getLongExtra(Push.NEWS_ID, 0L);
+
+            notificationViewModel.updateStatusRead(notificationId);
+
+            switch (type) {
+                case Push.TYPE_BONUS:
+                case Push.TYPE_REPLENISH:
+                case Push.TYPE_WITHDRAWAL:
+                case Push.TYPE_TRANSFER:
+                    break;
+                case Push.TYPE_PURCHASE:
+//                    NavHostFragment.findNavController().navigate();
+                    break;
+                case Push.TYPE_NEWS:
+//                    NavHostFragment.findNavController().navigate();
+                    break;
+            }
+        }
     }
 
     public static void setCurrentNavItem(final int resourceId) {

@@ -1,9 +1,5 @@
 package uz.alex.its.beverlee.push;
 
-import android.content.ComponentName;
-import android.content.pm.PackageManager;
-import android.content.pm.ServiceInfo;
-import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,15 +7,12 @@ import androidx.annotation.NonNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.concurrent.ExecutionException;
-
 import uz.alex.its.beverlee.model.notification.Push;
+import uz.alex.its.beverlee.repository.PushRepository;
 import uz.alex.its.beverlee.utils.Constants;
 
 public class FcmMessagingService extends FirebaseMessagingService {
-    private String intentClass;
-
-    private PushProcessor pushProcessor;
+    private PushRepository pushRepository;
     private NotifyManager notifyManager;
     private TokenReceiver tokenReceiver;
 
@@ -27,26 +20,8 @@ public class FcmMessagingService extends FirebaseMessagingService {
     public void onCreate() {
         super.onCreate();
 
-        Bundle serviceBundle = null;
-
-        try {
-            ComponentName serviceComponent = new ComponentName(this, this.getClass());
-            final PackageManager packageManager = getApplicationContext().getPackageManager();
-
-            if (packageManager != null) {
-                final ServiceInfo serviceInfo = packageManager.getServiceInfo(serviceComponent, PackageManager.GET_META_DATA);
-                serviceBundle = serviceInfo.metaData;
-            }
-        }
-        catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, "onCreate: ", e);
-        }
-        if (serviceBundle != null) {
-            this.intentClass = serviceBundle.getString(Constants.PUSH_INTENT, null);
-        }
-
         tokenReceiver = new TokenReceiver(getApplicationContext());
-        pushProcessor = new PushProcessor(getApplicationContext());
+        pushRepository = new PushRepository(getApplicationContext());
         notifyManager = new NotifyManager(getApplicationContext());
     }
 
@@ -61,27 +36,36 @@ public class FcmMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        final Push processedMessage = pushProcessor.parsePush(remoteMessage);
+        final Push processedMessage = pushRepository.parsePush(remoteMessage);
 
         if (processedMessage == null) {
             Log.e(TAG, "onMessageReceived(): processedMessage is NULL");
             return;
         }
-        try {
-            pushProcessor.processPush(processedMessage);
-        }
-        catch (ExecutionException | InterruptedException e) {
-            Log.e(TAG, "onMessageReceived(): ", e);
-        }
+        String channelId = null;
 
-        notifyManager.showPush(getPackageName(),
-                intentClass,
-                Constants.PUSH,
-                remoteMessage,
-                processedMessage.getNotificationId(),
-                String.valueOf(processedMessage.getChannelId() > 0 ? processedMessage.getChannelId() : Constants.DEFAULT_CHANNEL_ID));
-
-        pushProcessor.updatePushStatus(processedMessage.getId(), Constants.DELIVERED);
+        switch (processedMessage.getType()) {
+            case Push.TYPE_BONUS:
+                channelId = Constants.BONUS_CHANNEL_ID;
+                break;
+            case Push.TYPE_PURCHASE:
+                channelId = Constants.PURCHASE_CHANNEL_ID;
+                break;
+            case Push.TYPE_REPLENISH:
+                channelId = Constants.REPLENISH_CHANNEL_ID;
+                break;
+            case Push.TYPE_WITHDRAWAL:
+                channelId = Constants.WITHDRAWAL_CHANNEL_ID;
+                break;
+            case Push.TYPE_TRANSFER:
+                channelId = Constants.TRANSFER_CHANNEL_ID;
+                break;
+            case Push.TYPE_NEWS:
+                channelId = Constants.NEWS_CHANNEL_ID;
+                break;
+        }
+        notifyManager.showPush(processedMessage, channelId);
+        pushRepository.insertPush(processedMessage);
     }
 
     @Override

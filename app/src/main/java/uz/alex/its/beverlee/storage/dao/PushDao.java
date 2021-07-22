@@ -18,12 +18,15 @@ public interface PushDao {
     @Delete
     void deletePush(final Push push);
 
-    @Query("SELECT * FROM push ORDER BY id DESC")
+    @Query("SELECT * FROM push ORDER BY notification_id DESC")
     LiveData<List<Push>> selectAllPushList();
 
-    @Query("SELECT * FROM push WHERE id <= :id ORDER BY ID DESC")
-    LiveData<List<Push>> selectPushListAfter(final String id);
+    @Query("SELECT * FROM push WHERE status == 0 ORDER BY timestamp DESC")
+    LiveData<List<Push>> selectNewPushList();
 
-    @Query("SELECT * FROM push WHERE id LIKE :id")
-    LiveData<Push> selectPush(final String id);
+    @Query("UPDATE push SET status = 1 WHERE notification_id == :notificationId")
+    int updateStatusRead(final long notificationId);
+
+    @Query("SELECT count() FROM push WHERE status == 0")
+    LiveData<Integer> getNotificationCount();
 }
