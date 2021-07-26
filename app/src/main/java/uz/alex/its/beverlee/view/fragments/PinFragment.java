@@ -9,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.work.WorkInfo;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,6 @@ public class PinFragment extends Fragment {
     View v;
 
     private static volatile boolean pinAssigned;
-    private static volatile boolean isSignUp;
     private String firstName, lastName;
 
     private PinViewModel pinViewModel;
@@ -52,15 +52,12 @@ public class PinFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (requireActivity().getIntent() != null) {
-            pinAssigned = requireActivity().getIntent().getBooleanExtra(Constants.PIN_ASSIGNED, false);
-            isSignUp = requireActivity().getIntent().getBooleanExtra(Constants.IS_SIGN_UP, false);
             firstName = requireActivity().getIntent().getStringExtra(Constants.FIRST_NAME);
             lastName = requireActivity().getIntent().getStringExtra(Constants.LAST_NAME);
         }
-        else {
-            pinAssigned = true;
-            isSignUp = false;
-        }
+        pinAssigned = SharedPrefs.getInstance(requireContext()).getBoolean(Constants.PIN_ASSIGNED);
+
+        Log.i(TAG, "pinAssigned=" + pinAssigned);
 
         /*init ViewModel */
         final PinViewModelFactory factory = new PinViewModelFactory(requireContext());
@@ -68,7 +65,6 @@ public class PinFragment extends Fragment {
 
         /* internet connection checker */
         networkConnectivity = new NetworkConnectivity(requireContext(), AppExecutors.getInstance());
-
     }
 
     @Override
@@ -128,15 +124,16 @@ public class PinFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        changePinTextView.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this).navigate(R.id.action_pinFragment_to_changePinFragment2);
+        });
         if (pinAssigned) {
             pinTextView.setText(R.string.enter_pin);
         }
         else {
             pinTextView.setText(R.string.create_pin);
         }
-        changePinTextView.setOnClickListener(v -> {
-            NavHostFragment.findNavController(this).navigate(R.id.action_pinFragment_to_changePinFragment2);
-        });
     }
 
     @Override
@@ -146,6 +143,7 @@ public class PinFragment extends Fragment {
         pinViewModel.getAssignPinResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 SharedPrefs.getInstance(requireContext()).putBoolean(Constants.PIN_ASSIGNED, true);
+
                 pinAssigned = true;
 
                 progressBar.setVisibility(View.GONE);
@@ -156,6 +154,9 @@ public class PinFragment extends Fragment {
             }
             if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
                 SharedPrefs.getInstance(requireContext()).putBoolean(Constants.PIN_ASSIGNED, false);
+
+                pinAssigned = false;
+
                 pinErrorTextView.setText(R.string.error_pin_asign);
                 pinErrorTextView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
@@ -182,6 +183,7 @@ public class PinFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             pinErrorTextView.setVisibility(View.INVISIBLE);
         });
-
     }
+
+    private static final String TAG = PinFragment.class.toString();
 }

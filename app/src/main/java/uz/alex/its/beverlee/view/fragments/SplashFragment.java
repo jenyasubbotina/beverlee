@@ -68,6 +68,6 @@ public class SplashFragment extends Fragment {
                     .putExtra(Constants.IS_SIGN_UP, isSignUp));
             requireActivity().overridePendingTransition(0, 0);
             requireActivity().finish();
-        }, 1000);
+        }, 2000);
     }
 }

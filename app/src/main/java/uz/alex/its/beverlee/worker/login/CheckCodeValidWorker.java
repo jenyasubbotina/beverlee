@@ -42,7 +42,7 @@ public class CheckCodeValidWorker extends Worker {
                 return Result.failure();
             }
             if (response.code() == 200 && response.isSuccessful()) {
-                return Result.success();
+                return Result.success(outputDataBuilder.putString(Constants.CODE, verifyCodeParams.getCode()).build());
             }
             final ResponseBody error = response.errorBody();
 

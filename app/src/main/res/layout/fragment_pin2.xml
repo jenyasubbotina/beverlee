@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/lock_image_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:indeterminateTint="@color/colorPurple"
+        android:visibility="gone"/>
+
     <ImageView
         android:id="@+id/lock_image_view"
         android:layout_width="0dp"
@@ -35,7 +46,7 @@
         android:id="@+id/pin_error_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginVertical="8dp"
         android:fontFamily="@font/geometria_medium"
         android:gravity="center"
         android:text="@string/error_wrong_pin"
@@ -44,7 +55,8 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pin_text_view" />
+        app:layout_constraintTop_toBottomOf="@id/pin_text_view"
+        app:layout_constraintBottom_toTopOf="@id/card_layout"/>
 
     <RelativeLayout
         android:id="@+id/card_layout"
@@ -56,15 +68,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pin_error_text_view">
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:indeterminateTint="@color/colorPurple"
-            android:visibility="gone"/>
 
         <com.andrognito.pinlockview.IndicatorDots
             android:id="@+id/indicator_dots"

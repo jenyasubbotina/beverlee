@@ -36,11 +36,6 @@ public class SignActivity extends AppCompatActivity {
         notifyManager.createNotificationChannel(Constants.REPLENISH_CHANNEL_ID, Constants.REPLENISH_CHANNEL_NAME);
         notifyManager.createNotificationChannel(Constants.WITHDRAWAL_CHANNEL_ID, Constants.WITHDRAWAL_CHANNEL_NAME);
 
-        WorkManager.getInstance(this).getWorkInfoByIdLiveData(tokenReceiver.obtainFcmToken()).observe(this, workInfo -> {
-            if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
-                SharedPrefs.getInstance(this).putString(Constants.FCM_TOKEN, workInfo.getOutputData().getString(Constants.FCM_TOKEN));
-            }
-        });
         if (SharedPrefs.getInstance(this).isLogged(this)) {
             startActivity(new Intent(this, MainActivity.class).putExtra(Constants.PIN_ASSIGNED, true));
             overridePendingTransition(0, 0);
