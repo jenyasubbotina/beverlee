@@ -54,7 +54,10 @@ public interface ApiService {
     Call<Void> verifyCall();
 
     @POST("/api/user/verify-code/verify")
-    Call<Void> submitVerification(@Body final VerifyCodeParams verifyCodeParams);
+    Call<Void> checkCodeValid(@Body final VerifyCodeParams verifyCodeParams);
+
+    @POST("/api/user/verify")
+    Call<Void> verifyPhone(@Body final VerifyCodeParams verifyCodeParams);
 
     @GET("/api/user/verified")
     Call<Void> checkVerified();

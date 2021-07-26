@@ -45,20 +45,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             final String type = getIntent().getStringExtra(Push.TYPE);
             final long newsId = getIntent().getLongExtra(Push.NEWS_ID, 0L);
 
-            notificationViewModel.updateStatusRead(notificationId);
+            if (notificationId > 0 && type != null) {
+                notificationViewModel.updateStatusRead(notificationId);
 
-            switch (type) {
-                case Push.TYPE_BONUS:
-                case Push.TYPE_REPLENISH:
-                case Push.TYPE_WITHDRAWAL:
-                case Push.TYPE_TRANSFER:
-                    break;
-                case Push.TYPE_PURCHASE:
+                switch (type) {
+                    case Push.TYPE_BONUS:
+                    case Push.TYPE_REPLENISH:
+                    case Push.TYPE_WITHDRAWAL:
+                    case Push.TYPE_TRANSFER:
+                        break;
+                    case Push.TYPE_PURCHASE:
 //                    NavHostFragment.findNavController().navigate();
-                    break;
-                case Push.TYPE_NEWS:
+                        break;
+                    case Push.TYPE_NEWS:
 //                    NavHostFragment.findNavController().navigate();
-                    break;
+                        break;
+                }
             }
         }
     }

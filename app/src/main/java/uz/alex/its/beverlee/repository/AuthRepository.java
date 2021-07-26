@@ -6,6 +6,7 @@ import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.OverwritingInputMerger;
 import androidx.work.WorkManager;
 
 import java.util.UUID;
@@ -13,9 +14,10 @@ import java.util.UUID;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.worker.login.LoginWorker;
 import uz.alex.its.beverlee.worker.login.RegisterWorker;
-import uz.alex.its.beverlee.worker.login.SubmitVerificationWorker;
+import uz.alex.its.beverlee.worker.login.CheckCodeValidWorker;
 import uz.alex.its.beverlee.worker.login.VerifyPhoneByCallWorker;
 import uz.alex.its.beverlee.worker.login.VerifyPhoneBySmsWorker;
+import uz.alex.its.beverlee.worker.login.VerifyPhoneWorker;
 
 public class AuthRepository {
     private final Context context;
@@ -84,12 +86,16 @@ public class AuthRepository {
         final Data inputData = new Data.Builder()
                 .putString(Constants.CODE, code)
                 .build();
-        final OneTimeWorkRequest submitVerificationRequest = new OneTimeWorkRequest.Builder(SubmitVerificationWorker.class)
+        final OneTimeWorkRequest submitVerificationRequest = new OneTimeWorkRequest.Builder(CheckCodeValidWorker.class)
                 .setConstraints(constraints)
                 .setInputData(inputData)
                 .build();
-        WorkManager.getInstance(context).enqueue(submitVerificationRequest);
-        return submitVerificationRequest.getId();
+        final OneTimeWorkRequest verifyPhoneRequest = new OneTimeWorkRequest.Builder(VerifyPhoneWorker.class)
+                .setConstraints(constraints)
+                .setInputMerger(OverwritingInputMerger.class)
+                .build();
+        WorkManager.getInstance(context).beginWith(submitVerificationRequest).then(verifyPhoneRequest).enqueue();
+        return verifyPhoneRequest.getId();
     }
 
     public UUID register(final String firstName,

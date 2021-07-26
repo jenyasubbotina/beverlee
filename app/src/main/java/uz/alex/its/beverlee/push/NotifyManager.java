@@ -75,7 +75,10 @@ public class NotifyManager {
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setSmallIcon(R.drawable.ic_push);
         notificationBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        NotificationManagerCompat.from(context).notify((int) push.getNotificationId(), notificationBuilder.build());
+
+        if (SharedPrefs.getInstance(context).isLogged(context)) {
+            NotificationManagerCompat.from(context).notify((int) push.getNotificationId(), notificationBuilder.build());
+        }
     }
 
     private static final String TAG = NotifyManager.class.toString();

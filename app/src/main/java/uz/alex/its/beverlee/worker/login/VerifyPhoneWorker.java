@@ -16,12 +16,12 @@ import uz.alex.its.beverlee.api.RetrofitClient;
 import uz.alex.its.beverlee.model.requestParams.VerifyCodeParams;
 import uz.alex.its.beverlee.utils.Constants;
 
-public class SubmitVerificationWorker extends Worker {
+public class VerifyPhoneWorker extends Worker {
     private final Context context;
 
     private final VerifyCodeParams verifyCodeParams;
 
-    public SubmitVerificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+    public VerifyPhoneWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
 
         this.context = getApplicationContext();
@@ -36,7 +36,7 @@ public class SubmitVerificationWorker extends Worker {
         RetrofitClient.getInstance(getApplicationContext()).setAuthorizationHeader(getApplicationContext());
 
         try {
-            final Response<Void> response = RetrofitClient.getInstance(context).submitVerification(verifyCodeParams);
+            final Response<Void> response = RetrofitClient.getInstance(context).verifyPhone(verifyCodeParams);
 
             if (response.code() == 422) {
                 return Result.failure();
@@ -57,5 +57,5 @@ public class SubmitVerificationWorker extends Worker {
         }
     }
 
-    private static final String TAG = SubmitVerificationWorker.class.toString();
+    private static final String TAG = VerifyPhoneWorker.class.toString();
 }

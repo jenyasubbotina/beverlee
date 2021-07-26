@@ -176,7 +176,17 @@ public class TransferFragment extends Fragment implements ContactCallback {
                 return;
             }
             final long recipientId = TextUtils.isEmpty(recipientIdText) ? 0L : Long.parseLong(recipientIdText);
-            final double amount = TextUtils.isEmpty(amountText) ? 0 : Double.parseDouble(amountText);
+
+
+            if (TextUtils.isEmpty(amountText)) {
+                Toast.makeText(requireContext(), "Укажите сумму перевода", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (amountText.contains(".") || amountText.contains(",")) {
+                Toast.makeText(requireContext(), "Укажите целую сумму перевода", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            final double amount = Double.parseDouble(amountText);
             String addNotebook = null;
 
             if (recipientId <= 0) {

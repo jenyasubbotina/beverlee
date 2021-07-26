@@ -69,7 +69,7 @@ public class RetrofitClient {
                 .retryOnConnectionFailure(true)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
         this.retrofitBuilder = new Retrofit.Builder()
-                .baseUrl(context.getString(R.string.dev_server_url))
+                .baseUrl(context.getString(R.string.server_url))
                 .addConverterFactory(GsonConverterFactory.create(
                         new GsonBuilder()
                                 .setLenient()
@@ -116,12 +116,16 @@ public class RetrofitClient {
         return apiService.verifyCall().execute();
     }
 
-    public Response<Void> submitVerification(final VerifyCodeParams verifyCodeParams) throws IOException {
-        return apiService.submitVerification(verifyCodeParams).execute();
-    }
-
     public Response<Void> checkVerified() throws IOException {
         return apiService.checkVerified().execute();
+    }
+
+    public Response<Void> checkCodeValid(final VerifyCodeParams verifyCodeParams) throws IOException {
+        return apiService.checkCodeValid(verifyCodeParams).execute();
+    }
+
+    public Response<Void> verifyPhone(final VerifyCodeParams params) throws IOException {
+        return apiService.verifyPhone(params).execute();
     }
 
     /* Pin-code */
