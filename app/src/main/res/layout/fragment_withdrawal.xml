@@ -226,10 +226,9 @@
                 android:textSize="19sp"
                 android:textColor="@color/colorBlack"
                 android:autofillHints="@string/recipient_card_number"
-                android:inputType="numberDecimal"
+                android:inputType="phone"
                 android:hint="@string/recipient_card_number"
-                android:textColorHint="@color/colorLightGrey"
-                android:maxLength="19"/>
+                android:textColorHint="@color/colorLightGrey" />
 
             <TextView
                 android:id="@+id/amount_text_view"

@@ -123,4 +123,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     implementation 'com.andrognito.pinlockview:pinlockview:2.1.0'
+
+    /* Input mask */
+    implementation 'ru.tinkoff.decoro:decoro:1.1.1'
 }
