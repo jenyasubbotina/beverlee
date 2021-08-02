@@ -110,11 +110,9 @@ public class LineChart extends AppCompatSeekBar {
                 }
                 else if (i == 0 || i == itemList.size() - 1) {
                     if (i == 0) {
-                        Log.i(TAG, "onDraw: i == 0");
                         pathList.get(i).addRoundRect(rectFList.get(i), leftRoundedArr, Path.Direction.CW);
                     }
                     else if (i == itemList.size() - 1) {
-                        Log.i(TAG, "onDraw: i == size - 1");
                         pathList.get(i).addRoundRect(rectFList.get(i), rightRoundedArr, Path.Direction.CW);
                     }
                     pathList.get(i).close();
