@@ -7,11 +7,4 @@
             <corners android:radius="25dp"/>
         </shape>
     </item>
-    <item android:end="165dp">
-        <shape
-            android:shape="rectangle">
-            <solid android:color="#545351"/>
-            <corners android:radius="25dp"/>
-        </shape>
-    </item>
 </layer-list>
