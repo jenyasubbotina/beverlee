@@ -57,14 +57,14 @@ public class PinFragment extends Fragment {
         }
         pinAssigned = SharedPrefs.getInstance(requireContext()).getBoolean(Constants.PIN_ASSIGNED);
 
-        Log.i(TAG, "pinAssigned=" + pinAssigned);
-
         /*init ViewModel */
         final PinViewModelFactory factory = new PinViewModelFactory(requireContext());
         pinViewModel = new ViewModelProvider(getViewModelStore(), factory).get(PinViewModel.class);
 
         /* internet connection checker */
         networkConnectivity = new NetworkConnectivity(requireContext(), AppExecutors.getInstance());
+
+        pinViewModel.checkPinAssigned();
     }
 
     @Override
@@ -128,22 +128,32 @@ public class PinFragment extends Fragment {
         changePinTextView.setOnClickListener(v -> {
             NavHostFragment.findNavController(this).navigate(R.id.action_pinFragment_to_changePinFragment2);
         });
-        if (pinAssigned) {
-            pinTextView.setText(R.string.enter_pin);
-        }
-        else {
-            pinTextView.setText(R.string.create_pin);
-        }
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        pinViewModel.getCheckPinAssignedResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
+            if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
+                SharedPrefs.getInstance(requireContext()).putBoolean(Constants.PIN_ASSIGNED, true);
+                pinAssigned = true;
+
+                progressBar.setVisibility(View.GONE);
+                pinTextView.setText(R.string.enter_pin);
+                return;
+            }
+            if (workInfo.getState() == WorkInfo.State.FAILED || workInfo.getState() == WorkInfo.State.CANCELLED) {
+                progressBar.setVisibility(View.GONE);
+                pinTextView.setText(R.string.create_pin);
+                return;
+            }
+            progressBar.setVisibility(View.VISIBLE);
+        });
+
         pinViewModel.getAssignPinResult(requireContext()).observe(getViewLifecycleOwner(), workInfo -> {
             if (workInfo.getState() == WorkInfo.State.SUCCEEDED) {
                 SharedPrefs.getInstance(requireContext()).putBoolean(Constants.PIN_ASSIGNED, true);
-
                 pinAssigned = true;
 
                 progressBar.setVisibility(View.GONE);
