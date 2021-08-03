@@ -18,6 +18,11 @@ public class DateFormatter {
         return dateFormat.format(date);
     }
 
+    public static String timestampToStringTime(final long timestamp) {
+        final Date date = new Date(timestamp * 1000);
+        return timeFormat.format(date);
+    }
+
     public static String timestampToDayMonthDate(final long timestamp) {
         final Date date = new Date(timestamp * 1000);
         return dayMonthFormat.format(date);
@@ -40,5 +45,6 @@ public class DateFormatter {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
     private static final SimpleDateFormat dayMonthFormat = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
+    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
     private static final String TAG = DateFormatter.class.toString();
 }

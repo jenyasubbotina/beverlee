@@ -2,6 +2,7 @@ package uz.alex.its.beverlee.view.activities;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
