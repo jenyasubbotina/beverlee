@@ -56,7 +56,7 @@ public class NotifyManager {
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, channelId);
 
         final Intent notifyIntent = new Intent();
-        final String cls = context.getPackageName() + MainActivity.class.getName();
+        final String cls = MainActivity.class.getName();
         notifyIntent.setComponent(new ComponentName(context.getPackageName(), cls));
         notifyIntent.putExtra(Push.NOTIFICATION_ID, push.getNotificationId());
         notifyIntent.putExtra(Push.TYPE, push.getType());

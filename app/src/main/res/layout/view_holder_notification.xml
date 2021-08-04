@@ -25,6 +25,7 @@
         app:layout_constraintStart_toStartOf="@id/push_bg"
         android:gravity="center"
         android:layout_marginStart="23dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/colorBlack"
         android:fontFamily="@font/geometria_actual"
         android:textSize="15sp"/>
@@ -50,7 +51,9 @@
         app:layout_constraintTop_toBottomOf="@id/title_text_view"
         app:layout_constraintStart_toStartOf="@id/title_text_view"
         app:layout_constraintEnd_toEndOf="@id/title_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/push_bg"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
         android:gravity="start"
         android:textColor="@color/colorBlack"
         android:fontFamily="@font/geometria_medium"
