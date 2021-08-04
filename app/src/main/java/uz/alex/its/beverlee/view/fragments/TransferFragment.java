@@ -80,6 +80,8 @@ public class TransferFragment extends Fragment implements ContactCallback {
 
     private NetworkConnectivity networkConnectivity;
 
+    private double currentBalance = 0.0;
+
     public TransferFragment() {
         // Required empty public constructor
     }
@@ -159,6 +161,27 @@ public class TransferFragment extends Fragment implements ContactCallback {
         recipientEditText.setOnFocusChangeListener((v, hasFocus) -> UiUtils.setFocusChange(recipientEditText, hasFocus, R.string.phone_or_id));
 
         amountEditText.setOnFocusChangeListener((v, hasFocus) -> UiUtils.setFocusChange(amountEditText, hasFocus, R.string.zero));
+
+        amountEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!amountEditText.getText().toString().isEmpty()) {
+                    if (Double.parseDouble(amountEditText.getText().toString().trim()) > currentBalance) {
+                        amountEditText.setError(getString(R.string.low_current_balance));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         saveContactTextView.setOnClickListener(v -> saveContactCheckBox.setChecked(!saveContactCheckBox.isChecked()));
 
@@ -260,6 +283,7 @@ public class TransferFragment extends Fragment implements ContactCallback {
         transactionViewModel.getBalance().observe(getViewLifecycleOwner(), balance -> {
             if (balance != null) {
                 currentBalanceTextView.setText(getString(R.string.current_balance, String.valueOf(balance.getBalance())));
+                currentBalance = balance.getBalance();
             }
         });
 

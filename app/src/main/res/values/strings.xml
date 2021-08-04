@@ -140,6 +140,7 @@
     <string name="search">Поиск</string>
     <string name="zero">0</string>
     <string name="phone_or_id">Номер телефона или ID</string>
+    <string name="low_current_balance"> Баланс не может быть меньше суммы перевода </string>
     <!-- profile -->
     <string name="profile">Профиль</string>
 

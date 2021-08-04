@@ -194,7 +194,7 @@
                 android:fontFamily="@font/geometria_medium"
                 android:textSize="18sp"
                 android:textColor="#3B3A39"
-                android:autofillHints="@string/password"
+                android:importantForAutofill="no"
                 android:inputType="numberDecimal"
                 android:hint="@string/zero"
                 android:textColorHint="#DBDCEA"/>
