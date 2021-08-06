@@ -1,17 +1,23 @@
 package uz.alex.its.beverlee.view.activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import uz.alex.its.beverlee.R;
 import uz.alex.its.beverlee.model.notification.Push;
@@ -25,6 +31,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private static int currentNavItem;
 
     private NotificationViewModel notificationViewModel;
+
+    /*bottom sheet*/
+    private LinearLayout bottomSheet;
+    private TextView bottomSheetPersonalData;
+    private TextView bottomSheetNotificationsSettings;
+    private TextView bottomSheetChangePassword;
+    private TextView bottomSheetChangePin;
+    private TextView bottomSheetDeleteAvatar;
+    private BottomSheetBehavior<LinearLayout> sheetBehavior;
+    private ConstraintLayout parentLayout;
+    private ProgressBar progressBar;
+
+    private boolean bottomSheetHidden = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,6 +125,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             if (itemId == R.id.navigation_contacts) {
                 currentNavItem = R.id.navigation_contacts;
                 Navigation.findNavController(this, R.id.home_fragment_container).navigate(R.id.contactsFragment);
+            }
+            if (itemId == R.id.navigation_settings) {
+                currentNavItem = R.id.navigation_settings;
+                final Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(profileIntent);
             }
 
         }, 0);

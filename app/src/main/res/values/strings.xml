@@ -163,6 +163,7 @@
     <string name="country_example">Uzbekistan</string>
     <string name="save">Сохранить</string>
     <!-- notifications settings -->
+    <string name="settings"> Настройки </string>
     <string name="notifications">Уведомления</string>
     <string name="notify_default">Включить пуш-уведомления</string>
     <string name="notify_news">Уведомлять о новостях</string>
