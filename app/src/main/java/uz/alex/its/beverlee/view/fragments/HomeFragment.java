@@ -1,6 +1,5 @@
 package uz.alex.its.beverlee.view.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,18 +16,15 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.WorkInfo;
 
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDateTime;
@@ -40,7 +36,6 @@ import uz.alex.its.beverlee.model.actor.ContactModel;
 import uz.alex.its.beverlee.model.chart.LineChartItem;
 import uz.alex.its.beverlee.model.news.NewsModel.News;
 import uz.alex.its.beverlee.model.transaction.TransactionParams;
-import uz.alex.its.beverlee.push.TokenReceiver;
 import uz.alex.its.beverlee.storage.SharedPrefs;
 import uz.alex.its.beverlee.utils.Constants;
 import uz.alex.its.beverlee.utils.DateFormatter;
@@ -399,7 +394,7 @@ public class HomeFragment extends Fragment implements ContactCallback, NewsCallb
 
         notificationViewModel.getNotificationCount().observe(getViewLifecycleOwner(), count -> {
             if (count > 0) {
-                notificationCountTextView.setText(count);
+                notificationCountTextView.setText(String.valueOf(count));
                 notificationCountTextView.setVisibility(View.VISIBLE);
             }
             else {

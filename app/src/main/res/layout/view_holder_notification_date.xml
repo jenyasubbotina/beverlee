@@ -16,7 +16,8 @@
         android:layout_marginTop="26dp"
         android:textColor="@color/colorLightGrey"
         android:fontFamily="@font/geometria_bold"
-        android:textSize="15sp"/>
+        android:textSize="15sp"
+        android:text="1"/>
 
     <View
         android:id="@+id/push_bg"
@@ -27,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="27dp"
-        android:background="@color/colorBgGrey"/>
+        android:background="@color/colorBgGrey" />
 
     <TextView
         android:id="@+id/time_text_view"
@@ -37,9 +38,10 @@
         app:layout_constraintStart_toStartOf="@id/push_bg"
         android:gravity="center"
         android:layout_marginStart="23dp"
+        android:layout_marginTop="8dp"
         android:textColor="@color/colorBlack"
         android:fontFamily="@font/geometria_actual"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/title_text_view"
@@ -62,7 +64,9 @@
         app:layout_constraintTop_toBottomOf="@id/title_text_view"
         app:layout_constraintStart_toStartOf="@id/title_text_view"
         app:layout_constraintEnd_toEndOf="@id/title_text_view"
+        app:layout_constraintBottom_toBottomOf="@id/push_bg"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
         android:gravity="start"
         android:textColor="@color/colorBlack"
         android:fontFamily="@font/geometria_medium"

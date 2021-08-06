@@ -1,6 +1,7 @@
 package uz.alex.its.beverlee.view.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,10 +63,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_DATE) {
-            return new NotificationDateViewHolder(LayoutInflater.from(context).inflate(R.layout.view_holder_notification, parent, false));
+            return new NotificationDateViewHolder(LayoutInflater.from(context).inflate(R.layout.view_holder_notification_date, parent, false));
         }
         else {
-            return new NotificationViewHolder(LayoutInflater.from(context).inflate(R.layout.view_holder_transaction, parent, false));
+            return new NotificationViewHolder(LayoutInflater.from(context).inflate(R.layout.view_holder_notification, parent, false));
         }
     }
 
@@ -77,7 +78,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         NotificationViewHolder holder = (NotificationViewHolder) viewHolder;
         holder.titleTextView.setText(notificationList.get(position).getTitle());
         holder.bodyTextView.setText(notificationList.get(position).getBody());
-        holder.timeTextView.setText(String.valueOf(notificationList.get(position).getTimestamp()));
+
+        holder.timeTextView.setText(DateFormatter.timestampToStringTime(notificationList.get(position).getTimestamp()));
 
         if (getItemViewType(position) == TYPE_DATE) {
             NotificationDateViewHolder dateHolder = (NotificationDateViewHolder) viewHolder;
@@ -130,4 +132,5 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private static final int TYPE_DATE = 0x01;
     private static final int TYPE_ITEM = 0x02;
+    private static final String TAG = NotificationAdapter.class.toString();
 }
