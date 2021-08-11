@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private BottomSheetBehavior<LinearLayout> sheetBehavior;
     private ConstraintLayout parentLayout;
     private ProgressBar progressBar;
-
+    //test
     private boolean bottomSheetHidden = true;
 
     @Override
